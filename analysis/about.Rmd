@@ -1,5 +1,7 @@
 ---
-title: "About"
+title: "Introduction to the Functional Fine-mapping pipeline"
+author: "Jing Gu"
+date: "today"
 output:
   workflowr::wflow_html:
     toc: false
@@ -7,4 +9,30 @@ editor_options:
   chunk_output_type: console
 ---
 
-Describe your project.
+# Welcome to the project website. 
+
+My thesis project is about improving functional fine mapping procedures that enable us to identify causal variants underlying complex traits such as obsesity and asthma. 
+
+# Introduction
+
+
+
+## Literature reviews for functional fine-mapping 
+
+
+
+
+## Useful Features 
+
+
+
+
+## Preliminary results 
+
+
+
+## References
+
+
+
+
