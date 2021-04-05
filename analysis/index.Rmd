@@ -8,4 +8,25 @@ editor_options:
   chunk_output_type: console
 ---
 
-Welcome to my research website.
+# Welcome to the project website. 
+
+My thesis project is about improving functional fine mapping procedures that enable us to identify causal variants underlying complex traits such as obsesity and asthma. 
+
+# Introduction
+This document will provide an overview of my thesis project, including the aims for the project, summary of previous work, details of the method, and preliminary results. By constantly reviewing this document, I may keep track of my research aims without getting diverted too far. 
+
+
+## Literature reviews for functional fine-mapping 
+* [Current challenges in functional fine-mapping]
+* [Existing pipelines or methods]
+  - Polyfun + SuSiE
+  - TORUS + SuSiE
+
+## Useful Features 
+* [Biology backgrounds](biology_bkg.html)
+* [Prediction methods](method_bkg.html)
+
+## Preliminary results 
+* [results](results.nb.html)
+
+## References
