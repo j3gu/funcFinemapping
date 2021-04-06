@@ -3,17 +3,42 @@ title: "results"
 output: html_notebook
 ---
 
-This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook. When you execute code within the notebook, the results appear beneath the code. 
+Fine-mapping with functional annotations as priors has shown improved results in identifying causal variants. This project is to evaluate the utility of novel annotation features and adopt ones that can   improve fine mapping results. 
 
-Try executing this chunk by clicking the *Run* button within the chunk or by placing your cursor inside it and pressing *Cmd+Shift+Enter*. 
+## Evaluation  
+### GWAS summary statistics   
+Schizopherenia - Pardinas et al., 2018 
 
-```{r}
-plot(cars)
+* 40675 cases and 64643 controls
+* CLOZUK sample + PGC sample (independent)
+* 179 independent GWAS significant SNPs mapped to 145 independent loci
+* SNPs were imputed using a combination of the 1KGPp3 and UK 10K datasets. 
+* SNPs were filtered by NFO > 0.6 and MAF > 0.01
+* LD-score regression analysis: An LD reference was generated from 1KGPp3 after restricting this dataset to strictly unrelated individuals and retaining only markers with MAF > 0.01.
+
+### Features   
+1. Sequence constraints:  
+    * context-dependent tolerance scores(CDTS) in percentiles
+    * A score was computed for each 10bp bin in the genome. 
+    * The lower the score is, the more intolerant to variation is the bin.
+
+### Procedures
+1. GWAS summary statistics was pre-processed to remove sex chromosomes, indels, ambiguous and duplicated SNPs. 
+2. Currently, genotypes from 1kg European samples are used to compute LD between SNPs. 
+3. SNPs in GWAS summary statistics were matched with the reference panel and assigned to in total 1687 independent LD blocks. 
+4. Run TORUS to perform genome-wide enrichment analyses.
+
+### Results  
+All variants were catogrized into whether or not they occur in genomic bins with CDTS up to 1 percentile or 5 percentile.   
+Note: 
+* The enrichment estimate is in its absolute value (not in the log form).
+```{r echo=F}
+df<-read.table("data/enrichment_table.ext", header = F)
+colnames(df)<-c("term", "estimate", "low", "high")
+library(ggplot2)
+ggplot(df, aes(y=term, x=2^estimate)) +
+  geom_point(size=4) + 
+  geom_errorbar(aes(xmax=2^high, xmin=2^low)) + 
+  xlab("enrichment estimate") + scale_y_discrete(labels=c("CDTS_1Percentile", "CDTS_5Percentile"))
 ```
-
-Add a new chunk by clicking the *Insert Chunk* button on the toolbar or by pressing *Cmd+Option+I*.
-
-When you save the notebook, an HTML file containing the code and output will be saved alongside it (click the *Preview* button or press *Cmd+Shift+K* to preview the HTML file). 
-
-The preview shows you a rendered HTML copy of the contents of the editor. Consequently, unlike *Knit*, *Preview* does not run any R code chunks. Instead, the output of the chunk when it was last run in the editor is displayed.
-
+The enrichment estimate has a confience level above zero for both annotations. This shows SNPs associated with SCZ are on average ~ 1.5 fold enriched in genomic bins with up to 5 percentile of CDTS. 
