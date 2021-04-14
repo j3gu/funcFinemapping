@@ -3,7 +3,7 @@ title: "results"
 output: html_notebook
 ---
 
-Fine-mapping with functional annotations as priors has shown improved results in identifying causal variants. This project is to evaluate the utility of novel annotation features and adopt ones that can   improve fine mapping results. 
+Fine-mapping with functional annotations as priors has shown improved results in identifying causal variants. This project is to evaluate the utility of novel annotation features and adopt ones that can improve fine mapping results. 
 
 ## Evaluation  
 ### GWAS summary statistics   
@@ -82,6 +82,8 @@ library(knitr)
 kable(read.table("output/prop_constrained_variants_with_OCR.txt", header = T), caption="Summary of percentage of genetic variants within up to one/five percentile of CDTS that overlapped with OCRs in brain")
 ```
 Check the percent of constrained sequences that overlaps with open chromatin regions from neurons
+
+* Overlaps between two sets of genomic features were identified using `bedtools intersect`. The constrained sequences were counted to be overlapped when at least 20%(>=2 bp) intersect with peaks called from ATAC-Seq profiles.  
 ```{r echo=F}
 kable(read.table("output/constrained_and_OPC.txt", header = T),
       caption="Summary of the overlappings between constrained sequences and OCRs in brain")
