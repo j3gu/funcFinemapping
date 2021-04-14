@@ -16,6 +16,29 @@ Schizopherenia - Pardinas et al., 2018
 * SNPs were filtered by NFO > 0.6 and MAF > 0.01
 * LD-score regression analysis: An LD reference was generated from 1KGPp3 after restricting this dataset to strictly unrelated individuals and retaining only markers with MAF > 0.01.
 
+### GWAS QC Procedures
+
+* Current procedures was based on Alan's finemappeR pipeline
+* Criteria for filtering gwas SNPs 
+
+1. Remove all non-biallelic SNPs
+2. Remove all SNPs with strand-ambiguous alleles (SNPs with A/T, C/G alleles)
+3. Removed SNPs without rs IDs, duplicated rs IDs or base pair position.
+4. Removed SNPs not in the reference panels
+5. Removed SNPs whose base pair positions or alleles doesn’t match the reference panels
+6. Removed all SNPs on chromosome X, Y, and MT
+
+After filtering, there are around 6 million variants remained. 
+
+![Plots for GWAS summary statistics](assets/gwas_summary_stats_hist_plot.png)
+```{r echo=F}
+# png("docs/assets/gwas_summary_stats_hist_plot.png", width=960, height=480)
+# par(mfrow = c(1,2))
+# hist(gwas$zscore, main="", xlab="Z scores")
+# hist(gwas$pval, main="", xlab="P values")
+# dev.off()
+```
+
 ### Features   
 1. Sequence constraints:  
     * context-dependent tolerance scores(CDTS) in percentiles
@@ -30,15 +53,59 @@ Schizopherenia - Pardinas et al., 2018
 
 ### Results  
 All variants were catogrized into whether or not they occur in genomic bins with CDTS up to 1 percentile or 5 percentile.   
-Note: 
-* The enrichment estimate is in its absolute value (not in the log form).
+
+**Examine the CDTS feature** 
+
+check the proportion of variants with high sequencing constraints that also have functional annotations in brain
 ```{r echo=F}
-df<-read.table("data/enrichment_table.ext", header = F)
+library(data.table)
+library(knitr)
+# f<-fread("data/joint_torus_annotations.txt.gz")
+# fnames<-unlist(lapply(colnames(f)[-3:-1], function(i){strsplit(i, "_hg19")[[1]][1]}))
+# colnames(f)[c(-3:-1)]<-fnames
+# f[,"Any_OCR"]<-as.numeric(apply(f[,6:dim(f)[2]], 1, sum) > 0)
+# f_sum<-apply(f[, c(-3:-1)], 2, sum)
+# print("total number of variants overlapped with annotations")
+# #CDTS_1per
+# output<-unlist(lapply(6:dim(f)[2], function(i){
+#   return(sum(apply(f[, c(4, i), with=F], 1, sum)>1))
+# }))
+# output2<-unlist(lapply(6:dim(f)[2], function(i){
+#   return(sum(apply(f[, c(5, i), with=F], 1, sum)>1))
+# }))
+# tbl<-data.frame(
+#               rbind(paste0(round(output/sum(f[,4])*100,1),"%"),
+#               paste0(round(output2/sum(f[,5])*100,1), "%"))
+#               )
+# rownames(tbl)<-c("CDTS_1%", "CDTS_5%")
+# colnames(tbl)<-names(f)[6:dim(f)[2]]
+kable(read.table("output/prop_constrained_variants_with_OCR.txt", header = T), caption="Summary of percentage of genetic variants within up to one/five percentile of CDTS that overlapped with OCRs in brain")
+```
+Check the percent of constrained sequences that overlaps with open chromatin regions from neurons
+```{r echo=F}
+kable(read.table("output/constrained_and_OPC.txt", header = T),
+      caption="Summary of the overlappings between constrained sequences and OCRs in brain")
+# counts_1per=2056917
+# counts_5per=10582523
+# f<-fread("~/cluster/data/features/formatted/asoc_science2020/CDTS_1per_overlap.txt")
+# out<-unlist(lapply(split(f, f$V4), function(i){dim(i)[1]/counts_1per}))
+# f2<-fread("~/cluster/data/features/formatted/asoc_science2020/CDTS_5per_overlap.txt")
+# out2<-unlist(lapply(split(f2, f$V4), function(i){dim(i)[1]/counts_5per}))
+# tbl<-data.frame(rbind(out, out2))
+#colnames(tbl)<-fnames[3:7]
+#rownames(tbl)<-c("CDTS_1%", "CDTS_5%")
+```
+**Enrichment analysis for sequence constraints**
+```{r echo=F}
+df<-read.table("data/torus_enrichment.est", header = F)
 colnames(df)<-c("term", "estimate", "low", "high")
 library(ggplot2)
-ggplot(df, aes(y=term, x=2^estimate)) +
+ggplot(df, aes(y=term, x=log2(exp(estimate)))) +
   geom_point(size=4) + 
-  geom_errorbar(aes(xmax=2^high, xmin=2^low)) + 
-  xlab("enrichment estimate") + scale_y_discrete(labels=c("CDTS_1Percentile", "CDTS_5Percentile"))
+  geom_errorbar(aes(xmax=log2(exp(high)), xmin=log2(exp(low)))) + 
+  xlab("SCZ variant enrichment(log2)") + 
+  scale_y_discrete(labels=c("CDTS_1Percentile", "CDTS_5Percentile",
+                            "iN_Dopa OCR", "iN_GABA OCR", 
+                            "iN_Glut OCR", "iPSC OCR", "NPC OCR"))
 ```
-The enrichment estimate has a confience level above zero for both annotations. This shows SNPs associated with SCZ are on average ~ 1.5 fold enriched in genomic bins with up to 5 percentile of CDTS. 
+The enrichment estimate has a confience level above zero for CDTS and positive controls. This shows SNPs associated with SCZ are on average ~ 9 fold enriched in genomic bins with up to 5 percentile of CDTS. 
