@@ -7,16 +7,37 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-## R Markdown
+## Methods for fine-mapping
+### **TORUS:bayesian regression analysis**
 
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
 
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+### **S-LDSC:LD score based linear regression**
+Standardized phenotypes are typically modeled using the linear model $y=\sum\beta_jX_j+\epsilon$. The variance of explained by X is given by 
+$$
+\begin{align}
+Var(\sum\beta_jX_j) &=\sum Var(\beta_jX_j) \\
+                    &= \sum \beta_j^2Var(X_j) \\
+                    &=\sum \beta^2_{j}
+\end{align}
+$$
+assuming the predictors are independent. That is to say the genotype of the causal SNP at one site is independent from that of all other sites. Here $\beta_j$ is the true effect size of the j-th SNP, assumed to be fixed. Thus, $h^2$ can be written as $\sum \beta_j^2$ as genotypes are standardidized. 
 
-```{r cars}
-summary(cars)
-```
+In S-LDSC, the effect size of the j-th SNP $\beta_j$ is modeled as a random variable with mean 0 and variance $Var(\beta_j)$. Then $\sum \beta_j^2=M*E[\beta_j^2]=M*Var(\beta_j)$. 
+Thus,
+$$
+\begin{align}
+\text{total heritability} &= \sum \beta_j^2 \\
+                          &= M * Var(\beta_j) \\
+\end{align}
+$$
+$Var(\beta_j)$ can be estimated simply using total SNP heritability divided by M, number of SNPs across the whole genome. However, we know heritability is disproportionally distributed across genome. This motivates the modeling of $Var(\beta_j)$ as the sum of the per SNP heritability for each functional category. 
 
+$$
+\begin{align}
+Var(\beta_j) &= \sum_{c:j\in} \frac{h^2(c)}{M_c} \\
+             &= \sum_{c:j\in C_c}\tau_c\\
+\end{align}
+$$
 ## Including Plots
 
 You can also embed plots, for example:

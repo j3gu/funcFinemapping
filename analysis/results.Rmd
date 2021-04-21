@@ -111,3 +111,50 @@ ggplot(df, aes(y=term, x=log2(exp(estimate)))) +
                             "iN_Glut OCR", "iPSC OCR", "NPC OCR"))
 ```
 The enrichment estimate has a confience level above zero for CDTS and positive controls. This shows SNPs associated with SCZ are on average ~ 9 fold enriched in genomic bins with up to 5 percentile of CDTS. 
+```{r echo=F}
+## process other conservation related annotations - CADD, LINSIGNT, and GERP
+# f<-fread("~/cluster/data/features/processed/scz_2018_CADD_chunk10.txt")
+# colnames(f)<-c("chr", "pos", "a1", "a0", "score", "phred")
+# out<-list()
+# for(i in 1:11){
+#   print(i)
+#   f<-fread(sprintf("~/cluster/data/features/processed/scz_2018_CADD_chunk%d.txt", i))
+#   colnames(f)<-c("chr", "pos", "a1", "a0", "score", "phred")
+#   out[[i]]<-snp_match(gwas[gwas$chr %in% unique(f$chr),], f)
+# }
+# final_out<-data.frame(do.call(rbind, out))
+# 
+# out<-list()
+# for(i in 1:6){
+#   f<-fread(sprintf("/home/jinggu/cluster/data/features/processed/scz_2018_gerp_chunk%d.txt", i))
+#   f<-f[, c(1,2,5)]
+#   colnames(f)<-c("chr", "pos", "G_score")
+#   f[, "chr"]<-as.numeric(unlist(lapply(f$chr, function(i){strsplit(i, "r")[[1]][2]})))
+#   subgwas<-out_LS[out_LS$chr %in% unique(f$chr),]
+#   out[[i]]<-merge(subgwas, f, by=c("chr", "pos"))
+# }
+# out<-data.frame(do.call(rbind, out))
+# 
+# cond1<-as.numeric(out$LS_score>=0.24)
+# cond2<-as.numeric(out$phred>=13)
+# cond3<-as.numeric(out$G_score>=2)
+# out<-out[!is.na(out$LS_score),]
+# write.table(out[, c("snp", "locus","zscore")], gzfile("/home/jinggu/cluster/projects/finemap_pipeline/output/scz_2018/joint/torus_zscores.txt.gz"), quote = F, row.names = F)
+# 
+# write.table(data.frame(out[, c("snp", "CDTS_5per_d")], cond1, cond2, cond3), gzfile("/home/jinggu/cluster/projects/finemap_pipeline/output/scz_2018/joint/torus_annotations.txt.gz"), quote = F, row.names = F, col.names = c("snp", "CDTS_5per_d", "LINSIGHT_24per_d", "CADD_5per_d", "GERP_2cutoff_d"))
+```
+**Compare with other conservation annotations**
+```{r}
+kable(read.table("data/conservation_score_corr.txt", header = T),
+      caption="Summary of the pair-wise correlations between conservation annotations")
+```
+
+```{r echo=F}
+df<-read.table("data/joint_torus_conservation_enrichment.est", header = F)
+colnames(df)<-c("term", "estimate", "low", "high")
+library(ggplot2)
+ggplot(df[-1,], aes(y=term, x=log2(exp(estimate)))) +
+  geom_point(size=4) + 
+  geom_errorbar(aes(xmax=log2(exp(high)), xmin=log2(exp(low))))+xlab("SCZ variant enrichment(log2)")
+```
+

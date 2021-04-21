@@ -33,8 +33,9 @@ Current challenges:
 
 **ChIP-Seq**: identify specific TFBS; require high input cell numbers,; one TF per assay; restricted to TFs that have antibodies specifically bind to them;
 
-## Sequence constraints
+## Conservations
 
+### Sequence constraints
 *Lulio et al.* (2018) used  large  sizes  of  WGS  data  and  heptamers  to  build  a  map  of sequence constraints for the human species and found constrained regions are up to 52-fold enriched for known pathogenic variants than unconstrained regions.
 
 #### **Why heptamers?** 
@@ -61,6 +62,33 @@ Current challenges:
     - benchmark different metrics for noncoding variants: perfomance on detecting Mendelian noncoding variants
     - CDTS captures the highest proportion of variants uniquely detected by a single metric
     - CDTS requires no prior knowledge (no overfitting issue)
+    
+### Other conservation related annotations
+CADD - Combined Annotation Dependent Depletion https://cadd-staging.kircherlab.bihealth.org
+GERP - https://genome.ucsc.edu/cgi-bin/hgTrackUi?db=hg19&g=allHg19RS_BW
+LINSIGHT
+    
+    
+
+## Transcription regulation
+### **RNA modification - methylation at N6-adenosine**
+Intro:
+m6A is the most aboundant form of RNA modifications and 25-60% of mRNA transcripts found to have this type of modification. More evidence have shown that genes involve in m6A regulation and recognization have been implicated in human diseases. Previous work has provided evidence for the role of m6A variation in the genetics of immune traits. m6A-QTLs identified from 60 LCLs are largely independent of eQTLs (less than 50%) or sQTLs (same level). Additionally, genetic variants that affect m6A levels show cell-type specific effects. m6A is also found to be present in chromatin-associated RNAs, which may implicate its regulatory functions on caRNAs.  
+
+Main Hypothesis:
+1. Genetic variations that disrupt m6A modification may explain a significant fraction of human disease associations. 
+2. The effects of genetic variation of m6A may vary across cell types and conditions.
+
+*m6A modification dynamics*
+
+* Recognized by Reader Protein: YTH family
+* Methyl group added to N6-adnoesin by writer complex: METTL3/METTL14
+* Methyl group removed by eraser proteins: FTO and ALKBH5
+
+
+
+pre-mRNA splicing, RNA degradation, translation and alternative polyadenylation
+*Lulio et al.*
 
 
 This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
