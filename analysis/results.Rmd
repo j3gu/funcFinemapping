@@ -147,9 +147,9 @@ The enrichment estimate has a confience level above zero for CDTS and positive c
 
 * LINSIGHT 
     - predict how noncoding nucleotide sites are likely to have deleterious fitness consequences and hence be phenotypically important 
-   - genome-wide average of LINSIGHT scores was ~0.07 (range: 0.03-0.99)
-   - Estimated mean LINSIGHT score for conserved TFBSs was 0.24->used as cutoff for whether the nucelotide site is conserved
-   - 2.5% of GWAS SNPs are above LINSIGHT threshold.    
+    - genome-wide average of LINSIGHT scores was ~0.07 (range: 0.03-0.99)
+    - Estimated mean LINSIGHT score for conserved TFBSs was 0.24->used as cutoff for whether the nucelotide site is conserved
+    - 2.5% of GWAS SNPs are above LINSIGHT threshold.    
   
 * CADD - Combined Annotation–Dependent Depletion,
     - provides metrics of deleteriousness
