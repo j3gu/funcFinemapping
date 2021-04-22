@@ -144,11 +144,50 @@ The enrichment estimate has a confience level above zero for CDTS and positive c
 # write.table(data.frame(out[, c("snp", "CDTS_5per_d")], cond1, cond2, cond3), gzfile("/home/jinggu/cluster/projects/finemap_pipeline/output/scz_2018/joint/torus_annotations.txt.gz"), quote = F, row.names = F, col.names = c("snp", "CDTS_5per_d", "LINSIGHT_24per_d", "CADD_5per_d", "GERP_2cutoff_d"))
 ```
 **Compare with other conservation annotations**
-```{r}
+
+* LINSIGHT 
+    - predict how noncoding nucleotide sites are likely to have deleterious fitness consequences and hence be phenotypically important 
+   - genome-wide average of LINSIGHT scores was ~0.07 (range: 0.03-0.99)
+   - Estimated mean LINSIGHT score for conserved TFBSs was 0.24->used as cutoff for whether the nucelotide site is conserved
+   - 2.5% of GWAS SNPs are above LINSIGHT threshold.    
+  
+* CADD - Combined Annotation–Dependent Depletion,
+    - provides metrics of deleteriousness
+    - scaled PHRED score [-10log10(P)]
+    - 5 percent chosen as a cutoff, which represents top 5% of all possible reference genome SNVs
+    - 2.5% of GWAS SNPs are above LINSIGHT threshold.
+  
+* GERP - Genomic Evolutionary Rate Profiling 
+    - produce position-specific estimates of evolutionary constraint
+    - constraint intensity quantified as a "rejection score" range from -12.3 to 6.17
+    - UCSC suggests a RS score threshold of 2 which provides high sensitivity and strongly enriched for true constraint sites
+
+```{r echo=F}
+#extract raw cdts score at each nucleotide position
+# snpRanges<-make_ranges(out$chr, out$pos, out$pos)
+# snpRanges <- plyranges::mutate(snpRanges, snp=out$snp)
+# cdts_ranges<-make_ranges(cdts$chromosome, cdts$start, cdts$end)
+# cdts_ranges<-plyranges::mutate(cdts_ranges, score=cdts$CDTS)
+# mergedf <- IRanges::mergeByOverlaps(snpRanges, cdts_ranges)
+# 
+# 
+# out_cdts<-apply(out, 1, function(i){
+#   chrom=paste0("chr", i[1])
+#   cdts_sub = cdts[cdts$chromosome == chrom,]
+#   cond1 = i[2] >= cdts_sub$start
+#   cond2 = i[2] <= cdts_sub$end
+#   if(sum(cond1, cond2)>1){
+#     return(cdts_sub[which(sum(cond1, cond2))])
+#   }
+# })
+# 
+
 kable(read.table("data/conservation_score_corr.txt", header = T),
       caption="Summary of the pair-wise correlations between conservation annotations")
 ```
+The correlation table shows the pair-wise correlations between each binary annotations. With current thresholds, CDTS at top 5 percent is uncorrelated to other binary annotations. Instead, there are high correlations among LINSIGHT, GERP and CADD scores.
 
+**joint TORUS enrichment analysis over conservation-related annotations**
 ```{r echo=F}
 df<-read.table("data/joint_torus_conservation_enrichment.est", header = F)
 colnames(df)<-c("term", "estimate", "low", "high")
@@ -157,4 +196,4 @@ ggplot(df[-1,], aes(y=term, x=log2(exp(estimate)))) +
   geom_point(size=4) + 
   geom_errorbar(aes(xmax=log2(exp(high)), xmin=log2(exp(low))))+xlab("SCZ variant enrichment(log2)")
 ```
-
+With other conservation annotations as predictors in the model, we can see CDTS within top 5 percentile still shows around 8 fold enrichment. 
