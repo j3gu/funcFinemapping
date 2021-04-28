@@ -2,10 +2,7 @@
 title: "results"
 output: html_notebook
 ---
-```{r echo=F}
-library(data.table)
-library(dplyr)
-```
+
 Fine-mapping with functional annotations as priors has shown improved results in identifying causal variants. This project is to evaluate the utility of novel annotation features and adopt ones that can improve fine mapping results. 
 
 ## Evaluation  
@@ -88,12 +85,12 @@ Check the percent of constrained sequences that overlaps with open chromatin reg
 
 * Overlaps between two sets of genomic features were identified using `bedtools intersect`. The constrained sequences were counted to be overlapped when at least 10%(>=1 bp) intersect with peaks called from ATAC-Seq profiles.  
 ```{r echo=F}
-kable(read.table("output/constrained_and_OPC.txt", header = T),
+kable(read.table("data/constrained_and_OPC.txt", header = T),
       caption="Summary of the overlappings between constrained sequences and chromatin accessibility profiles across multiple tissues")
-
+```
+```{r echo=F}
 kable(read.table("data/constrained_and_genomic_anno.txt", header = T),
       caption="Summary of overlapping between CDTS and genomic annotations")
-
 # counts_1per=2056917
 # counts_5per=10582523
 # f<-fread("~/cluster/data/features/formatted/seq_constraint/CDTS_1per_overlapped_genomic_anno_full.bed")
