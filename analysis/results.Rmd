@@ -2,7 +2,10 @@
 title: "results"
 output: html_notebook
 ---
-
+```{r echo=F}
+library(data.table)
+library(dplyr)
+```
 Fine-mapping with functional annotations as priors has shown improved results in identifying causal variants. This project is to evaluate the utility of novel annotation features and adopt ones that can improve fine mapping results. 
 
 ## Evaluation  
@@ -83,20 +86,28 @@ kable(read.table("output/prop_constrained_variants_with_OCR.txt", header = T), c
 ```
 Check the percent of constrained sequences that overlaps with open chromatin regions from neurons
 
-* Overlaps between two sets of genomic features were identified using `bedtools intersect`. The constrained sequences were counted to be overlapped when at least 20%(>=2 bp) intersect with peaks called from ATAC-Seq profiles.  
+* Overlaps between two sets of genomic features were identified using `bedtools intersect`. The constrained sequences were counted to be overlapped when at least 10%(>=1 bp) intersect with peaks called from ATAC-Seq profiles.  
 ```{r echo=F}
 kable(read.table("output/constrained_and_OPC.txt", header = T),
-      caption="Summary of the overlappings between constrained sequences and OCRs in brain")
+      caption="Summary of the overlappings between constrained sequences and chromatin accessibility profiles across multiple tissues")
+
+kable(read.table("data/constrained_and_genomic_anno.txt", header = T),
+      caption="Summary of overlapping between CDTS and genomic annotations")
+
 # counts_1per=2056917
 # counts_5per=10582523
-# f<-fread("~/cluster/data/features/formatted/asoc_science2020/CDTS_1per_overlap.txt")
-# out<-unlist(lapply(split(f, f$V4), function(i){dim(i)[1]/counts_1per}))
-# f2<-fread("~/cluster/data/features/formatted/asoc_science2020/CDTS_5per_overlap.txt")
-# out2<-unlist(lapply(split(f2, f$V4), function(i){dim(i)[1]/counts_5per}))
+# f<-fread("~/cluster/data/features/formatted/seq_constraint/CDTS_1per_overlapped_genomic_anno_full.bed")
+# out<-unlist(lapply(split(f, f$V4), function(i){length(unique(i$V8))/counts_1per}))
+# f<-fread("~/cluster/data/features/formatted/seq_constraint/CDTS_5per_overlapped_genomic_anno_full.bed")
+# out2<-unlist(lapply(split(f, f$V4), function(i){length(unique(i$V8))/counts_5per}))
 # tbl<-data.frame(rbind(out, out2))
-#colnames(tbl)<-fnames[3:7]
-#rownames(tbl)<-c("CDTS_1%", "CDTS_5%")
+# rownames(tbl)<-c("CDTS_1%", "CDTS_5%")
+# write.table(round(tbl*100,1), "data/constrained_and_genomic_anno.txt", quote = F)
 ```
+**Summary**:
+The overlap of CDTS with open chromain regions in neurons much higher than immure cells. In our analysis, the overlap with enhancers is low. However, CDTS shows high overlapping with exons, introns and promoters. 
+
+
 **Enrichment analysis for sequence constraints**
 ```{r echo=F}
 df<-read.table("data/torus_enrichment.est", header = F)
@@ -126,9 +137,9 @@ The enrichment estimate has a confience level above zero for CDTS and positive c
 # 
 # out<-list()
 # for(i in 1:6){
-#   f<-fread(sprintf("/home/jinggu/cluster/data/features/processed/scz_2018_gerp_chunk%d.txt", i))
+#   f<-fread(sprintf("/home/jinggu/cluster/data/features/processed/scz_2018_LS_chunk%d.txt", i))
 #   f<-f[, c(1,2,5)]
-#   colnames(f)<-c("chr", "pos", "G_score")
+#   colnames(f)<-c("chr", "pos", "LS_score")
 #   f[, "chr"]<-as.numeric(unlist(lapply(f$chr, function(i){strsplit(i, "r")[[1]][2]})))
 #   subgwas<-out_LS[out_LS$chr %in% unique(f$chr),]
 #   out[[i]]<-merge(subgwas, f, by=c("chr", "pos"))
@@ -155,37 +166,87 @@ The enrichment estimate has a confience level above zero for CDTS and positive c
     - provides metrics of deleteriousness
     - scaled PHRED score [-10log10(P)]
     - 5 percent chosen as a cutoff, which represents top 5% of all possible reference genome SNVs
-    - 2.5% of GWAS SNPs are above LINSIGHT threshold.
+ 
   
 * GERP - Genomic Evolutionary Rate Profiling 
     - produce position-specific estimates of evolutionary constraint
     - constraint intensity quantified as a "rejection score" range from -12.3 to 6.17
     - UCSC suggests a RS score threshold of 2 which provides high sensitivity and strongly enriched for true constraint sites
 
+Comparing the top k-th percentile of CDTS bins vs top k-th percentile scores of other annotations
+
+* CDTS vs CADD (genome-wide top 5%)  
+For the top 5% of CDTS bins, 15.4% of the bases have CADD scores above 5%. 
+For the SNPs with top 5% CADD scores, 10.8% of them fall into top 5% CDTS bins. 
+* CDTS vs LINSIGHT (per-chromosome top 10%)   
+For the top 10% of CDTS bins, 1% of the bases have LINSIGHT scores above 10%. 
+For the SNPs with top 10% CADD scores, 12% of them fall into top 10% CDTS bins. 
+* CDTS vs GERP (per-chromosome top 10%)  
+For the top 10% of CDTS bins, 8.7% of the bases have GERP scores above 10%. 
+For the SNPs with top 10% CADD scores, 11.7% of them fall into top 10% CDTS bins. 
+
+**Summary**:
+
+1. Overall, there is a maximum of 15.4% overlapping between the bases within the top CDTS bins and those ranked among top annotation scores. 
+2. Only 1% of bases from top 10% CDTS bins have LINSIGHT scores above 10%, probably due to many missing predictions in LINSIGHT. 
+
 ```{r echo=F}
 #extract raw cdts score at each nucleotide position
-# snpRanges<-make_ranges(out$chr, out$pos, out$pos)
+# cdts<-fread("~/cluster/data/features/raw/coord_CDTS_percentile_N7794unrelated.txt.gz")
+# snpRanges<-make_ranges(paste0("chr",out$chr), out$pos, out$pos)
 # snpRanges <- plyranges::mutate(snpRanges, snp=out$snp)
 # cdts_ranges<-make_ranges(cdts$chromosome, cdts$start, cdts$end)
 # cdts_ranges<-plyranges::mutate(cdts_ranges, score=cdts$CDTS)
-# mergedf <- IRanges::mergeByOverlaps(snpRanges, cdts_ranges)
-# 
-# 
-# out_cdts<-apply(out, 1, function(i){
-#   chrom=paste0("chr", i[1])
-#   cdts_sub = cdts[cdts$chromosome == chrom,]
-#   cond1 = i[2] >= cdts_sub$start
-#   cond2 = i[2] <= cdts_sub$end
-#   if(sum(cond1, cond2)>1){
-#     return(cdts_sub[which(sum(cond1, cond2))])
-#   }
-# })
-# 
+# subsetdf <- IRanges::mergeByOverlaps(cdts_ranges, snpRanges)
+# df<-inner_join(out, data.frame(subsetdf)[,c("score", "snp")], by="snp")
+#gwas<-readRDS("~/cluster/data/gwas/2_Filtered/scz_2018_conservation.rds")
 
-kable(read.table("data/conservation_score_corr.txt", header = T),
-      caption="Summary of the pair-wise correlations between conservation annotations")
+############
+# library(data.table)
+# source("~/scripts/R/utility_func.R")
+# cdts<-fread("~/cluster/data/features/raw/coord_CDTS_hg19.txt.gz")
+# colnames(cdts)<-c("chromosome", "start", "end", "CDTS", "percentile")
+# cdts<-cdts[cdts$chromosome %in% paste0("chr",seq(1, 22, 1)),]
+# cdts_top5<-subset(cdts, percentile<=5)
+# 
+# cadd<-fread("~/cluster/data/features/raw/top5_unique_cadd.txt.gz")
+# snpRanges<-make_ranges(cadd$V2, cadd$V3, cadd$V3)
+# cdts_ranges<-make_ranges(unlist(lapply(cdts_top5$chromosome, function(i){strsplit(i, "r")[[1]][2]})), cdts_top5$start, cdts_top5$end-1)
+# count<-IRanges::mergeByOverlaps(cdts_ranges, snpRanges)
+# length(unique(count$snpRanges))/(dim(cdts_top5)[1]*10)
+# length(unique(count$snpRanges))/dim(cadd)[1]
+# 
+# cdts_split<-split(cdts, cdts$chromosome)
+# top10<-lapply(cdts_split, function(i){
+#   cutoff = quantile(i$CDTS, probs=0.1)
+#   return(i[i$CDTS<=cutoff,])
+#   })
+# 
+# output<-matrix(NA, nrow = 22, ncol=3)
+# for(i in 1:22){
+#   print(i)
+#   f <-read.table(sprintf("~/cluster/data/features/processed/LS_chr%d.bed", i), header=F)
+#   snpRanges<-make_ranges(f$V1, f$V2, f$V2)
+#   cdts_top10<-top10[[paste0("chr",i)]]
+#   cdts_ranges<-make_ranges(cdts_top10$chromosome, cdts_top10$start, cdts_top10$end-1)
+#   count<-IRanges::mergeByOverlaps(cdts_ranges, snpRanges)
+#   output[i,]<-c(dim(cdts_top10)[1]*10, dim(f)[1], length(unique(count$snpRanges)))
+# }
+# 
+# counts<-apply(output, 2, sum)
+# counts[3]/counts[1:2]
+
+############
+#percent of CDTS overlapping other features
+# tbl<-cor(data.frame(rank(gwas$phred), rank(gwas$LS_score), rank(gwas$G_score), rank(gwas$score)))
+# row.names(tbl)<-c("CADD", "LINSIGHT", "GERP", "CDTS")
+# colnames(tbl)<-c("CADD", "LINSIGHT", "GERP", "CDTS")
+# write.table(tbl, "data/rank_correlations.txt", quote = F)
+print("5 million (68%) SCZ GWAS SNPs have conservation scores across all annotations.")
+kable(read.table("data/rank_correlations.txt", header = T),
+      caption="Summary of the correlations between ranks for the conservation scores among annotations")
 ```
-The correlation table shows the pair-wise correlations between each binary annotations. With current thresholds, CDTS at top 5 percent is uncorrelated to other binary annotations. Instead, there are high correlations among LINSIGHT, GERP and CADD scores.
+The correlation table shows the pair-wise correlations between ranks for the conservation scores on GWAS SNPs across all the annotations. CDTS seems to be uncorrelated to other conservation scores. CADD has a moderate correlation separately with LINSIGHT and GERP. A low correlation observed between GERP and LINSIGHT. 
 
 **joint TORUS enrichment analysis over conservation-related annotations**
 ```{r echo=F}
