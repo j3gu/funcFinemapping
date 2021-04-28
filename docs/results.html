@@ -13,6 +13,7 @@
 
 <title>results</title>
 
+<script src="site_libs/header-attrs-2.7/header-attrs.js"></script>
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
@@ -42,6 +43,8 @@ div.section {
   padding-top: 12px;
 }
 </style>
+
+
 
 <style type="text/css">
   code{white-space: pre-wrap;}
@@ -370,7 +373,7 @@ div.tocify {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2021-04-22
+<strong>Last updated:</strong> 2021-04-28
 </p>
 <p>
 <strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
@@ -406,7 +409,7 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 </div>
 <div id="strongEnvironmentstrongempty" class="panel-collapse collapse">
 <div class="panel-body">
-<p>Great job! The global environment was empty. Objects defined in the global environment can affect the analysis in your R Markdown file in unknown ways. For reproduciblity it's best to always run the code in an empty environment.</p>
+<p>Great job! The global environment was empty. Objects defined in the global environment can affect the analysis in your R Markdown file in unknown ways. For reproduciblity it’s best to always run the code in an empty environment.</p>
 </div>
 </div>
 </div>
@@ -461,16 +464,16 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomj3gufuncFinemappingtree16ea9f9ba5a41f7cd87cfd522646bdb47eac6a4btargetblank16ea9f9a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/j3gu/funcFinemapping/tree/16ea9f9ba5a41f7cd87cfd522646bdb47eac6a4b" target="_blank">16ea9f9</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomj3gufuncFinemappingtree2a16e42b7e6c42335840d61edf4a9ce07e2ffe72targetblank2a16e42a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/j3gu/funcFinemapping/tree/2a16e42b7e6c42335840d61edf4a9ce07e2ffe72" target="_blank">2a16e42</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomj3gufuncFinemappingtree16ea9f9ba5a41f7cd87cfd522646bdb47eac6a4btargetblank16ea9f9a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomj3gufuncFinemappingtree2a16e42b7e6c42335840d61edf4a9ce07e2ffe72targetblank2a16e42a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/j3gu/funcFinemapping/tree/16ea9f9ba5a41f7cd87cfd522646bdb47eac6a4b" target="_blank">16ea9f9</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/j3gu/funcFinemapping/tree/2a16e42b7e6c42335840d61edf4a9ce07e2ffe72" target="_blank">2a16e42</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -483,9 +486,13 @@ Untracked files:
     Untracked:  output/constrained_and_OPC.txt
     Untracked:  output/prop_constrained_variants_with_OCR.txt
 
+Unstaged changes:
+    Modified:   analysis/biology_bkg.Rmd
+    Modified:   analysis/method_bkg.Rmd
+
 </code></pre>
 <p>
-Note that any generated files, e.g. HTML, png, CSS, etc., are not included in this status report because it is ok for generated content to have uncommitted changes.
+Note that any generated files, e.g. HTML, png, CSS, etc., are not included in this status report because it is ok for generated content to have uncommitted changes.
 </p>
 </div>
 </div>
@@ -496,7 +503,7 @@ Note that any generated files, e.g. HTML, png, CSS, etc., are not included in th
 <div id="versions" class="tab-pane fade">
 
 <p>
-These are the previous versions of the repository in which changes were made to the R Markdown (<code>analysis/results.Rmd</code>) and HTML (<code>docs/results.html</code>) files. If you've configured a remote Git repository (see <code>?wflow_git_remote</code>), click on the hyperlinks in the table below to view the files as they were in that past version.
+These are the previous versions of the repository in which changes were made to the R Markdown (<code>analysis/results.Rmd</code>) and HTML (<code>docs/results.html</code>) files. If you’ve configured a remote Git repository (see <code>?wflow_git_remote</code>), click on the hyperlinks in the table below to view the files as they were in that past version.
 </p>
 <div class="table-responsive">
 <table class="table table-condensed table-hover">
@@ -520,6 +527,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/j3gu/funcFinemapping/blob/2a16e42b7e6c42335840d61edf4a9ce07e2ffe72/analysis/results.Rmd" target="_blank">2a16e42</a>
+</td>
+<td>
+Jing Gu
+</td>
+<td>
+2021-04-28
+</td>
+<td>
+compare CDTS with other annotations
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/j3gu/funcFinemapping/621b19b5f203007d0d0b3b08994d4bb693522bd8/docs/results.html" target="_blank">621b19b</a>
+</td>
+<td>
+Jing Gu
+</td>
+<td>
+2021-04-22
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -833,6 +874,17 @@ edit index page
 </div>
 </div>
 </div>
+<pre><code>
+Attaching package: &#39;dplyr&#39;</code></pre>
+<pre><code>The following objects are masked from &#39;package:data.table&#39;:
+
+    between, first, last</code></pre>
+<pre><code>The following objects are masked from &#39;package:stats&#39;:
+
+    filter, lag</code></pre>
+<pre><code>The following objects are masked from &#39;package:base&#39;:
+
+    intersect, setdiff, setequal, union</code></pre>
 <p>Fine-mapping with functional annotations as priors has shown improved results in identifying causal variants. This project is to evaluate the utility of novel annotation features and adopt ones that can improve fine mapping results.</p>
 <div id="evaluation" class="section level2">
 <h2>Evaluation</h2>
@@ -851,7 +903,7 @@ edit index page
 <div id="gwas-qc-procedures" class="section level3">
 <h3>GWAS QC Procedures</h3>
 <ul>
-<li>Current procedures was based on Alan's finemappeR pipeline</li>
+<li>Current procedures was based on Alan’s finemappeR pipeline</li>
 <li>Criteria for filtering gwas SNPs</li>
 </ul>
 <ol style="list-style-type: decimal">
@@ -864,7 +916,7 @@ edit index page
 </ol>
 <p>After filtering, there are around 6 million variants remained.</p>
 <div class="figure">
-<img src="assets/gwas_summary_stats_hist_plot.png" alt="Plots for GWAS summary statistics" />
+<img src="assets/gwas_summary_stats_hist_plot.png" alt="" />
 <p class="caption">Plots for GWAS summary statistics</p>
 </div>
 </div>
@@ -929,10 +981,10 @@ edit index page
 </table>
 <p>Check the percent of constrained sequences that overlaps with open chromatin regions from neurons</p>
 <ul>
-<li>Overlaps between two sets of genomic features were identified using <code>bedtools intersect</code>. The constrained sequences were counted to be overlapped when at least 20%(&gt;=2 bp) intersect with peaks called from ATAC-Seq profiles.</li>
+<li>Overlaps between two sets of genomic features were identified using <code>bedtools intersect</code>. The constrained sequences were counted to be overlapped when at least 10%(&gt;=1 bp) intersect with peaks called from ATAC-Seq profiles.</li>
 </ul>
 <table>
-<caption>Summary of the overlappings between constrained sequences and OCRs in brain</caption>
+<caption>Summary of the overlappings between constrained sequences and chromatin accessibility profiles across multiple tissues</caption>
 <thead>
 <tr class="header">
 <th align="left"></th>
@@ -962,45 +1014,42 @@ edit index page
 </tr>
 </tbody>
 </table>
-<p><strong>Enrichment analysis for sequence constraints</strong> <img src="figure/results.Rmd/unnamed-chunk-4-1.png" width="672" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-4-1">
-Past versions of unnamed-chunk-4-1.png
-</button>
-</p>
-<div id="fig-unnamed-chunk-4-1" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
+<table>
+<caption>Summary of overlapping between CDTS and genomic annotations</caption>
 <thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
+<tr class="header">
+<th align="left"></th>
+<th align="right">enhancer</th>
+<th align="right">exon</th>
+<th align="right">intron</th>
+<th align="right">promoter</th>
+<th align="right">UTR3</th>
+<th align="right">UTR5</th>
 </tr>
 </thead>
 <tbody>
-<tr>
-<td>
-<a href="https://github.com/j3gu/funcFinemapping/blob/76883f139cd9e9b844506b528fc2bb4e02258c1c/docs/figure/results.Rmd/unnamed-chunk-4-1.png" target="_blank">76883f1</a>
-</td>
-<td>
-Jing Gu
-</td>
-<td>
-2021-04-14
-</td>
+<tr class="odd">
+<td align="left">CDTS_1%</td>
+<td align="right">7.8</td>
+<td align="right">30.2</td>
+<td align="right">47.2</td>
+<td align="right">58.7</td>
+<td align="right">10.4</td>
+<td align="right">29.2</td>
+</tr>
+<tr class="even">
+<td align="left">CDTS_5%</td>
+<td align="right">5.1</td>
+<td align="right">13.9</td>
+<td align="right">55.1</td>
+<td align="right">21.9</td>
+<td align="right">10.3</td>
+<td align="right">21.0</td>
 </tr>
 </tbody>
 </table>
-</div>
-</div>
-<p>The enrichment estimate has a confience level above zero for CDTS and positive controls. This shows SNPs associated with SCZ are on average ~ 9 fold enriched in genomic bins with up to 5 percentile of CDTS.</p>
+<p><strong>Summary</strong>: The overlap of CDTS with open chromain regions in neurons much higher than immure cells. In our analysis, the overlap with enhancers is low. However, CDTS shows high overlapping with exons, introns and promoters.</p>
+<p><strong>Enrichment analysis for sequence constraints</strong> <img src="figure/results.Rmd/unnamed-chunk-5-1.png" width="672" style="display: block; margin: auto;" /> The enrichment estimate has a confience level above zero for CDTS and positive controls. This shows SNPs associated with SCZ are on average ~ 9 fold enriched in genomic bins with up to 5 percentile of CDTS.</p>
 <p><strong>Compare with other conservation annotations</strong></p>
 <ul>
 <li>LINSIGHT
@@ -1015,97 +1064,73 @@ Jing Gu
 <li>provides metrics of deleteriousness</li>
 <li>scaled PHRED score [-10log10(P)]</li>
 <li>5 percent chosen as a cutoff, which represents top 5% of all possible reference genome SNVs</li>
-<li>2.5% of GWAS SNPs are above LINSIGHT threshold.</li>
 </ul></li>
 <li>GERP - Genomic Evolutionary Rate Profiling
 <ul>
 <li>produce position-specific estimates of evolutionary constraint</li>
-<li>constraint intensity quantified as a &quot;rejection score&quot; range from -12.3 to 6.17</li>
+<li>constraint intensity quantified as a “rejection score” range from -12.3 to 6.17</li>
 <li>UCSC suggests a RS score threshold of 2 which provides high sensitivity and strongly enriched for true constraint sites</li>
 </ul></li>
 </ul>
+<p>Comparing the top k-th percentile of CDTS bins vs top k-th percentile scores of other annotations</p>
+<ul>
+<li>CDTS vs CADD (genome-wide top 5%)<br />
+For the top 5% of CDTS bins, 15.4% of the bases have CADD scores above 5%. For the SNPs with top 5% CADD scores, 10.8% of them fall into top 5% CDTS bins.</li>
+<li>CDTS vs LINSIGHT (per-chromosome top 10%)<br />
+For the top 10% of CDTS bins, 1% of the bases have LINSIGHT scores above 10%. For the SNPs with top 10% CADD scores, 12% of them fall into top 10% CDTS bins.</li>
+<li>CDTS vs GERP (per-chromosome top 10%)<br />
+For the top 10% of CDTS bins, 8.7% of the bases have GERP scores above 10%. For the SNPs with top 10% CADD scores, 11.7% of them fall into top 10% CDTS bins.</li>
+</ul>
+<p><strong>Summary</strong>:</p>
+<ol style="list-style-type: decimal">
+<li>Overall, there is a maximum of 15.4% overlapping between the bases within the top CDTS bins and those ranked among top annotation scores.</li>
+<li>Only 1% of bases from top 10% CDTS bins have LINSIGHT scores above 10%, probably due to many missing predictions in LINSIGHT.</li>
+</ol>
+<pre><code>[1] &quot;5 million (68%) SCZ GWAS SNPs have conservation scores across all annotations.&quot;</code></pre>
 <table>
-<caption>Summary of the pair-wise correlations between conservation annotations</caption>
+<caption>Summary of the correlations between ranks for the conservation scores among annotations</caption>
 <thead>
 <tr class="header">
 <th align="left"></th>
-<th align="right">CDTS</th>
+<th align="right">CADD</th>
 <th align="right">LINSIGHT</th>
 <th align="right">GERP</th>
-<th align="right">CADD</th>
+<th align="right">CDTS</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td align="left">CDTS</td>
-<td align="right">1.0000000</td>
-<td align="right">0.0401113</td>
-<td align="right">0.0207126</td>
-<td align="right">0.0321172</td>
+<td align="left">CADD</td>
+<td align="right">1.000</td>
+<td align="right">0.211</td>
+<td align="right">0.178</td>
+<td align="right">-0.026</td>
 </tr>
 <tr class="even">
 <td align="left">LINSIGHT</td>
-<td align="right">0.0401113</td>
-<td align="right">1.0000000</td>
-<td align="right">0.4004946</td>
-<td align="right">0.5376002</td>
+<td align="right">0.211</td>
+<td align="right">1.000</td>
+<td align="right">0.083</td>
+<td align="right">-0.070</td>
 </tr>
 <tr class="odd">
 <td align="left">GERP</td>
-<td align="right">0.0207126</td>
-<td align="right">0.4004946</td>
-<td align="right">1.0000000</td>
-<td align="right">0.2748316</td>
+<td align="right">0.178</td>
+<td align="right">0.083</td>
+<td align="right">1.000</td>
+<td align="right">-0.005</td>
 </tr>
 <tr class="even">
-<td align="left">CADD</td>
-<td align="right">0.0321172</td>
-<td align="right">0.5376002</td>
-<td align="right">0.2748316</td>
-<td align="right">1.0000000</td>
+<td align="left">CDTS</td>
+<td align="right">-0.026</td>
+<td align="right">-0.070</td>
+<td align="right">-0.005</td>
+<td align="right">1.000</td>
 </tr>
 </tbody>
 </table>
-<p>The correlation table shows the pair-wise correlations between each binary annotations. With current thresholds, CDTS at top 5 percent is uncorrelated to other binary annotations. Instead, there are high correlations among LINSIGHT, GERP and CADD scores.</p>
-<p><strong>joint TORUS enrichment analysis over conservation-related annotations</strong> <img src="figure/results.Rmd/unnamed-chunk-7-1.png" width="672" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-7-1">
-Past versions of unnamed-chunk-7-1.png
-</button>
-</p>
-<div id="fig-unnamed-chunk-7-1" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/j3gu/funcFinemapping/blob/e597d4ed8f7db6c2146a6c55ef6ff6801c76197f/docs/figure/results.Rmd/unnamed-chunk-7-1.png" target="_blank">e597d4e</a>
-</td>
-<td>
-Jing Gu
-</td>
-<td>
-2021-04-21
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-<p>With other conservation annotations as predictors in the model, we can see CDTS within top 5 percentile still shows around 8 fold enrichment.</p>
+<p>The correlation table shows the pair-wise correlations between ranks for the conservation scores on GWAS SNPs across all the annotations. CDTS seems to be uncorrelated to other conservation scores. CADD has a moderate correlation separately with LINSIGHT and GERP. A low correlation observed between GERP and LINSIGHT.</p>
+<p><strong>joint TORUS enrichment analysis over conservation-related annotations</strong> <img src="figure/results.Rmd/unnamed-chunk-8-1.png" width="672" style="display: block; margin: auto;" /> With other conservation annotations as predictors in the model, we can see CDTS within top 5 percentile still shows around 8 fold enrichment.</p>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
@@ -1133,22 +1158,23 @@ attached base packages:
 [1] stats     graphics  grDevices utils     datasets  methods   base     
 
 other attached packages:
-[1] ggplot2_3.3.3     knitr_1.31        data.table_1.14.0 workflowr_1.6.2  
+[1] ggplot2_3.3.3     knitr_1.31        dplyr_1.0.4       data.table_1.14.0
+[5] workflowr_1.6.2  
 
 loaded via a namespace (and not attached):
- [1] Rcpp_1.0.6        pillar_1.5.0      compiler_4.0.4    bslib_0.2.4      
- [5] later_1.1.0.1     jquerylib_0.1.3   git2r_0.28.0      highr_0.8        
+ [1] Rcpp_1.0.6        highr_0.8         pillar_1.5.0      compiler_4.0.4   
+ [5] bslib_0.2.4       later_1.1.0.1     jquerylib_0.1.3   git2r_0.28.0     
  [9] tools_4.0.4       digest_0.6.27     gtable_0.3.0      jsonlite_1.7.2   
 [13] evaluate_0.14     lifecycle_1.0.0   tibble_3.0.6      pkgconfig_2.0.3  
 [17] rlang_0.4.10      DBI_1.1.1         yaml_2.2.1        xfun_0.21        
-[21] withr_2.4.1       dplyr_1.0.4       stringr_1.4.0     generics_0.1.0   
-[25] fs_1.5.0          vctrs_0.3.6       sass_0.3.1        tidyselect_1.1.0 
-[29] rprojroot_2.0.2   grid_4.0.4        glue_1.4.2        R6_2.5.0         
-[33] fansi_0.4.2       rmarkdown_2.7     farver_2.0.3      purrr_0.3.4      
-[37] magrittr_2.0.1    whisker_0.4       scales_1.1.1      promises_1.2.0.1 
-[41] ellipsis_0.3.1    htmltools_0.5.1.1 assertthat_0.2.1  colorspace_2.0-0 
-[45] httpuv_1.5.5      labeling_0.4.2    utf8_1.1.4        stringi_1.5.3    
-[49] munsell_0.5.0     crayon_1.4.1     </code></pre>
+[21] withr_2.4.1       stringr_1.4.0     generics_0.1.0    fs_1.5.0         
+[25] vctrs_0.3.6       sass_0.3.1        grid_4.0.4        rprojroot_2.0.2  
+[29] tidyselect_1.1.0  glue_1.4.2        R6_2.5.0          fansi_0.4.2      
+[33] rmarkdown_2.7     farver_2.0.3      purrr_0.3.4       magrittr_2.0.1   
+[37] whisker_0.4       scales_1.1.1      promises_1.2.0.1  ellipsis_0.3.1   
+[41] htmltools_0.5.1.1 assertthat_0.2.1  colorspace_2.0-0  httpuv_1.5.5     
+[45] labeling_0.4.2    utf8_1.1.4        stringi_1.5.3     munsell_0.5.0    
+[49] crayon_1.4.1     </code></pre>
 </div>
 </div>
 </div>
@@ -1165,6 +1191,8 @@ footer is added to webpages before the MathJax javascript. -->
     "HTML-CSS": { availableFonts: ["TeX"] }
   });
 </script>
+
+
 
 
 </div>
