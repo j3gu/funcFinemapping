@@ -1,0 +1,11 @@
+CDTS_1per_hg19.bed.1	2.878	1.987	3.77
+CDTS_5per_hg19.bed.1	2.339	1.805	2.872
+human_CG_DMR.bed.1	1.798	1.43	2.165
+human_large_CG_DMR.bed.1	2.002	1.317	2.687
+iN_Dopa_hg19_nochr.bed.1	1.553	1.139	1.966
+iN_GABA_filtered.bed.1	1.65	1.27	2.031
+iN_GABA_hg19_nochr.bed.1	1.65	1.27	2.03
+iN_Glut_hg19_nochr.bed.1	1.128	0.557	1.698
+iPSC_hg19_nochr.bed.1	0.781	0.376	1.185
+              CDTS_5per.1      1.989         1.431      2.546
+NPC_hg19_nochr.bed.1	1.23	0.614	1.846

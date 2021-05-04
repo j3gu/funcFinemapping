@@ -1,3 +1,4 @@
-exon intron promoter UTR3 UTR5
-CDTS_1% 30.2% 47.2% 58.7% 10.4% 29.2%
-CDTS_5% 13.9% 55.1% 21.9% 10.3% 21%
+b_cell iN_Dopa iN_GABA iN_Glut iPSC NPC pancreas
+CDTS_1% 11.3 46.9 55.6 45.4 62.2 44.2 9.4
+CDTS_5% 3.5 19 21.9 15.7 25.9 14.9 2.5
+CDTS_50% 0.4 5.8 6.6 3.4 7.8 2.9 0.1
