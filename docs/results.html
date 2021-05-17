@@ -370,7 +370,7 @@ div.tocify {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2021-05-04
+<strong>Last updated:</strong> 2021-05-17
 </p>
 <p>
 <strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
@@ -461,16 +461,16 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomj3gufuncFinemappingtreea29395c4071992e029fb1f75669377c932e58fcctargetblanka29395ca"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/j3gu/funcFinemapping/tree/a29395c4071992e029fb1f75669377c932e58fcc" target="_blank">a29395c</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomj3gufuncFinemappingtreeadd87a59b3f4fa8d0866d10ebcdf98e22ad4fc38targetblankadd87a5a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/j3gu/funcFinemapping/tree/add87a59b3f4fa8d0866d10ebcdf98e22ad4fc38" target="_blank">add87a5</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomj3gufuncFinemappingtreea29395c4071992e029fb1f75669377c932e58fcctargetblanka29395ca" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomj3gufuncFinemappingtreeadd87a59b3f4fa8d0866d10ebcdf98e22ad4fc38targetblankadd87a5a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/j3gu/funcFinemapping/tree/a29395c4071992e029fb1f75669377c932e58fcc" target="_blank">a29395c</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/j3gu/funcFinemapping/tree/add87a59b3f4fa8d0866d10ebcdf98e22ad4fc38" target="_blank">add87a5</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -482,14 +482,13 @@ Ignored files:
 Untracked files:
     Untracked:  analysis/feedback.Rmd
     Untracked:  analysis/notes.Rmd
-    Untracked:  output/OCR_peaks_summary_stats.txt
-    Untracked:  output/constrained_and_OPC.txt
-    Untracked:  output/prop_constrained_variants_with_OCR.txt
+    Untracked:  data/torus_joint_enrichment.est
 
 Unstaged changes:
     Modified:   analysis/biology_bkg.Rmd
     Modified:   analysis/index.Rmd
     Modified:   analysis/method_bkg.Rmd
+    Modified:   data/torus_enrichment_ambigousSNPs.est
 
 </code></pre>
 <p>
@@ -528,6 +527,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/j3gu/funcFinemapping/blob/add87a59b3f4fa8d0866d10ebcdf98e22ad4fc38/analysis/results.Rmd" target="_blank">add87a5</a>
+</td>
+<td>
+Jing Gu
+</td>
+<td>
+2021-05-17
+</td>
+<td>
+check CDTS bins in non-coding regions
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/j3gu/funcFinemapping/1742eb8f3ebeeb00029d57da5ff952838d0e0695/docs/results.html" target="_blank">1742eb8</a>
+</td>
+<td>
+Jing Gu
+</td>
+<td>
+2021-05-04
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -1036,7 +1069,7 @@ edit index page
 <li>Overlaps between two sets of genomic features were identified using <code>bedtools intersect</code>. The constrained sequences were counted to be overlapped when at least 20%(&gt;=2 bp) intersect with peaks called from ATAC-Seq profiles. No reciprocal option used here due to the much shorter length of CDTS sequence.</li>
 </ul>
 <table>
-<caption>Summary of the overlaps between constrained sequences and open chromatin regions across tissues</caption>
+<caption>Table 1-Summary of the overlaps between constrained sequences and open chromatin regions across tissues</caption>
 <thead>
 <tr class="header">
 <th align="left"></th>
@@ -1087,56 +1120,91 @@ Conserved sequences found in the noncoding regions nearby gene YPEL4, which is a
 <img src="assets/chr11_57405334_57407554.png" alt="chr11:57405334-57407554" /></p>
 <p><strong>Summary</strong>:<br />
 Overall, CDTS at top percentiles are more enriched in open chromatin regions from brain than immune cells. CDTS at 50% threshold can be regarded as a negative control, which implies that less constrained sequence bins have much less overlapping with OCRs in brain.</p>
-<p><em>Check how highly conserved CDTS bins overlap with genomic annotations</em><br />
-The coordinates for the genomic regions was generated by Shicheng Guo, which I borrowed here to quickly get some results for how CDTS overlap with genomic annotations. I used <code>bedtools intersect</code> to obtain the pair of CDTS bin and genomic segment that share by at least 1 base. Then I summarized the proportion of CDTS bins that have paired with genomic segments extracted from each annotation file.</p>
+<p><em>Check how highly conserved CDTS bins overlap with genomic segments including exons, introns, UTRs, etc.</em><br />
+Genomic regions were extracted from gencode and processed based on the post from Dave Tang (<a href="https://davetang.org/muse/2013/01/18/defining-genomic-regions/" class="uri">https://davetang.org/muse/2013/01/18/defining-genomic-regions/</a>). The non-coding CDTS at top 5% were obtained by combining CDTS in top 5% bins completely overlapping both intergenic and intron regions. In total, 91% of original CDTS at top 5% bins are located in the non-coding regions. I used <code>bedtools intersect -a in.bed -b *.regions.bed -wa -wb -f 1</code> to obtain CDTS bins that are completely overlapped with genomic regions that belong to each category.</p>
 <table>
-<caption>Summary of overlapping between CDTS and genomic annotations</caption>
+<caption>Table 2-Summary of overlapping between CDTS and genomic segment annotations</caption>
 <thead>
 <tr class="header">
 <th align="left"></th>
-<th align="right">b_cell</th>
-<th align="right">iN_Dopa</th>
-<th align="right">iN_GABA</th>
-<th align="right">iN_Glut</th>
-<th align="right">iPSC</th>
-<th align="right">NPC</th>
-<th align="right">pancreas</th>
+<th align="left">cds</th>
+<th align="left">exon</th>
+<th align="left">gene</th>
+<th align="left">intergenic</th>
+<th align="left">introns</th>
+<th align="left">UTR</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
 <td align="left">CDTS_1%</td>
-<td align="right">11.3</td>
-<td align="right">46.9</td>
-<td align="right">55.6</td>
-<td align="right">45.4</td>
-<td align="right">62.2</td>
-<td align="right">44.2</td>
-<td align="right">9.4</td>
+<td align="left">16.6%</td>
+<td align="left">38.2%</td>
+<td align="left">79.6%</td>
+<td align="left">19.7%</td>
+<td align="left">61.8%</td>
+<td align="left">15.7%</td>
 </tr>
 <tr class="even">
 <td align="left">CDTS_5%</td>
-<td align="right">3.5</td>
-<td align="right">19.0</td>
-<td align="right">21.9</td>
-<td align="right">15.7</td>
-<td align="right">25.9</td>
-<td align="right">14.9</td>
-<td align="right">2.5</td>
-</tr>
-<tr class="odd">
-<td align="left">CDTS_50%</td>
-<td align="right">0.4</td>
-<td align="right">5.8</td>
-<td align="right">6.6</td>
-<td align="right">3.4</td>
-<td align="right">7.8</td>
-<td align="right">2.9</td>
-<td align="right">0.1</td>
+<td align="left">7.7%</td>
+<td align="left">18.4%</td>
+<td align="left">75.7%</td>
+<td align="left">23.7%</td>
+<td align="left">67.4%</td>
+<td align="left">7.3%</td>
 </tr>
 </tbody>
 </table>
-<p><strong>Summary</strong>: The overlap of CDTS with open chromain regions in neurons much higher than immure cells. In our analysis, CDTS shows high overlapping with exons, introns and promoters. Almost 50% of CDTS at 1 percentile overlap with introns, which is much higher than 20% value in paper. The sum of the proportions for exons, promoters and introns exceeds one, which also shows the results need further examination.</p>
+<table>
+<caption>Table 3-Breakdown of CDTS and OCR overlaps by genomic segments</caption>
+<thead>
+<tr class="header">
+<th align="left"></th>
+<th align="left">cds</th>
+<th align="left">exon</th>
+<th align="left">gene</th>
+<th align="left">intergenic</th>
+<th align="left">introns</th>
+<th align="left">UTR</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">CDTS5%_iN-Glut</td>
+<td align="left">7.3%</td>
+<td align="left">30.9%</td>
+<td align="left">76.3%</td>
+<td align="left">23.7%</td>
+<td align="left">68.2%</td>
+<td align="left">16.5%</td>
+</tr>
+<tr class="even">
+<td align="left">CDTS5%_iPSC</td>
+<td align="left">7.4%</td>
+<td align="left">26.4%</td>
+<td align="left">75%</td>
+<td align="left">25%</td>
+<td align="left">66.8%</td>
+<td align="left">12.7%</td>
+</tr>
+<tr class="odd">
+<td align="left">CDTS5%_B-cell</td>
+<td align="left">7.5%</td>
+<td align="left">36.1%</td>
+<td align="left">74.1%</td>
+<td align="left">25.9%</td>
+<td align="left">65.7%</td>
+<td align="left">20.6%</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Summary-table1</strong>:<br />
+1. Consistently, the overlap of CDTS with open chromain regions in neurons are 5-10 fold fold higher than immune cells. 2. As comparison, CDTS at the end of 50% quantile shows much lower percentage of overlaps with OCRs.</p>
+<p><strong>Summary-table2</strong><br />
+1. Overall, CDTS top percentile bins are mainly located in intron regions, which is consistent with the results in the paper. 2. Around 20% of CDTS bins overlap with exons or intergenic regions. 3. We may look into other annotations such as promoter and enhancers.</p>
+<p><strong>Summary-table3</strong><br />
+1. The compositions of the CDTS-OCR overlaps in terms of genomic regions are quite consistent across cell types. 2. Generally, there are twice amount of CDTS-OCR overlaps resided in introns than in exons.</p>
 <p><strong>Enrichment analysis for sequence constraints</strong><br />
 <em>QCs for brain OCR ATAC-seq peaks</em><br />
 There are very few peaks with size larger than 5kb across different brain ATAC-Seq profiles. The removal of large peaks did not improve the enrichment results.</p>
@@ -1203,7 +1271,45 @@ There are very few peaks with size larger than 5kb across different brain ATAC-S
 </tr>
 </tbody>
 </table>
-<p><img src="figure/results.Rmd/unnamed-chunk-6-1.png" width="672" style="display: block; margin: auto;" /> The enrichment estimate has a confience level above zero for CDTS and positive controls. This shows SNPs associated with SCZ are on average ~ 9 fold enriched in genomic bins with up to 5 percentile of CDTS.</p>
+<p><img src="figure/results.Rmd/unnamed-chunk-6-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-6-1">
+Past versions of unnamed-chunk-6-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-6-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/j3gu/funcFinemapping/blob/1742eb8f3ebeeb00029d57da5ff952838d0e0695/docs/figure/results.Rmd/unnamed-chunk-6-1.png" target="_blank">1742eb8</a>
+</td>
+<td>
+Jing Gu
+</td>
+<td>
+2021-05-04
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>The enrichment estimate has a confience level above zero for CDTS and positive controls. This shows SNPs associated with SCZ are on average ~ 9 fold enriched in genomic bins with up to 5 percentile of CDTS.</p>
 <p><strong>Compare with other conservation annotations</strong></p>
 <ul>
 <li>LINSIGHT
@@ -1240,7 +1346,45 @@ top10%_GERP            0.12              NA       1.000</code></pre>
 <li><p>Only 1% of bases from top 10% CDTS bins have LINSIGHT scores above 10%, probably due to many missing predictions in LINSIGHT.</p></li>
 </ol>
 <p>The correlation table shows the pair-wise correlations between ranks for the conservation scores on GWAS SNPs across all the annotations. CDTS seems to be uncorrelated to other conservation scores. CADD has a moderate correlation separately with LINSIGHT and GERP. A low correlation observed between GERP and LINSIGHT.</p>
-<p><strong>joint TORUS enrichment analysis over conservation-related annotations</strong> <img src="figure/results.Rmd/unnamed-chunk-11-1.png" width="672" style="display: block; margin: auto;" /> With other conservation annotations as predictors in the model, we can see CDTS within top 5 percentile still shows around 8 fold enrichment.</p>
+<p><strong>joint TORUS enrichment analysis over conservation-related annotations</strong> <img src="figure/results.Rmd/unnamed-chunk-11-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-11-1">
+Past versions of unnamed-chunk-11-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-11-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/j3gu/funcFinemapping/blob/1742eb8f3ebeeb00029d57da5ff952838d0e0695/docs/figure/results.Rmd/unnamed-chunk-11-1.png" target="_blank">1742eb8</a>
+</td>
+<td>
+Jing Gu
+</td>
+<td>
+2021-05-04
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>With other conservation annotations as predictors in the model, we can see CDTS within top 5 percentile still shows around 8 fold enrichment.</p>
 </div>
 <div id="dna-methylation" class="section level3">
 <h3>DNA methylation</h3>
@@ -1253,7 +1397,47 @@ top10%_GERP            0.12              NA       1.000</code></pre>
 <li>check the distribution of peak lengths<br />
 <img src="assets/human_CG_DMR_peak_length.png" alt="Histogram for the sizes of DNA methylation regions" /></li>
 </ol>
-<p><strong>TORUS enrichment results</strong> <img src="figure/results.Rmd/unnamed-chunk-13-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><strong>TORUS marginal enrichment results</strong> <img src="figure/results.Rmd/unnamed-chunk-13-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-13-1">
+Past versions of unnamed-chunk-13-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-13-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/j3gu/funcFinemapping/blob/1742eb8f3ebeeb00029d57da5ff952838d0e0695/docs/figure/results.Rmd/unnamed-chunk-13-1.png" target="_blank">1742eb8</a>
+</td>
+<td>
+Jing Gu
+</td>
+<td>
+2021-05-04
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p><strong>TORUS joint enrichment results</strong> <img src="figure/results.Rmd/unnamed-chunk-14-1.png" width="672" style="display: block; margin: auto;" /> ### Joint enrichment analyses on lipid or immune related traits <strong>Joint enrichment results</strong> <img src="figure/results.Rmd/unnamed-chunk-15-1.png" width="672" style="display: block; margin: auto;" /><img src="figure/results.Rmd/unnamed-chunk-15-2.png" width="672" style="display: block; margin: auto;" /><img src="figure/results.Rmd/unnamed-chunk-15-3.png" width="672" style="display: block; margin: auto;" /></p>
+<pre><code>[1] &quot;Schizophrenia&quot;</code></pre>
+<p><img src="figure/results.Rmd/unnamed-chunk-15-4.png" width="672" style="display: block; margin: auto;" /></p>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
@@ -1281,22 +1465,28 @@ attached base packages:
 [1] stats     graphics  grDevices utils     datasets  methods   base     
 
 other attached packages:
-[1] ggplot2_3.3.3     knitr_1.31        data.table_1.14.0 workflowr_1.6.2  
+[1] ggpubr_0.4.0      ggplot2_3.3.3     knitr_1.31        data.table_1.14.0
+[5] workflowr_1.6.2  
 
 loaded via a namespace (and not attached):
- [1] Rcpp_1.0.6        pillar_1.5.0      compiler_4.0.4    bslib_0.2.4      
- [5] later_1.1.0.1     jquerylib_0.1.3   git2r_0.28.0      highr_0.8        
- [9] tools_4.0.4       digest_0.6.27     gtable_0.3.0      jsonlite_1.7.2   
-[13] evaluate_0.14     lifecycle_1.0.0   tibble_3.0.6      pkgconfig_2.0.3  
-[17] rlang_0.4.10      DBI_1.1.1         yaml_2.2.1        xfun_0.21        
-[21] withr_2.4.1       dplyr_1.0.4       stringr_1.4.0     generics_0.1.0   
-[25] fs_1.5.0          vctrs_0.3.6       sass_0.3.1        tidyselect_1.1.0 
-[29] rprojroot_2.0.2   grid_4.0.4        glue_1.4.2        R6_2.5.0         
-[33] fansi_0.4.2       rmarkdown_2.7     farver_2.0.3      purrr_0.3.4      
-[37] magrittr_2.0.1    whisker_0.4       scales_1.1.1      promises_1.2.0.1 
-[41] ellipsis_0.3.1    htmltools_0.5.1.1 assertthat_0.2.1  colorspace_2.0-0 
-[45] httpuv_1.5.5      labeling_0.4.2    utf8_1.1.4        stringi_1.5.3    
-[49] munsell_0.5.0     crayon_1.4.1     </code></pre>
+ [1] tidyselect_1.1.0  xfun_0.21         bslib_0.2.4       purrr_0.3.4      
+ [5] haven_2.3.1       carData_3.0-4     colorspace_2.0-0  vctrs_0.3.6      
+ [9] generics_0.1.0    htmltools_0.5.1.1 yaml_2.2.1        utf8_1.1.4       
+[13] rlang_0.4.10      jquerylib_0.1.3   later_1.1.0.1     pillar_1.5.0     
+[17] foreign_0.8-81    glue_1.4.2        withr_2.4.1       DBI_1.1.1        
+[21] readxl_1.3.1      lifecycle_1.0.0   stringr_1.4.0     cellranger_1.1.0 
+[25] munsell_0.5.0     ggsignif_0.6.1    gtable_0.3.0      zip_2.1.1        
+[29] evaluate_0.14     forcats_0.5.1     rio_0.5.16        labeling_0.4.2   
+[33] httpuv_1.5.5      curl_4.3          fansi_0.4.2       highr_0.8        
+[37] broom_0.7.5       Rcpp_1.0.6        promises_1.2.0.1  scales_1.1.1     
+[41] backports_1.2.1   jsonlite_1.7.2    abind_1.4-5       farver_2.0.3     
+[45] fs_1.5.0          hms_1.0.0         digest_0.6.27     openxlsx_4.2.3   
+[49] stringi_1.5.3     rstatix_0.7.0     dplyr_1.0.4       cowplot_1.1.1    
+[53] grid_4.0.4        rprojroot_2.0.2   tools_4.0.4       magrittr_2.0.1   
+[57] sass_0.3.1        tibble_3.0.6      car_3.0-10        crayon_1.4.1     
+[61] whisker_0.4       tidyr_1.1.2       pkgconfig_2.0.3   ellipsis_0.3.1   
+[65] assertthat_0.2.1  rmarkdown_2.7     R6_2.5.0          git2r_0.28.0     
+[69] compiler_4.0.4   </code></pre>
 </div>
 </div>
 </div>
