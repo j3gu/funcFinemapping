@@ -356,9 +356,11 @@ ggplot(df[-1,], aes(y=reorder(term, estimate), x=log2(exp(estimate)))) +
        geom_vline(xintercept=0, linetype="dashed", color="grey")
 
 ```
+
 ### Joint enrichment analyses on lipid or immune related traits 
+
 **Joint enrichment results**
-```{r echo=F}
+```{r echo=F, fig.width=8, fig.height=6}
 library(ggplot2)
 library(ggpubr)
 outDIR<-"/home/jinggu/cluster/projects/finemap_pipeline/torus_output"
