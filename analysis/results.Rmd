@@ -357,7 +357,7 @@ ggplot(df[-1,], aes(y=reorder(term, estimate), x=log2(exp(estimate)))) +
 
 ```
 
-### Joint enrichment analyses on lipid or immune related traits 
+## Joint enrichment analyses across traits
 
 **Joint enrichment results**
 ```{r echo=F, fig.width=8, fig.height=6}
