@@ -1,0 +1,3 @@
+cds exon gene intergenic introns UTR
+CDTS_1% 16.6% 38.2% 79.6% 19.7% 61.8% 15.7%
+CDTS_5% 7.7% 18.4% 75.7% 23.7% 67.4% 7.3%
