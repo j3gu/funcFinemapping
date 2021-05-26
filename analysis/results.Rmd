@@ -98,21 +98,21 @@ I used `bedtools intersect -a in.bed -b *.regions.bed -wa -wb -f 1` to obtain CD
 ```{r echo=F}
 kable(read.table("output/constrained_and_genomic_segment.txt", header = T),
 caption="Table 2-Summary of overlapping between CDTS and genomic segment annotations")
-counts_1per=2056917
-counts_5per=10582523
-counts_50per=2398981
-
-# f<-fread("~/resources/genomes/CDTS_1per_genome_overlaps_full.bed")
+# counts_1per=2056917
+# counts_5per=10582523
+# #counts_50per=2398981
+# 
+# f<-fread("~/resources/genomes/CDTS_1per_genome_overlaps_all.bed")
 # out1<-unlist(lapply(split(f, f$V5), function(i){length(unique(i$V1))/counts_1per}))
 # 
-# f<-fread("~/resources/genomes/CDTS_5per_genome_overlaps_full.bed")
+# f<-fread("~/resources/genomes/CDTS_5per_genome_overlaps_all.bed")
 # out2<-unlist(lapply(split(f, f$V5), function(i){length(unique(i$V1))/counts_5per}))
 # tbl<-data.frame(rbind(out1, out2))
 # tbl<-matrix(paste0(unlist(round(tbl*100,1)), "%"), nrow=2)
 # rownames(tbl)<-c("CDTS_1%", "CDTS_5%")
 # colnames(tbl)<-names(out1)
 # write.table(tbl, "output/constrained_and_genomic_segment.txt", quote = F)
-# 
+
 # 
 # for(i in c("iNGlut", "iPSC", "b_cell")){
 #   f<-fread(sprintf("~/resources/genomes/CDTS_5per_%s_genome_overlaps.bed",i))
@@ -148,6 +148,10 @@ There are very few peaks with size larger than 5kb across different brain ATAC-S
 
 kable(read.table("output/OCR_peaks_summary_stats.txt", header = T),
       caption="ATAC-seq peaks summary statistics")
+
+# out<-unlist(lapply(unique(f$V5), function(i){length(unique(f[f$V5==i,]$V1))/sum(f$V5==i)}))
+# out<-paste0(round(out*100,1), "%")
+# names(out)<-unique(f$V5)
 
 # fileDIR="/home/jinggu/cluster/data/features/formatted/asoc_science2020"
 # annot_list<-read.table(sprintf("%s/annotation_list.txt", fileDIR))
@@ -363,37 +367,118 @@ ggplot(df[-1,], aes(y=reorder(term, estimate), x=log2(exp(estimate)))) +
 ```{r echo=F, fig.width=8, fig.height=6}
 library(ggplot2)
 library(ggpubr)
+
 outDIR<-"/home/jinggu/cluster/projects/finemap_pipeline/torus_output"
-neg_controls<-c("bmi", "height", "ibd_IBD", "ibd_UC", "HDL", "LDL")
+neg_controls<-c("bmi", "height", "ibd_IBD", "ibd_UC", "ibd_CD", "HDL", "LDL")
 test<-"scz_2018"
-plot_enrichment_est<-function(trait){
-  df<-read.table(paste(outDIR, sprintf("%s/joint_CDTS_noncoding/torus_joint_enrichment.est", trait),sep="/"), header = T)
-  p<-ggplot(df[-1,], aes(y=reorder(term, estimate), x=log2(exp(estimate)))) +
-       geom_errorbar(aes(xmax=log2(exp(high)), xmin=log2(exp(low))),width=0.2)+
-       geom_point(size=1.5) + xlab("SCZ variant enrichment(log2)") + 
-       theme_bw() + ylab("")  + #xlim(c(xmin, xmax))+
-       geom_vline(xintercept=0, linetype="dashed", color="grey")
-  return(p)
+
+outputList<-list()
+for(i in c(neg_controls, test)){
+  outputList[[i]]<-read.table(paste(outDIR, sprintf("%s/joint_refined/torus_joint_enrichment.est", i),sep="/"), header = T)
+  outputList[[i]]<-outputList[[i]][-1,]
+  outputList[[i]]$term<-unlist(lapply(outputList[[i]]$term, function(i){strsplit(i, "[.]")[[1]][1]}))
+  outputList[[i]]<-cbind(rep(i, dim(outputList[[i]])[1]), outputList[[i]])
+}
+outputDF<-data.frame(do.call(rbind, outputList), row.names = NULL)
+colnames(outputDF)[1]<-"trait"
+
+### This function will generate a plot listing the panels of enrichment estimates from multiple traits. 
+ref <- outputDF[outputDF$trait=="scz_2018",]
+ref_order<-reorder(ref$term, ref$estimate)
+outputDF$term<-factor(outputDF$term, levels(ref_order))
+plot_enrichment<-function(traits, log_based){
+  if(log_based==T){
+    ggplot(outputDF[outputDF$trait %in% traits,],
+         aes(y=term, x=log2(exp(estimate)))) +
+    geom_errorbar(aes(xmax=log2(exp(high)), xmin=log2(exp(low))),width=0.1) +   
+    geom_point(size=2) + xlab("variant enrichment(log2)") +
+    theme_bw() + ylab("") +
+    geom_vline(xintercept=0, linetype="dashed", color="grey") + facet_grid(.~ trait)
+  }else{
+    ggplot(outputDF[outputDF$trait %in% traits & outputDF$estimate>0,],
+         aes(y=term, x=log2(estimate))) +
+    geom_errorbar(aes(xmax=log2(high), xmin=log2(low)),width=0.1) +   
+    geom_point(size=2) + xlab("variant enrichment(log2)") +
+    theme_bw() + ylab("") +
+    geom_vline(xintercept=0, linetype="dashed", color="grey") + facet_grid(.~ trait)
+  }
 }
 
-for(i in c("bmi", "height")){
-  #df<-read.table(paste(outDIR, sprintf("%s/joint/torus_joint_enrichment.est", i),sep="/"), header = T)
-  assign(i, plot_enrichment_est(i))
-}
-ggarrange(bmi, height, labels=c("bmi", "height"))
-for(i in c("ibd_IBD","ibd_UC", "ibd_CD")){
-  #df<-read.table(paste(outDIR, sprintf("%s/joint/torus_joint_enrichment.est", i),sep="/"), header = T)
-  assign(i, plot_enrichment_est(i))
-}
-ggarrange(ibd_UC, ibd_CD, labels=c("ibd_UC", "ibd_CD"), ncol=2)
-
-for(i in c("LDL","HDL")){
-  #df<-read.table(paste(outDIR, sprintf("%s/joint/torus_joint_enrichment.est", i),sep="/"), header = T)
-  assign(i, plot_enrichment_est(i))
-}
-ggarrange(LDL, HDL, labels=c("LDL", "HDL"))
-assign("scz_2018", plot_enrichment_est("scz_2018"))
-print("Schizophrenia")
-scz_2018
+plot_enrichment(c("scz_2018", "HDL", "LDL"), log_based = T)
+#ggsave("~/projects/funcFinemapping/output/scz_lipid_joint_enrichment.png", width = 10, height=6)
+plot_enrichment(c("scz_2018", "bmi", "height"), log_based = T)
+#ggsave("~/projects/funcFinemapping/output/scz_bmi_joint_enrichment.png", width = 8, height=6)
+plot_enrichment(c("scz_2018", "ibd_IBD", "ibd_UC", "ibd_CD"), log_based = T)
+#ggsave("~/projects/funcFinemapping/output/scz_immune_joint_enrichment.png", width = 8, height=6)
 ```
+## Stratified-LSDC results  
+### **Procedures**   
+1. Built the annotation sets by combining our own refined annotations with the baseline_LD annotations from S-LDSC.
+2. Computed LD scores for this customized annotation set
+3. Run S-LDSC using the ldsc.py code from the PolyFun. 
+4. The functional enrichment estimates were based on all SNPs, instead of only commmon SNPs. 
+5. Efficient sample size needs to be considered. (TO DO)
+
+### **Schizophrenia** 
+```{r echo=F}
+outDIR<-"/home/jinggu/cluster/projects/finemap_pipeline/s_ldsc/output"
+df<-read.table(paste(outDIR, "enrichment_scz_2018.results", sep="/"), header = T)
+df[,"high"]<-df$Enrichment+2*df$Enrichment_std_error
+df[,"low"]<-df$Enrichment-2*df$Enrichment_std_error
+ucsc<-df[grepl("ucsc_", tolower(df$Category)),]
+encode<-df[grepl("promoter_ucsc_0", tolower(df$Category)),]
+peaks<-df[grepl("peaks", tolower(df$Category)),]
+kb<-df[grepl("10kb", tolower(df$Category)),]
+tbl<-rbind(df[1:6,], ucsc, encode, peaks, kb)
+ggplot(tbl[tbl$low >0,], aes(y=reorder(Category, Enrichment), x=log2(Enrichment))) + 
+       geom_errorbar(aes(xmax=log2(high), xmin=log2(low)),width=0.2) + 
+       geom_point(size=1.5) + xlab("SCZ variant enrichment(log2)") + theme_bw() + 
+       ylab("") + geom_vline(xintercept=0, linetype="dashed", color="grey")
+
+
+```
+By performing S-LDSC analysis, we see DNA methylation and CDTS annotations shows 6-8 fold enrichment with SCZ variants conditional on all other annotations. 
+
+### **Across traits** 
+```{r echo=F}
+neg_controls<-c("bmi", "height", "ibd_IBD", "ibd_UC", "ibd_CD", "HDL", "LDL")
+test<-"scz_2018"
+outputList<-list()
+for(i in c(neg_controls, test)){
+  df<-read.table(paste(outDIR, sprintf("enrichment_%s.results", i),sep="/"), header = T)
+  df[,"high"]<-df$Enrichment+2*df$Enrichment_std_error
+  df[,"low"]<-df$Enrichment-2*df$Enrichment_std_error
+  outputList[[i]]<-df[1:6,]
+  outputList[[i]]<-cbind(rep(i, dim(outputList[[i]])[1]), outputList[[i]])
+}
+outputDF<-data.frame(do.call(rbind, outputList), row.names = NULL)
+colnames(outputDF)[c(1, 2, 6)]<-c("trait", "term", "estimate")
+```
+**Notes**
+
+* Annotations with no estimates mean they have negative values.
+* If the lower end of 95% confidence interval of an estimate is negative, it will be assigned as 0.05 (-4.3 as log2 based).
+```{r echo=F, fig.width=8, fig.height=6}
+outputDF[outputDF$low<0,]$low <- 0.05
+ref <- outputDF[outputDF$trait=="scz_2018",]
+ref_order<-reorder(ref$term, ref$estimate)
+outputDF$term<-factor(outputDF$term, levels(ref_order))
+
+plot_enrichment(c("scz_2018", "HDL", "LDL"), log_based = F)
+plot_enrichment(c("scz_2018", "bmi", "height"), log_based = F)
+plot_enrichment(c("scz_2018", "ibd_IBD", "ibd_UC", "ibd_CD"), log_based = F)
+```
+Overall, we see Torus and S-LDSC generates similar enrichment estimates, except for ibd_UC trait. There seems to be some discrepancy in the estimates, which needs a closer look. We so see the performance of annotations varies across traits. 
+
+* CDTS at top 5% bins that locate in non-coding regions can better distinguish SCZ from lipid-related trait, but no from bmi, height or immune related traits.
+* Human CpG methylations can distinguish SCZ from both immune related traits and lipid-related traits.
+* M6A can better distinguish SCZ from immune related traits.
+* SCZ variants are not enriched in protein coding regions, while variants associated with all other traits are enriched in protein coding regions. 
+
+
+
+
+
+
+
 
