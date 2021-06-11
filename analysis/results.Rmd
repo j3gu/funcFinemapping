@@ -43,6 +43,10 @@ After filtering, there are around 6 million variants remained.
     * context-dependent tolerance scores(CDTS) in percentiles
     * A score was computed for each 10bp bin in the genome. 
     * The lower the score is, the more intolerant to variation is the bin.
+2. Prediction of 3D genome folding from DNA sequences:    
+    * deep learning approach - train Hi-C/Micro C and 1D DNA sequences and then predict on any DNA sequence
+    * an example shown for rs339331
+[!comparison in contact maps surrounding rs339331 between ref and alt alleles](assets/contact_maps_rs33933.png)
 
 ### Procedures
 1. GWAS summary statistics was pre-processed to remove sex chromosomes, indels, ambiguous and duplicated SNPs. 
@@ -129,16 +133,16 @@ kable(read.table("output/CDTS_OCR_overlaps_and_genomic_segment.txt", header = T)
 caption="Table 3-Breakdown of CDTS and OCR overlaps by genomic segments")
 ```
 **Summary-table1**:   
-1. Consistently, the overlap of CDTS with open chromain regions in neurons are 5-10 fold fold higher than immune cells. 
+1. Consistently, the overlap of CDTS with open chromain regions in neurons are 5-10 fold fold higher than immune cells.    
 2. As comparison, CDTS at the end of 50% quantile shows much lower percentage of overlaps with OCRs. 
 
-**Summary-table2**  
-1. Overall, CDTS top percentile bins are mainly located in intron regions, which is consistent with the results in the paper. 
-2. Around 20% of CDTS bins overlap with exons or intergenic regions. 
-3. We may look into other annotations such as promoter and enhancers.
+**Summary-table2**      
+1. Overall, CDTS top percentile bins are mainly located in intron regions, which is consistent with the results in the paper.     
+2. Around 20% of CDTS bins overlap with exons or intergenic regions.    
+3. We may look into other annotations such as promoter and enhancers.      
 
-**Summary-table3**  
-1. The compositions of the CDTS-OCR overlaps in terms of genomic regions are quite consistent across cell types. 
+**Summary-table3**    
+1. The compositions of the CDTS-OCR overlaps in terms of genomic regions are quite consistent across cell types.    
 2. Generally, there are twice amount of CDTS-OCR overlaps resided in introns than in exons. 
 
 **Enrichment analysis for sequence constraints**    
@@ -316,7 +320,7 @@ ggplot(df[-1,], aes(y=term, x=log2(exp(estimate)))) +
 ```
 With other conservation annotations as predictors in the model, we can see CDTS within top 5 percentile still shows around 8 fold enrichment. 
 
-### DNA methylation
+### Examine DNA methylation
 
 **procedure**  
 
@@ -346,6 +350,19 @@ ggplot(df, aes(y=reorder(term, estimate), x=log2(exp(estimate)))) +
        scale_y_discrete(labels=c("iPSC", "iN_Glut", "NPC", "iN_Dopa", "iN_GABA", 
                                  "CG_DMRs","large CG_DMRs", "CDTS_5%","CDTS_1%"))  
 ```
+Enrichment of m6A regions from different tissues in GWAS of SCZ
+* marginal enrichment estimates
+```{r echo=F}
+df<-read.table("data/torus_enrichment_m6A.est", header = F)
+colnames(df)<-c("term", "estimate", "low", "high")
+library(ggplot2)
+ggplot(df, aes(y=reorder(term, estimate), x=log2(exp(estimate)))) +
+       geom_errorbar(aes(xmax=log2(exp(high)), xmin=log2(exp(low))),width=0.2)+
+       geom_point(size=1.5) + xlab("SCZ variant enrichment(log2)") + 
+       theme_bw() + ylab("") + 
+       scale_y_discrete(labels=c("m6A_Brain", "m6A_Muscle", "m6A_Kidney", "m6A_Placenta", "m6A_Heart", "m6A_Stomach", "m6A_Lung", "m6A_Liver"))  
+
+```
 
 **TORUS joint enrichment results**
 ```{r echo=F}
@@ -361,9 +378,17 @@ ggplot(df[-1,], aes(y=reorder(term, estimate), x=log2(exp(estimate)))) +
 
 ```
 
+
 ## Joint enrichment analyses across traits
 
 **Joint enrichment results**
+m6A features were previously found to be cell type specific. The best tissue for each trait was selected based on Christine's enrichment analyses using S-LDSC.
+BMI - liver
+Height - lung
+HDL - liver
+LDL - liver
+SCZ - brain
+IBD - stomach
 ```{r echo=F, fig.width=8, fig.height=6}
 library(ggplot2)
 library(ggpubr)
@@ -374,7 +399,7 @@ test<-"scz_2018"
 
 outputList<-list()
 for(i in c(neg_controls, test)){
-  outputList[[i]]<-read.table(paste(outDIR, sprintf("%s/joint_refined/torus_joint_enrichment.est", i),sep="/"), header = T)
+  outputList[[i]]<-read.table(paste(outDIR, sprintf("%s/joint_0610/torus_joint_enrichment.est", i),sep="/"), header = T)
   outputList[[i]]<-outputList[[i]][-1,]
   outputList[[i]]$term<-unlist(lapply(outputList[[i]]$term, function(i){strsplit(i, "[.]")[[1]][1]}))
   outputList[[i]]<-cbind(rep(i, dim(outputList[[i]])[1]), outputList[[i]])
@@ -408,7 +433,7 @@ plot_enrichment(c("scz_2018", "HDL", "LDL"), log_based = T)
 #ggsave("~/projects/funcFinemapping/output/scz_lipid_joint_enrichment.png", width = 10, height=6)
 plot_enrichment(c("scz_2018", "bmi", "height"), log_based = T)
 #ggsave("~/projects/funcFinemapping/output/scz_bmi_joint_enrichment.png", width = 8, height=6)
-plot_enrichment(c("scz_2018", "ibd_IBD", "ibd_UC", "ibd_CD"), log_based = T)
+plot_enrichment(c("scz_2018", "ibd_IBD", "ibd_UC", "ibd_CD"), log_based = T) 
 #ggsave("~/projects/funcFinemapping/output/scz_immune_joint_enrichment.png", width = 8, height=6)
 ```
 ## Stratified-LSDC results  
@@ -422,18 +447,21 @@ plot_enrichment(c("scz_2018", "ibd_IBD", "ibd_UC", "ibd_CD"), log_based = T)
 ### **Schizophrenia** 
 ```{r echo=F}
 outDIR<-"/home/jinggu/cluster/projects/finemap_pipeline/s_ldsc/output"
-df<-read.table(paste(outDIR, "enrichment_scz_2018.results", sep="/"), header = T)
+df<-read.table(paste(outDIR, "enrichment_scz_2018_v2.results", sep="/"), header = T)
 df[,"high"]<-df$Enrichment+2*df$Enrichment_std_error
 df[,"low"]<-df$Enrichment-2*df$Enrichment_std_error
-ucsc<-df[grepl("ucsc_", tolower(df$Category)),]
-encode<-df[grepl("promoter_ucsc_0", tolower(df$Category)),]
-peaks<-df[grepl("peaks", tolower(df$Category)),]
-kb<-df[grepl("10kb", tolower(df$Category)),]
-tbl<-rbind(df[1:6,], ucsc, encode, peaks, kb)
-ggplot(tbl[tbl$low >0,], aes(y=reorder(Category, Enrichment), x=log2(Enrichment))) + 
-       geom_errorbar(aes(xmax=log2(high), xmin=log2(low)),width=0.2) + 
-       geom_point(size=1.5) + xlab("SCZ variant enrichment(log2)") + theme_bw() + 
-       ylab("") + geom_vline(xintercept=0, linetype="dashed", color="grey")
+df[]
+#ucsc<-df[grepl("ucsc_", tolower(df$Category)),]
+#encode<-df[grepl("promoter_ucsc_0", tolower(df$Category)),]
+#peaks<-df[grepl("peaks", tolower(df$Category)),]
+#kb<-df[grepl("10kb", tolower(df$Category)),]
+#tbl<-rbind(df[1:6,], ucsc, encode, peaks, kb)
+tbl<-df[df$Category %in% c("CDS_0", "PromoterFlanking_Hoffman.flanking.500_0", "CADD_0", "iPSC_0", "human_CG_DMRs_0"),]
+ggplot(tbl, aes(y=reorder(Category, Enrichment), x=Enrichment)) + 
+       geom_errorbar(aes(xmax=high, xmin=low),width=0.2) + 
+       geom_point(size=1.5) + xlab("SCZ variant enrichment") + theme_bw() + 
+       scale_y_discrete(labels=c("Promoter", "iN-OCR", "CDS", "CADD", "Brain-DMR")) +
+       ylab("") + geom_vline(xintercept=1, linetype="dashed", color="grey")
 
 
 ```
@@ -442,7 +470,7 @@ By performing S-LDSC analysis, we see DNA methylation and CDTS annotations shows
 ### **Across traits** 
 ```{r echo=F}
 neg_controls<-c("bmi", "height", "ibd_IBD", "ibd_UC", "ibd_CD", "HDL", "LDL")
-test<-"scz_2018"
+test<-"scz_2018_pop"
 outputList<-list()
 for(i in c(neg_controls, test)){
   df<-read.table(paste(outDIR, sprintf("enrichment_%s.results", i),sep="/"), header = T)
@@ -460,13 +488,13 @@ colnames(outputDF)[c(1, 2, 6)]<-c("trait", "term", "estimate")
 * If the lower end of 95% confidence interval of an estimate is negative, it will be assigned as 0.05 (-4.3 as log2 based).
 ```{r echo=F, fig.width=8, fig.height=6}
 outputDF[outputDF$low<0,]$low <- 0.05
-ref <- outputDF[outputDF$trait=="scz_2018",]
+ref <- outputDF[outputDF$trait=="scz_2018_pop",]
 ref_order<-reorder(ref$term, ref$estimate)
 outputDF$term<-factor(outputDF$term, levels(ref_order))
 
-plot_enrichment(c("scz_2018", "HDL", "LDL"), log_based = F)
-plot_enrichment(c("scz_2018", "bmi", "height"), log_based = F)
-plot_enrichment(c("scz_2018", "ibd_IBD", "ibd_UC", "ibd_CD"), log_based = F)
+plot_enrichment(c("scz_2018_pop", "HDL", "LDL"), log_based = F)
+plot_enrichment(c("scz_2018_pop", "bmi", "height"), log_based = F)
+plot_enrichment(c("scz_2018_pop", "ibd_IBD", "ibd_UC", "ibd_CD"), log_based = F)
 ```
 Overall, we see Torus and S-LDSC generates similar enrichment estimates, except for ibd_UC trait. There seems to be some discrepancy in the estimates, which needs a closer look. We so see the performance of annotations varies across traits. 
 
@@ -474,6 +502,11 @@ Overall, we see Torus and S-LDSC generates similar enrichment estimates, except 
 * Human CpG methylations can distinguish SCZ from both immune related traits and lipid-related traits.
 * M6A can better distinguish SCZ from immune related traits.
 * SCZ variants are not enriched in protein coding regions, while variants associated with all other traits are enriched in protein coding regions. 
+
+
+```{r}
+snps<-fread("~/cluster/projects/finemap_pipeline/torus_output/scz_2018/joint_refined/snp_info.txt.gz")
+```
 
 
 
