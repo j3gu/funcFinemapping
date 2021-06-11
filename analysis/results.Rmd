@@ -391,11 +391,11 @@ m6A features were previously found to be cell type specific. The best tissue for
 * LDL - liver
 * SCZ - brain
 * IBD - stomach
-```{r echo=F, fig.width=8, fig.height=6}
+```{r echo=F, fig.width=10, fig.height=6}
 library(ggplot2)
 
 outDIR<-"/home/jinggu/cluster/projects/finemap_pipeline/torus_output"
-neg_controls<-c("bmi", "height", "ibd_IBD", "ibd_UC", "ibd_CD", "HDL", "LDL")
+neg_controls<-c("bmi", "height", "ibd_UC", "ibd_CD", "HDL", "LDL")
 test<-"scz_2018"
 
 outputList<-list()
@@ -434,7 +434,7 @@ plot_enrichment(c("scz_2018", "HDL", "LDL"), log_based = T)
 #ggsave("~/projects/funcFinemapping/output/scz_lipid_joint_enrichment.png", width = 10, height=6)
 plot_enrichment(c("scz_2018", "bmi", "height"), log_based = T)
 #ggsave("~/projects/funcFinemapping/output/scz_bmi_joint_enrichment.png", width = 8, height=6)
-plot_enrichment(c("scz_2018", "ibd_IBD", "ibd_UC", "ibd_CD"), log_based = T) + xlim(c(-6,6))
+plot_enrichment(c("scz_2018", "ibd_IBD", "ibd_UC", "ibd_CD"), log_based = T) + xlim(c(-7,7))
 #ggsave("~/projects/funcFinemapping/output/scz_immune_joint_enrichment.png", width = 8, height=6)
 ```
 ## Stratified-LSDC results    
@@ -454,16 +454,18 @@ outDIR<-"/home/jinggu/cluster/projects/finemap_pipeline/s_ldsc/output"
 df<-read.table(paste(outDIR, "enrichment_scz_2018_v2.results", sep="/"), header = T)
 df[,"high"]<-df$Enrichment+2*df$Enrichment_std_error
 df[,"low"]<-df$Enrichment-2*df$Enrichment_std_error
+df$Category<-unlist(lapply(df$Category, function(i){strsplit(i, "_0")[[1]][1]}))
+df$Category[3]<-"iPSC_derived"
 #ucsc<-df[grepl("ucsc_", tolower(df$Category)),]
 #encode<-df[grepl("promoter_ucsc_0", tolower(df$Category)),]
 #peaks<-df[grepl("peaks", tolower(df$Category)),]
 #kb<-df[grepl("10kb", tolower(df$Category)),]
 #tbl<-rbind(df[1:6,], ucsc, encode, peaks, kb)
-tbl<-df[df$Category %in% c("CDS_0", "PromoterFlanking_Hoffman.flanking.500_0", "CADD_0", "iPSC_0", "human_CG_DMRs_0"),]
+tbl<-df[df$Category %in% c("CDS", "PromoterFlanking_Hoffman.flanking.500", "CADD", "iPSC_derived", "human_CG_DMRs"),]
 ggplot(tbl, aes(y=reorder(Category, Enrichment), x=Enrichment)) + 
        geom_errorbar(aes(xmax=high, xmin=low),width=0.2) + 
        geom_point(size=1.5) + xlab("SCZ variant enrichment") + theme_bw() + 
-       scale_y_discrete(labels=c("Promoter", "iN-OCR", "CDS", "CADD", "Brain-DMR")) +
+       scale_y_discrete(labels=c("Promoter", "iPSC_derived", "CDS", "CADD", "Brain-DMR")) +
        ylab("") + geom_vline(xintercept=1, linetype="dashed", color="grey")
 
 
@@ -479,7 +481,9 @@ for(i in c(neg_controls, test)){
   df<-read.table(paste(outDIR, sprintf("enrichment_%s.results", i),sep="/"), header = T)
   df[,"high"]<-df$Enrichment+2*df$Enrichment_std_error
   df[,"low"]<-df$Enrichment-2*df$Enrichment_std_error
-  outputList[[i]]<-df[1:6,]
+  df$Category<-unlist(lapply(df$Category, function(i){strsplit(i, "_0")[[1]][1]}))
+  df$Category[4]<-"iPSC_derived"
+  outputList[[i]]<-df[1:5,]
   outputList[[i]]<-cbind(rep(i, dim(outputList[[i]])[1]), outputList[[i]])
 }
 outputDF<-data.frame(do.call(rbind, outputList), row.names = NULL)
@@ -495,7 +499,7 @@ ref <- outputDF[outputDF$trait=="scz_2018_pop",]
 ref_order<-reorder(ref$term, ref$estimate)
 outputDF$term<-factor(outputDF$term, levels(ref_order))
 
-plot_enrichment(c("scz_2018_pop", "HDL", "LDL"), log_based = F)
+plot_enrichment(c("scz_2018_pop", "HDL", "LDL"), log_based = F) 
 plot_enrichment(c("scz_2018_pop", "bmi", "height"), log_based = F)
 plot_enrichment(c("scz_2018_pop", "ibd_IBD", "ibd_UC", "ibd_CD"), log_based = F)
 ```
