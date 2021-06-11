@@ -351,6 +351,7 @@ ggplot(df, aes(y=reorder(term, estimate), x=log2(exp(estimate)))) +
                                  "CG_DMRs","large CG_DMRs", "CDTS_5%","CDTS_1%"))  
 ```
 Enrichment of m6A regions from different tissues in GWAS of SCZ
+
 * marginal enrichment estimates
 ```{r echo=F}
 df<-read.table("data/torus_enrichment_m6A.est", header = F)
@@ -381,17 +382,17 @@ ggplot(df[-1,], aes(y=reorder(term, estimate), x=log2(exp(estimate)))) +
 
 ## Joint enrichment analyses across traits
 
-**Joint enrichment results**
+**Joint enrichment results**     
 m6A features were previously found to be cell type specific. The best tissue for each trait was selected based on Christine's enrichment analyses using S-LDSC.
-BMI - liver
-Height - lung
-HDL - liver
-LDL - liver
-SCZ - brain
-IBD - stomach
+
+* BMI - liver
+* Height - lung
+* HDL - liver
+* LDL - liver
+* SCZ - brain
+* IBD - stomach
 ```{r echo=F, fig.width=8, fig.height=6}
 library(ggplot2)
-library(ggpubr)
 
 outDIR<-"/home/jinggu/cluster/projects/finemap_pipeline/torus_output"
 neg_controls<-c("bmi", "height", "ibd_IBD", "ibd_UC", "ibd_CD", "HDL", "LDL")
@@ -433,7 +434,7 @@ plot_enrichment(c("scz_2018", "HDL", "LDL"), log_based = T)
 #ggsave("~/projects/funcFinemapping/output/scz_lipid_joint_enrichment.png", width = 10, height=6)
 plot_enrichment(c("scz_2018", "bmi", "height"), log_based = T)
 #ggsave("~/projects/funcFinemapping/output/scz_bmi_joint_enrichment.png", width = 8, height=6)
-plot_enrichment(c("scz_2018", "ibd_IBD", "ibd_UC", "ibd_CD"), log_based = T) 
+plot_enrichment(c("scz_2018", "ibd_IBD", "ibd_UC", "ibd_CD"), log_based = T) + xlim(c(-6,6))
 #ggsave("~/projects/funcFinemapping/output/scz_immune_joint_enrichment.png", width = 8, height=6)
 ```
 ## Stratified-LSDC results    
