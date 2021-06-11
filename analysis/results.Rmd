@@ -436,8 +436,10 @@ plot_enrichment(c("scz_2018", "bmi", "height"), log_based = T)
 plot_enrichment(c("scz_2018", "ibd_IBD", "ibd_UC", "ibd_CD"), log_based = T) 
 #ggsave("~/projects/funcFinemapping/output/scz_immune_joint_enrichment.png", width = 8, height=6)
 ```
-## Stratified-LSDC results  
-### **Procedures**   
+## Stratified-LSDC results    
+
+### **Procedures**    
+
 1. Built the annotation sets by combining our own refined annotations with the baseline_LD annotations from S-LDSC.
 2. Computed LD scores for this customized annotation set
 3. Run S-LDSC using the ldsc.py code from the PolyFun. 
@@ -445,12 +447,12 @@ plot_enrichment(c("scz_2018", "ibd_IBD", "ibd_UC", "ibd_CD"), log_based = T)
 5. Efficient sample size needs to be considered. (TO DO)
 
 ### **Schizophrenia** 
+
 ```{r echo=F}
 outDIR<-"/home/jinggu/cluster/projects/finemap_pipeline/s_ldsc/output"
 df<-read.table(paste(outDIR, "enrichment_scz_2018_v2.results", sep="/"), header = T)
 df[,"high"]<-df$Enrichment+2*df$Enrichment_std_error
 df[,"low"]<-df$Enrichment-2*df$Enrichment_std_error
-df[]
 #ucsc<-df[grepl("ucsc_", tolower(df$Category)),]
 #encode<-df[grepl("promoter_ucsc_0", tolower(df$Category)),]
 #peaks<-df[grepl("peaks", tolower(df$Category)),]
@@ -503,10 +505,6 @@ Overall, we see Torus and S-LDSC generates similar enrichment estimates, except 
 * M6A can better distinguish SCZ from immune related traits.
 * SCZ variants are not enriched in protein coding regions, while variants associated with all other traits are enriched in protein coding regions. 
 
-
-```{r}
-snps<-fread("~/cluster/projects/finemap_pipeline/torus_output/scz_2018/joint_refined/snp_info.txt.gz")
-```
 
 
 
