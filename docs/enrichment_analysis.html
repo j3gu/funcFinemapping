@@ -1,0 +1,1141 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>Functional enrichment</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+
+<link rel="icon" href="https://github.com/workflowr/workflowr-assets/raw/master/img/reproducible.png">
+<!-- Add a small amount of space between sections. -->
+<style type="text/css">
+div.section {
+  padding-top: 12px;
+}
+</style>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.tab('show');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-sm-12 col-md-4 col-lg-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-sm-12 col-md-8 col-lg-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">funcFinemapping</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="about.html">About</a>
+</li>
+<li>
+  <a href="license.html">License</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">Functional enrichment</h1>
+
+</div>
+
+
+<p>
+<button type="button" class="btn btn-default btn-workflowr btn-workflowr-report" data-toggle="collapse" data-target="#workflowr-report">
+<span class="glyphicon glyphicon-list" aria-hidden="true"></span> workflowr <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span>
+</button>
+</p>
+<div id="workflowr-report" class="collapse">
+<ul class="nav nav-tabs">
+<li class="active">
+<a data-toggle="tab" href="#summary">Summary</a>
+</li>
+<li>
+<a data-toggle="tab" href="#checks"> Checks <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> </a>
+</li>
+<li>
+<a data-toggle="tab" href="#versions">Past versions</a>
+</li>
+</ul>
+<div class="tab-content">
+<div id="summary" class="tab-pane fade in active">
+<p>
+<strong>Last updated:</strong> 2021-09-01
+</p>
+<p>
+<strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 6 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 1
+</p>
+<p>
+<strong>Knit directory:</strong> <code>funcFinemapping/</code> <span class="glyphicon glyphicon-question-sign" aria-hidden="true" title="This is the local directory in which the code in this file was executed."> </span>
+</p>
+<p>
+This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis was created with <a
+  href="https://github.com/jdblischak/workflowr">workflowr</a> (version 1.6.2). The <em>Checks</em> tab describes the reproducibility checks that were applied when the results were created. The <em>Past versions</em> tab lists the development history.
+</p>
+<hr>
+</div>
+<div id="checks" class="tab-pane fade">
+<div id="workflowr-checks" class="panel-group">
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguptodate"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>R Markdown file:</strong> up-to-date </a>
+</p>
+</div>
+<div id="strongRMarkdownfilestronguptodate" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great! Since the R Markdown file has been committed to the Git repository, you know the exact version of the code that produced these results.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongEnvironmentstrongempty"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Environment:</strong> empty </a>
+</p>
+</div>
+<div id="strongEnvironmentstrongempty" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! The global environment was empty. Objects defined in the global environment can affect the analysis in your R Markdown file in unknown ways. For reproduciblity it's best to always run the code in an empty environment.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSeedstrongcodesetseed20210404code"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Seed:</strong> <code>set.seed(20210404)</code> </a>
+</p>
+</div>
+<div id="strongSeedstrongcodesetseed20210404code" class="panel-collapse collapse">
+<div class="panel-body">
+<p>The command <code>set.seed(20210404)</code> was run prior to running the code in the R Markdown file. Setting a seed ensures that any results that rely on randomness, e.g. subsampling or permutations, are reproducible.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSessioninformationstrongrecorded"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Session information:</strong> recorded </a>
+</p>
+</div>
+<div id="strongSessioninformationstrongrecorded" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! Recording the operating system, R version, and package versions is critical for reproducibility.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongCachestrongnone"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Cache:</strong> none </a>
+</p>
+</div>
+<div id="strongCachestrongnone" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Nice! There were no cached chunks for this analysis, so you can be confident that you successfully produced the results during this run.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongFilepathsstrongabsolute"> <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> <strong>File paths:</strong> absolute </a>
+</p>
+</div>
+<div id="strongFilepathsstrongabsolute" class="panel-collapse collapse">
+<div class="panel-body">
+<p>
+Using absolute paths to the files within your workflowr project makes it difficult for you and others to run your code on a different machine. Change the absolute path(s) below to the suggested relative path(s) to make your code more reproducible.
+</p>
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th style="text-align:left;">
+absolute
+</th>
+<th style="text-align:left;">
+relative
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+~/projects/funcFinemapping/output/scz_lipid_joint_enrichment.png
+</td>
+<td style="text-align:left;">
+output/scz_lipid_joint_enrichment.png
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+~/projects/funcFinemapping/output/scz_bmi_joint_enrichment.png
+</td>
+<td style="text-align:left;">
+output/scz_bmi_joint_enrichment.png
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+~/projects/funcFinemapping/output/scz_immune_joint_enrichment.png
+</td>
+<td style="text-align:left;">
+output/scz_immune_joint_enrichment.png
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomj3gufuncFinemappingtreebed838e6d4f2f222fbcb9bc8cde0d2e5e66bf48atargetblankbed838ea"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/j3gu/funcFinemapping/tree/bed838e6d4f2f222fbcb9bc8cde0d2e5e66bf48a" target="_blank">bed838e</a> </a>
+</p>
+</div>
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomj3gufuncFinemappingtreebed838e6d4f2f222fbcb9bc8cde0d2e5e66bf48atargetblankbed838ea" class="panel-collapse collapse">
+<div class="panel-body">
+<p>
+Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
+</p>
+<p>
+The results in this page were generated with repository version <a href="https://github.com/j3gu/funcFinemapping/tree/bed838e6d4f2f222fbcb9bc8cde0d2e5e66bf48a" target="_blank">bed838e</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+</p>
+<p>
+Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
+</p>
+<pre><code>
+Ignored files:
+    Ignored:    .ipynb_checkpoints/
+    Ignored:    analysis/ldsc_results.nb.html
+    Ignored:    analysis/results.nb.html
+    Ignored:    analysis/snp_finemapping_results.nb.html
+    Ignored:    analysis/splicing.nb.html
+
+Untracked files:
+    Untracked:  SNPs_categories,png
+    Untracked:  SNPs_categories.png
+    Untracked:  analysis/enhancer_gene_feature.Rmd
+    Untracked:  analysis/feedback.Rmd
+    Untracked:  analysis/gene_finemapping_results.Rmd
+    Untracked:  analysis/learn_susie.Rmd
+    Untracked:  analysis/notes.Rmd
+    Untracked:  analysis/snp_finemapping_results.Rmd
+    Untracked:  analysis/splicing.Rmd
+    Untracked:  code/.ipynb_checkpoints/
+    Untracked:  code/ldsc_regression.sh
+    Untracked:  code/make_plots.R
+    Untracked:  code/run_ldsc.sh
+    Untracked:  code/run_ldsc_with_bed.sh
+    Untracked:  code/run_torus.sh
+    Untracked:  code/split_vcf.sh
+    Untracked:  data/num_overlaps_finemapped_SNPs_and_ctcf.txt
+    Untracked:  data/scz_2018
+    Untracked:  data/torus_enrichment_novel_annot.est
+    Untracked:  data/torus_joint_enrichment.est
+    Untracked:  data/torus_joint_refined_enrichment.est
+    Untracked:  enhancer_gene_feature.rmd
+    Untracked:  fig1_panels.pdf
+    Untracked:  fig2.pdf
+    Untracked:  fig_panel2.pdf
+    Untracked:  gene_mapping.pdf
+    Untracked:  output/joint_history/
+    Untracked:  output/joint_torus_conservation_enrichment.est
+    Untracked:  output/proposal_fig1.pdf
+    Untracked:  output/proposal_fig2.pdf
+    Untracked:  output/proposal_gene_mapping_figure.pdf
+    Untracked:  output/scz_bmi_joint_enrichment.png
+    Untracked:  output/scz_immune_joint_enrichment.png
+    Untracked:  output/scz_lipid_joint_enrichment.png
+    Untracked:  output/torus_enrichment_CDTS_vs_OCR.est
+    Untracked:  output/torus_enrichment_DMR.est
+    Untracked:  output/torus_enrichment_constraints.est
+    Untracked:  output/torus_enrichment_ctcf.est
+    Untracked:  output/torus_enrichment_m6A.est
+    Untracked:  output/torus_joint_refined_enrichment.est
+    Untracked:  output/torus_marginal_enrich_DMR.est
+    Untracked:  output/torus_marginal_enrich_ctcf.est
+    Untracked:  output/torus_marginal_enrich_m6A.est
+    Untracked:  panel_figure2.pdf
+
+Unstaged changes:
+    Modified:   analysis/biology_bkg.Rmd
+    Modified:   analysis/method_bkg.Rmd
+    Deleted:    analysis/results.Rmd
+    Deleted:    data/joint_torus_conservation_enrichment.est
+    Deleted:    data/torus_enrichment.est
+    Deleted:    data/torus_enrichment_DMR.est
+    Modified:   data/torus_enrichment_ambigousSNPs.est
+    Deleted:    data/torus_enrichment_m6A.est
+
+</code></pre>
+<p>
+Note that any generated files, e.g. HTML, png, CSS, etc., are not included in this status report because it is ok for generated content to have uncommitted changes.
+</p>
+</div>
+</div>
+</div>
+</div>
+<hr>
+</div>
+<div id="versions" class="tab-pane fade">
+
+<p>
+These are the previous versions of the repository in which changes were made to the R Markdown (<code>analysis/enrichment_analysis.Rmd</code>) and HTML (<code>docs/enrichment_analysis.html</code>) files. If you've configured a remote Git repository (see <code>?wflow_git_remote</code>), click on the hyperlinks in the table below to view the files as they were in that past version.
+</p>
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+File
+</th>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+<th>
+Message
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/j3gu/funcFinemapping/blob/bed838e6d4f2f222fbcb9bc8cde0d2e5e66bf48a/analysis/enrichment_analysis.Rmd" target="_blank">bed838e</a>
+</td>
+<td>
+Jing Gu
+</td>
+<td>
+2021-09-01
+</td>
+<td>
+update evaluations on slicing
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<hr>
+</div>
+</div>
+</div>
+<p>Fine-mapping with functional annotations as priors has shown improved results in identifying causal variants. This project is to evaluate the utility of novel annotation features and adopt ones that can improve fine mapping results.</p>
+<div id="evaluations-on-scz-summary-stats" class="section level2">
+<h2>Evaluations on SCZ summary stats</h2>
+<p><strong>GWAS summary statistics</strong><br />
+Schizopherenia - Pardinas et al., 2018</p>
+<ul>
+<li>40675 cases and 64643 controls</li>
+<li>CLOZUK sample + PGC sample (independent)</li>
+<li>179 independent GWAS significant SNPs mapped to 145 independent loci</li>
+<li>SNPs were imputed using a combination of the 1KGPp3 and UK 10K datasets.</li>
+<li>SNPs were filtered by NFO &gt; 0.6 and MAF &gt; 0.01</li>
+<li>LD-score regression analysis: An LD reference was generated from 1KGPp3 after restricting this dataset to strictly unrelated individuals and retaining only markers with MAF &gt; 0.01.</li>
+</ul>
+<p><strong>GWAS QC Procedures</strong></p>
+<ul>
+<li>Current procedures was based on Alan's finemappeR pipeline</li>
+<li>Criteria for filtering gwas SNPs</li>
+</ul>
+<ol style="list-style-type: decimal">
+<li>Remove all non-biallelic SNPs</li>
+<li>Remove all SNPs with strand-ambiguous alleles (SNPs with A/T, C/G alleles)</li>
+<li>Removed SNPs without rs IDs, duplicated rs IDs or base pair position.</li>
+<li>Removed SNPs not in the reference panels</li>
+<li>Removed SNPs whose base pair positions or alleles doesn’t match the reference panels</li>
+<li>Removed all SNPs on chromosome X, Y, and MT</li>
+</ol>
+<p>After filtering, there are around 6 million variants remained. <img src="assets/gwas_summary_stats_hist_plot.png" alt="Plots for GWAS summary statistics" /></p>
+<div id="procedures" class="section level3">
+<h3>Procedures</h3>
+<ol style="list-style-type: decimal">
+<li>GWAS summary statistics was pre-processed to remove sex chromosomes, indels, ambiguous and duplicated SNPs.</li>
+<li>Currently, genotypes from 1kg European samples are used to compute LD between SNPs.</li>
+<li>SNPs in GWAS summary statistics were matched with the reference panel and assigned to a total of 1687 independent LD blocks.</li>
+<li>Run TORUS to perform genome-wide enrichment analyses.</li>
+</ol>
+</div>
+<div id="sequence-constraints" class="section level3">
+<h3>Sequence constraints</h3>
+<p><strong>context-dependent tolerance scores</strong></p>
+<ul>
+<li>context-dependent tolerance scores(CDTS) in percentiles</li>
+<li>A score was computed for each 10bp bin in the genome.</li>
+<li>The lower the score is, the more intolerant to variation is the bin.</li>
+</ul>
+<div id="how-are-constrained-sequences-overlapped-with-open-chromatin-regions-in-ipsc-derived-neurons" class="section level4">
+<h4><em>How are constrained sequences overlapped with open chromatin regions in iPSC-derived neurons</em></h4>
+<p><strong>QCs for brain OCR ATAC-seq peaks</strong><br />
+There are very few peaks with size larger than 5kb across different brain ATAC-Seq profiles. The removal of large peaks did not improve the enrichment results.</p>
+<p>Overlaps between two sets of genomic features were identified using <code>bedtools intersect</code>. The constrained sequences were counted to be overlapped when at least 20%(&gt;=2 bp) intersect with peaks called from ATAC-Seq profiles. No reciprocal option used here due to the much shorter length of CDTS sequence.</p>
+<table>
+<caption>Table 1-Summary of the overlaps between constrained sequences and open chromatin regions across tissues</caption>
+<thead>
+<tr class="header">
+<th align="left"></th>
+<th align="left">b_cell</th>
+<th align="left">iN_Dopa</th>
+<th align="left">iN_GABA</th>
+<th align="left">iN_Glut</th>
+<th align="left">iPSC</th>
+<th align="left">NPC</th>
+<th align="left">t_cell</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">CDTS_1%</td>
+<td align="left">11.3%</td>
+<td align="left">46.9%</td>
+<td align="left">55.6%</td>
+<td align="left">45.4%</td>
+<td align="left">62.2%</td>
+<td align="left">44.2%</td>
+<td align="left">9.4%</td>
+</tr>
+<tr class="even">
+<td align="left">CDTS_5%</td>
+<td align="left">3.5%</td>
+<td align="left">19%</td>
+<td align="left">21.9%</td>
+<td align="left">15.7%</td>
+<td align="left">25.9%</td>
+<td align="left">14.9%</td>
+<td align="left">2.5%</td>
+</tr>
+<tr class="odd">
+<td align="left">CDTS_50%</td>
+<td align="left">0.4%</td>
+<td align="left">5.8%</td>
+<td align="left">6.6%</td>
+<td align="left">3.4%</td>
+<td align="left">7.8%</td>
+<td align="left">2.9%</td>
+<td align="left">0.1%</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Example of top 1% CDTS sequences and genes nearby</strong><br />
+Conserved sequences found in the noncoding regions nearby gene YPEL4, which is a member of the highly conserved YPEL gene family.</p>
+<p><strong>Summary-table1</strong>:<br />
+Overall, CDTS at top percentiles are more enriched in open chromatin regions from brain than immune cells. CDTS at 50% threshold can be regarded as a negative control, which implies that less constrained sequence bins have much less overlapping with OCRs in neurons.</p>
+</div>
+<div id="how-are-the-highly-conserved-cdts-bins-overlapping-with-genomic-segments" class="section level4">
+<h4><em>How are the highly conserved CDTS bins overlapping with genomic segments?</em></h4>
+<p>Genomic regions were extracted from gencode and processed based on the post from Dave Tang (<a href="https://davetang.org/muse/2013/01/18/defining-genomic-regions/" class="uri">https://davetang.org/muse/2013/01/18/defining-genomic-regions/</a>). The non-coding CDTS at top 5% were obtained by combining CDTS in top 5% bins completely overlapping both intergenic and intron regions. In total, 91% of original CDTS at top 5% bins are located in the non-coding regions. The intersection of CDTS bins and genomic regions were obtained using the following code: <code>bedtools intersect -a in.bed -b *.regions.bed -wa -wb -f 1</code></p>
+<table>
+<caption>Table 2-Summary of overlapping between CDTS and genomic segment annotations</caption>
+<thead>
+<tr class="header">
+<th align="left"></th>
+<th align="left">cds</th>
+<th align="left">exon</th>
+<th align="left">gene</th>
+<th align="left">intergenic</th>
+<th align="left">introns</th>
+<th align="left">UTR</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">CDTS_1%</td>
+<td align="left">16.6%</td>
+<td align="left">38.2%</td>
+<td align="left">79.6%</td>
+<td align="left">19.7%</td>
+<td align="left">61.8%</td>
+<td align="left">15.7%</td>
+</tr>
+<tr class="even">
+<td align="left">CDTS_5%</td>
+<td align="left">7.7%</td>
+<td align="left">18.4%</td>
+<td align="left">75.7%</td>
+<td align="left">23.7%</td>
+<td align="left">67.4%</td>
+<td align="left">7.3%</td>
+</tr>
+</tbody>
+</table>
+<table>
+<caption>Table 3-Breakdown of CDTS and OCR overlaps by genomic segments</caption>
+<thead>
+<tr class="header">
+<th align="left"></th>
+<th align="left">cds</th>
+<th align="left">exon</th>
+<th align="left">gene</th>
+<th align="left">intergenic</th>
+<th align="left">introns</th>
+<th align="left">UTR</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">CDTS5%_iN-Glut</td>
+<td align="left">7.3%</td>
+<td align="left">30.9%</td>
+<td align="left">76.3%</td>
+<td align="left">23.7%</td>
+<td align="left">68.2%</td>
+<td align="left">16.5%</td>
+</tr>
+<tr class="even">
+<td align="left">CDTS5%_iPSC</td>
+<td align="left">7.4%</td>
+<td align="left">26.4%</td>
+<td align="left">75%</td>
+<td align="left">25%</td>
+<td align="left">66.8%</td>
+<td align="left">12.7%</td>
+</tr>
+<tr class="odd">
+<td align="left">CDTS5%_B-cell</td>
+<td align="left">7.5%</td>
+<td align="left">36.1%</td>
+<td align="left">74.1%</td>
+<td align="left">25.9%</td>
+<td align="left">65.7%</td>
+<td align="left">20.6%</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Summary-table2</strong><br />
+1. Overall, CDTS top percentile bins are mainly located in intron regions, which is consistent with the results in the paper.<br />
+2. Around 20% of CDTS bins overlap with exons or intergenic regions.<br />
+3. We may look into other annotations such as promoter and enhancers.</p>
+<p><strong>Summary-table3</strong><br />
+1. The compositions of the CDTS-OCR overlaps in terms of genomic regions are quite consistent across cell types.<br />
+2. Generally, there are twice amount of CDTS-OCR overlaps resided in introns than in exons.</p>
+<p><strong>Enrichment analysis</strong></p>
+<ul>
+<li><p>Compare with OCRs in iPSC-derived neurons <img src="figure/enrichment_analysis.Rmd/unnamed-chunk-5-1.png" width="672" style="display: block; margin: auto;" /> The enrichment estimate has a confience level above zero for CDTS and positive controls. This shows SNPs associated with SCZ are on average ~ 9 fold enriched in genomic bins with up to 5 percentile of CDTS.</p></li>
+<li><p>Compare with intra-species constraints</p>
+<ul>
+<li>LINSIGHT
+<ul>
+<li>predict how noncoding nucleotide sites are likely to have deleterious fitness consequences and hence be phenotypically important</li>
+<li>genome-wide average of LINSIGHT scores was ~0.07 (range: 0.03-0.99)</li>
+<li>Estimated mean LINSIGHT score for conserved TFBSs was 0.24-&gt;used as cutoff for whether the nucelotide site is conserved</li>
+<li>2.5% of GWAS SNPs are above LINSIGHT threshold.</li>
+</ul></li>
+<li>CADD [Combined Annotation–Dependent Depletion]
+<ul>
+<li>provides metrics of deleteriousness</li>
+<li>scaled PHRED score [-10log10(P)]</li>
+<li>5% cutoff, which represents top 5% of all possible reference genome SNVs</li>
+</ul></li>
+<li>GERP [Genomic Evolutionary Rate Profiling]
+<ul>
+<li>produce position-specific estimates of evolutionary constraint</li>
+<li>constraint intensity quantified as a &quot;rejection score&quot; range from -12.3 to 6.17</li>
+<li>UCSC suggests a RS of 2 (high sensitivity and strongly enriched for true constraint sites)</li>
+</ul></li>
+</ul></li>
+</ul>
+</div>
+<div id="compare-top-k-th-percentile-of-cdts-bins-vs-top-k-th-percentile-scores-of-other-annotations" class="section level4">
+<h4><em>Compare top k-th percentile of CDTS bins vs top k-th percentile scores of other annotations</em></h4>
+<pre><code>           top5%_CDTS top5%_CADD
+top5%_CDTS      1.000      0.108
+top5%_CADD      0.154      1.000</code></pre>
+<pre><code>                top10%_CDTS top10%_LINSIGHT top10%_GERP
+top10%_CDTS            1.00            0.01       0.087
+top10%_LINSIGHT        0.12            1.00          NA
+top10%_GERP            0.12              NA       1.000</code></pre>
+<p><strong>Summary</strong>:</p>
+<ol style="list-style-type: decimal">
+<li><p>Overall, there is a maximum of 15.4% overlapping between the bases within the top CDTS bins and those ranked among top annotation scores.</p></li>
+<li><p>Only 1% of bases from top 10% CDTS bins have LINSIGHT scores above 10%, probably due to many missing predictions in LINSIGHT.</p></li>
+</ol>
+<p>The correlation table shows the pair-wise correlations between ranks for the conservation scores on GWAS SNPs across all the annotations. CDTS seems to be uncorrelated to other conservation scores. CADD has a moderate correlation separately with LINSIGHT and GERP. A low correlation observed between GERP and LINSIGHT.</p>
+<p><strong>joint enrichment analysis over conservation-related annotations</strong> <img src="figure/enrichment_analysis.Rmd/unnamed-chunk-10-1.png" width="672" style="display: block; margin: auto;" /> With other conservation annotations as predictors in the model, we can see CDTS within top 5 percentile still shows around 8 fold enrichment.</p>
+</div>
+</div>
+<div id="d-genome-folding" class="section level3">
+<h3>3D Genome folding</h3>
+<ul>
+<li>Akita is a deep-learning method that predicts variant effects on 3D genome folding</li>
+<li>train Hi-C/Micro C and 1D DNA sequences and then make predictions at variant-level given any DNA sequence</li>
+</ul>
+<p><strong>contact maps generated with ref/alt at rs339331</strong><br />
+<img src="assets/contact_maps_rs339331.png" alt="comparison of contact maps surrounding rs339331 between ref and alt alleles" /></p>
+<p><strong>Summary statistics - SNP contact difference scores (SCD)</strong> <img src="assets/scz_CTCF_variants_SCD.png" alt="Distribution of disruption scores" /></p>
+<p>Only two SNPs are within 95% credible sets</p>
+<p>GWAS loci: * 11 24367339 24412992 rs1899543 * 3 17221017 17888256 rs11409090</p>
+<p>By overlapping SNPs with a cumulative 95% of posterior probablity and CTCF peaks, I found only 57 out of 6104 the SNPs are within CTCF peaks. The amount of overlapped SNPs increases to 71 if 100bp flanking region incluode or 133 if 500bp flanking region included. flank ctcf_pred ctcfl_pred ctcf_peaks</p>
+<table>
+<caption>Table 5-Summary of overlapping between fine-mapped SNPs and CTCF motifs/peaks</caption>
+<thead>
+<tr class="header">
+<th align="left"></th>
+<th align="right">ctcf_pred</th>
+<th align="right">ctcfl_pred</th>
+<th align="right">ctcf_peaks</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">flank0</td>
+<td align="right">39</td>
+<td align="right">113</td>
+<td align="right">57</td>
+</tr>
+<tr class="even">
+<td align="left">flank10</td>
+<td align="right">72</td>
+<td align="right">271</td>
+<td align="right">59</td>
+</tr>
+<tr class="odd">
+<td align="left">flank100</td>
+<td align="right">361</td>
+<td align="right">1243</td>
+<td align="right">71</td>
+</tr>
+<tr class="even">
+<td align="left">flank500</td>
+<td align="right">1349</td>
+<td align="right">3359</td>
+<td align="right">133</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Joint enrichment for CTCF-related annotations</strong></p>
+<p><img src="figure/enrichment_analysis.Rmd/unnamed-chunk-14-1.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+<div id="dna-methylation" class="section level3">
+<h3>DNA methylation</h3>
+<p><strong>procedure</strong></p>
+<ol style="list-style-type: decimal">
+<li>concatenate and sort CG DNA methylation regions across 21 clusters<br />
+</li>
+<li>use <code>bedtools merge -i merged.bed</code> to merge overlapped regions in the concatenated bed file<br />
+</li>
+<li>check the distribution of peak lengths<br />
+<img src="assets/human_CG_DMR_peak_length.png" alt="Histogram for the sizes of DNA methylation regions" /> <strong>Joint enrichment results</strong> <img src="figure/enrichment_analysis.Rmd/unnamed-chunk-15-1.png" width="672" style="display: block; margin: auto;" /></li>
+</ol>
+</div>
+<div id="post-transcriptional-regulation" class="section level3">
+<h3>Post-Transcriptional Regulation</h3>
+<div id="m6a-modification" class="section level4">
+<h4>m6A modification</h4>
+<p><strong>m6A regions across tissues</strong><br />
+No differences in enrichment of SCZ risk variants across tissues</p>
+<p><strong>Joint enrichment analysis</strong> <img src="figure/enrichment_analysis.Rmd/unnamed-chunk-16-1.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+<div id="splicing" class="section level4">
+<h4>Splicing</h4>
+<p>SpliceAI is a deep CNN method with a ResNets architecture. It provides a general prediction of splicing with precision from an arbitrary pre-mRNA sequence. For each nucleotide in the pre-mRNA transcript, SpliceAI examines 5kb away from it to predict the probability of this nucleotide being acceptor, donor or neither.</p>
+<p><strong>Binary annotations at different cutoffs</strong> <img src="figure/enrichment_analysis.Rmd/unnamed-chunk-17-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/enrichment_analysis.Rmd/unnamed-chunk-19-1.png" width="1152" style="display: block; margin: auto;" /><img src="figure/enrichment_analysis.Rmd/unnamed-chunk-19-2.png" width="1152" style="display: block; margin: auto;" /> Question:<br />
+How valid are those predictions with low values? GWAS variants are enriched with variants that are predicted to have low probability of altering splicing patterns. It does not convince me that splicing</p>
+<p><strong>Joint enrichment results for m6A</strong><br />
+m6A features were previously found to be cell type specific. The best tissue for each trait was selected based on Christine's enrichment analyses using S-LDSC.</p>
+<ul>
+<li>BMI - liver</li>
+<li>Height - lung</li>
+<li>HDL - liver</li>
+<li>LDL - liver</li>
+<li>SCZ - brain</li>
+<li>IBD - stomach</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="evalutaion-across-traits" class="section level2">
+<h2>Evalutaion Across traits</h2>
+</div>
+<div id="refined-annotation-set-for-torus-joint-analysis" class="section level2">
+<h2>Refined annotation set for Torus joint analysis</h2>
+<p><strong>Schizophrenia</strong> <img src="figure/enrichment_analysis.Rmd/unnamed-chunk-22-1.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+<div id="stratified-lsdc-results" class="section level2">
+<h2>Stratified-LSDC results</h2>
+<p><strong>Procedures</strong></p>
+<ol style="list-style-type: decimal">
+<li>Built the annotation sets by combining our own refined annotations with the baseline_LD annotations from S-LDSC.</li>
+<li>Computed LD scores for this customized annotation set</li>
+<li>Run S-LDSC using the ldsc.py code from the PolyFun.</li>
+<li>The functional enrichment estimates were based on all SNPs, instead of only commmon SNPs.</li>
+<li>Efficient sample size needs to be considered. (TO DO)</li>
+</ol>
+<p><strong>Schizophrenia</strong> <img src="figure/enrichment_analysis.Rmd/unnamed-chunk-23-1.png" width="672" style="display: block; margin: auto;" /> By performing S-LDSC analysis, we see DNA methylation and CDTS annotations shows 6-8 fold enrichment with SCZ variants conditional on all other annotations.</p>
+<p><strong>Across traits</strong></p>
+<p><strong>Notes</strong></p>
+<ul>
+<li>Annotations with no estimates mean they have negative values.</li>
+<li><p>If the lower end of 95% confidence interval of an estimate is negative, it will be assigned as 0.05 (-4.3 as log2 based). <img src="figure/enrichment_analysis.Rmd/unnamed-chunk-25-1.png" width="768" style="display: block; margin: auto;" /><img src="figure/enrichment_analysis.Rmd/unnamed-chunk-25-2.png" width="768" style="display: block; margin: auto;" /><img src="figure/enrichment_analysis.Rmd/unnamed-chunk-25-3.png" width="768" style="display: block; margin: auto;" /> Overall, we see Torus and S-LDSC generates similar enrichment estimates, except for ibd_UC trait. There seems to be some discrepancy in the estimates, which needs a closer look. We so see the performance of annotations varies across traits.</p></li>
+<li>CDTS at top 5% bins that locate in non-coding regions can better distinguish SCZ from lipid-related trait, but no from bmi, height or immune related traits.</li>
+<li>Human CpG methylations can distinguish SCZ from both immune related traits and lipid-related traits.</li>
+<li>M6A can better distinguish SCZ from immune related traits.</li>
+<li><p>SCZ variants are not enriched in protein coding regions, while variants associated with all other traits are enriched in protein coding regions.</p></li>
+</ul>
+<pre class="r"><code># gwas&lt;-readRDS(&quot;~/cluster/data/gwas/2_Filtered/scz_2018.rds&quot;)
+# head(gwas)
+# intergenic&lt;-read.table(&quot;/home/jinggu/resources/genomes/intergenic_hg19_sorted.bed&quot;, header = F)
+# snpRanges &lt;- make_ranges(paste0(&quot;chr&quot;, gwas$chr), gwas$pos, gwas$pos)
+# snpRanges &lt;- plyranges::mutate(snpRanges, snp=gwas$snp)
+# bedRanges&lt;-make_ranges(intergenic$V1, intergenic$V2, intergenic$V3)
+# overlaps&lt;-IRanges::subsetByOverlaps(snpRanges, bedRanges)
+# subgwas&lt;-subset(gwas, subset=gwas$snp %in% overlaps$snp)</code></pre>
+<br>
+<p>
+<button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
+<span class="glyphicon glyphicon-wrench" aria-hidden="true"></span> Session information
+</button>
+</p>
+<div id="workflowr-sessioninfo" class="collapse">
+<pre class="r"><code>sessionInfo()</code></pre>
+<pre><code>R version 4.0.4 (2021-02-15)
+Platform: x86_64-pc-linux-gnu (64-bit)
+Running under: Scientific Linux 7.4 (Nitrogen)
+
+Matrix products: default
+BLAS/LAPACK: /software/openblas-0.3.13-el7-x86_64/lib/libopenblas_haswellp-r0.3.13.so
+
+locale:
+ [1] LC_CTYPE=en_US.UTF-8       LC_NUMERIC=C              
+ [3] LC_TIME=en_US.UTF-8        LC_COLLATE=en_US.UTF-8    
+ [5] LC_MONETARY=en_US.UTF-8    LC_MESSAGES=en_US.UTF-8   
+ [7] LC_PAPER=en_US.UTF-8       LC_NAME=C                 
+ [9] LC_ADDRESS=C               LC_TELEPHONE=C            
+[11] LC_MEASUREMENT=en_US.UTF-8 LC_IDENTIFICATION=C       
+
+attached base packages:
+[1] stats     graphics  grDevices utils     datasets  methods   base     
+
+other attached packages:
+[1] ggpubr_0.4.0      gridExtra_2.3     ggplot2_3.3.3     knitr_1.31       
+[5] data.table_1.14.0 workflowr_1.6.2  
+
+loaded via a namespace (and not attached):
+ [1] Rcpp_1.0.6        tidyr_1.1.2       assertthat_0.2.1  rprojroot_2.0.2  
+ [5] digest_0.6.27     utf8_1.1.4        R6_2.5.0          cellranger_1.1.0 
+ [9] backports_1.2.1   evaluate_0.14     highr_0.8         pillar_1.5.0     
+[13] rlang_0.4.11      curl_4.3          readxl_1.3.1      car_3.0-10       
+[17] whisker_0.4       jquerylib_0.1.3   rmarkdown_2.7     labeling_0.4.2   
+[21] stringr_1.4.0     foreign_0.8-81    munsell_0.5.0     broom_0.7.5      
+[25] compiler_4.0.4    httpuv_1.5.5      xfun_0.21         pkgconfig_2.0.3  
+[29] htmltools_0.5.1.1 tidyselect_1.1.1  tibble_3.0.6      rio_0.5.16       
+[33] fansi_0.4.2       crayon_1.4.1      dplyr_1.0.4       withr_2.4.1      
+[37] later_1.1.0.1     grid_4.0.4        jsonlite_1.7.2    gtable_0.3.0     
+[41] lifecycle_1.0.0   DBI_1.1.1         git2r_0.28.0      magrittr_2.0.1   
+[45] scales_1.1.1      zip_2.1.1         stringi_1.5.3     carData_3.0-4    
+[49] farver_2.0.3      ggsignif_0.6.1    fs_1.5.0          promises_1.2.0.1 
+[53] bslib_0.2.4       ellipsis_0.3.2    generics_0.1.0    vctrs_0.3.8      
+[57] cowplot_1.1.1     openxlsx_4.2.3    tools_4.0.4       forcats_0.5.1    
+[61] glue_1.4.2        purrr_0.3.4       hms_1.0.0         abind_1.4-5      
+[65] yaml_2.2.1        colorspace_2.0-0  rstatix_0.7.0     haven_2.3.1      
+[69] sass_0.3.1       </code></pre>
+</div>
+</div>
+
+
+<!-- Adjust MathJax settings so that all math formulae are shown using
+TeX fonts only; see
+http://docs.mathjax.org/en/latest/configuration.html.  This will make
+the presentation more consistent at the cost of the webpage sometimes
+taking slightly longer to load. Note that this only works because the
+footer is added to webpages before the MathJax javascript. -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    "HTML-CSS": { availableFonts: ["TeX"] }
+  });
+</script>
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
