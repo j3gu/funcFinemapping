@@ -1,0 +1,669 @@
+---
+title: "Functional enrichment"
+Date: 08/30/21
+output:
+  html_document:
+    df_print: paged
+---
+
+Fine-mapping with functional annotations as priors has shown improved results in identifying causal variants. This project is to evaluate the utility of novel annotation features and adopt ones that can improve fine mapping results. 
+```{r echo=F}
+library(data.table)
+library(knitr)
+library(ggplot2)
+library(gridExtra)
+library(ggpubr)
+source("code/make_plots.R")
+```
+
+## Evaluations on SCZ summary stats
+**GWAS summary statistics**   
+Schizopherenia - Pardinas et al., 2018 
+
+* 40675 cases and 64643 controls
+* CLOZUK sample + PGC sample (independent)
+* 179 independent GWAS significant SNPs mapped to 145 independent loci
+* SNPs were imputed using a combination of the 1KGPp3 and UK 10K datasets. 
+* SNPs were filtered by NFO > 0.6 and MAF > 0.01
+* LD-score regression analysis: An LD reference was generated from 1KGPp3 after restricting this dataset to strictly unrelated individuals and retaining only markers with MAF > 0.01.
+
+**GWAS QC Procedures**
+
+* Current procedures was based on Alan's finemappeR pipeline
+* Criteria for filtering gwas SNPs 
+
+1. Remove all non-biallelic SNPs
+2. Remove all SNPs with strand-ambiguous alleles (SNPs with A/T, C/G alleles)
+3. Removed SNPs without rs IDs, duplicated rs IDs or base pair position.
+4. Removed SNPs not in the reference panels
+5. Removed SNPs whose base pair positions or alleles doesn’t match the reference panels
+6. Removed all SNPs on chromosome X, Y, and MT
+
+After filtering, there are around 6 million variants remained. 
+![Plots for GWAS summary statistics](assets/gwas_summary_stats_hist_plot.png)
+
+### Procedures
+1. GWAS summary statistics was pre-processed to remove sex chromosomes, indels, ambiguous and duplicated SNPs. 
+2. Currently, genotypes from 1kg European samples are used to compute LD between SNPs. 
+3. SNPs in GWAS summary statistics were matched with the reference panel and assigned to a total of 1687 independent LD blocks. 
+4. Run TORUS to perform genome-wide enrichment analyses.
+
+### Sequence constraints 
+
+**context-dependent tolerance scores**
+
+* context-dependent tolerance scores(CDTS) in percentiles
+* A score was computed for each 10bp bin in the genome. 
+* The lower the score is, the more intolerant to variation is the bin.
+
+#### *How are constrained sequences overlapped with open chromatin regions in iPSC-derived neurons*
+
+**QCs for brain OCR ATAC-seq peaks**  
+There are very few peaks with size larger than 5kb across different brain ATAC-Seq profiles. The removal of large peaks did not improve the enrichment results. 
+```{r echo =F}
+#kable(read.table("output/OCR_peaks_summary_stats.txt", header = T),
+      #caption="ATAC-seq peaks summary statistics")
+```
+Overlaps between two sets of genomic features were identified using `bedtools intersect`. The constrained sequences were counted to be overlapped when at least 20%(>=2 bp) intersect with peaks called from ATAC-Seq profiles. No reciprocal option used here due to the much shorter length of CDTS sequence. 
+```{r echo=F}
+kable(read.table("output/constrained_and_OCR.txt", header = T),
+      caption="Table 1-Summary of the overlaps between constrained sequences and open chromatin regions across tissues")
+```
+**Example of top 1% CDTS sequences and genes nearby**   
+Conserved sequences found in the noncoding regions nearby gene YPEL4, which is a member of the highly conserved YPEL gene family.  
+
+**Summary-table1**:   
+Overall, CDTS at top percentiles are more enriched in open chromatin regions from brain than immune cells. CDTS at 50% threshold can be regarded as a negative control, which implies that less constrained sequence bins have much less overlapping with OCRs in neurons.
+
+#### *How are the highly conserved CDTS bins overlapping with genomic segments?*
+
+Genomic regions were extracted from gencode and processed based on the post from Dave Tang (https://davetang.org/muse/2013/01/18/defining-genomic-regions/). The non-coding CDTS at top 5% were obtained by combining CDTS in top 5% bins completely overlapping both intergenic and intron regions. In total, 91% of original CDTS at top 5% bins are located in the non-coding regions. 
+The intersection of CDTS bins and genomic regions were obtained using the following code:
+`bedtools intersect -a in.bed -b *.regions.bed -wa -wb -f 1` 
+```{r echo=F}
+kable(read.table("output/constrained_and_genomic_segment.txt", header = T),
+caption="Table 2-Summary of overlapping between CDTS and genomic segment annotations")
+# counts_1per=2056917
+# counts_5per=10582523
+# #counts_50per=2398981
+# 
+# f<-fread("~/resources/genomes/CDTS_1per_genome_overlaps_all.bed")
+# out1<-unlist(lapply(split(f, f$V5), function(i){length(unique(i$V1))/counts_1per}))
+# 
+# f<-fread("~/resources/genomes/CDTS_5per_genome_overlaps_all.bed")
+# out2<-unlist(lapply(split(f, f$V5), function(i){length(unique(i$V1))/counts_5per}))
+# tbl<-data.frame(rbind(out1, out2))
+# tbl<-matrix(paste0(unlist(round(tbl*100,1)), "%"), nrow=2)
+# rownames(tbl)<-c("CDTS_1%", "CDTS_5%")
+# colnames(tbl)<-names(out1)
+# write.table(tbl, "output/constrained_and_genomic_segment.txt", quote = F)
+
+# 
+# for(i in c("iNGlut", "iPSC", "b_cell")){
+#   f<-fread(sprintf("~/resources/genomes/CDTS_5per_%s_genome_overlaps.bed",i))
+#   counts<-length(unique(f$V4))
+#   out<-unlist(lapply(split(f, f$V5), function(i){length(unique(i$V4))/counts}))
+#   assign(i, out)
+# }
+# tbl<-data.frame(rbind(iNGlut, iPSC, b_cell))
+# tbl<-matrix(paste0(unlist(round(tbl*100, 1)), "%"), nrow=3)
+# rownames(tbl)<-c("CDTS5%_iN-Glut", "CDTS5%_iPSC", "CDTS5%_B-cell")
+# colnames(tbl)<-names(iNGlut)
+# write.table(tbl, "output/CDTS_OCR_overlaps_and_genomic_segment.txt", quote = F)
+kable(read.table("output/CDTS_OCR_overlaps_and_genomic_segment.txt", header = T),
+caption="Table 3-Breakdown of CDTS and OCR overlaps by genomic segments")
+```
+**Summary-table2**      
+1. Overall, CDTS top percentile bins are mainly located in intron regions, which is consistent with the results in the paper.     
+2. Around 20% of CDTS bins overlap with exons or intergenic regions.    
+3. We may look into other annotations such as promoter and enhancers.      
+
+**Summary-table3**    
+1. The compositions of the CDTS-OCR overlaps in terms of genomic regions are quite consistent across cell types.    
+2. Generally, there are twice amount of CDTS-OCR overlaps resided in introns than in exons. 
+
+**Enrichment analysis**   
+
+* Compare with OCRs in iPSC-derived neurons 
+```{r echo=F}
+df<-read.table("output/torus_enrichment_CDTS_vs_OCR.est", header = F)
+colnames(df)<-c("term", "estimate", "low", "high")
+annot=c("iPSC OCR", "iN_Glut OCR","NPC OCR", 
+      "iN_Dopa OCR", "iN_GABA OCR",
+      "CDTS_top5%", "CDTS_top1%")
+snp_enrichment_plot(df, y.label = annot)
+```
+The enrichment estimate has a confience level above zero for CDTS and positive controls. This shows SNPs associated with SCZ are on average ~ 9 fold enriched in genomic bins with up to 5 percentile of CDTS. 
+```{r echo=F}
+## process other conservation related annotations - CADD, LINSIGNT, and GERP
+# f<-fread("~/cluster/data/features/processed/scz_2018_CADD_chunk10.txt")
+# colnames(f)<-c("chr", "pos", "a1", "a0", "score", "phred")
+# out<-list()
+# for(i in 1:11){
+#   print(i)
+#   f<-fread(sprintf("~/cluster/data/features/processed/scz_2018_CADD_chunk%d.txt", i))
+#   colnames(f)<-c("chr", "pos", "a1", "a0", "score", "phred")
+#   out[[i]]<-snp_match(gwas[gwas$chr %in% unique(f$chr),], f)
+# }
+# final_out<-data.frame(do.call(rbind, out))
+# 
+# out<-list()
+# for(i in 1:6){
+#   f<-fread(sprintf("/home/jinggu/cluster/data/features/processed/scz_2018_LS_chunk%d.txt", i))
+#   f<-f[, c(1,2,5)]
+#   colnames(f)<-c("chr", "pos", "LS_score")
+#   f[, "chr"]<-as.numeric(unlist(lapply(f$chr, function(i){strsplit(i, "r")[[1]][2]})))
+#   subgwas<-out_LS[out_LS$chr %in% unique(f$chr),]
+#   out[[i]]<-merge(subgwas, f, by=c("chr", "pos"))
+# }
+# out<-data.frame(do.call(rbind, out))
+# 
+# cond1<-as.numeric(out$LS_score>=0.24)
+# cond2<-as.numeric(out$phred>=13)
+# cond3<-as.numeric(out$G_score>=2)
+# out<-out[!is.na(out$LS_score),]
+# write.table(out[, c("snp", "locus","zscore")], gzfile("/home/jinggu/cluster/projects/finemap_pipeline/output/scz_2018/joint/torus_zscores.txt.gz"), quote = F, row.names = F)
+# 
+# write.table(data.frame(out[, c("snp", "CDTS_5per_d")], cond1, cond2, cond3), gzfile("/home/jinggu/cluster/projects/finemap_pipeline/output/scz_2018/joint/torus_annotations.txt.gz"), quote = F, row.names = F, col.names = c("snp", "CDTS_5per_d", "LINSIGHT_24per_d", "CADD_5per_d", "GERP_2cutoff_d"))
+```
+
+* Compare with intra-species constraints
+
+    * LINSIGHT 
+        - predict how noncoding nucleotide sites are likely to have deleterious fitness consequences and hence be phenotypically important 
+        - genome-wide average of LINSIGHT scores was ~0.07 (range: 0.03-0.99)
+        - Estimated mean LINSIGHT score for conserved TFBSs was 0.24->used as cutoff for whether the nucelotide site is conserved
+        - 2.5% of GWAS SNPs are above LINSIGHT threshold.    
+        
+    * CADD [Combined Annotation–Dependent Depletion]
+        - provides metrics of deleteriousness
+        - scaled PHRED score [-10log10(P)]
+        - 5% cutoff, which represents top 5% of all possible reference genome SNVs
+
+    * GERP [Genomic Evolutionary Rate Profiling]
+        - produce position-specific estimates of evolutionary constraint
+        - constraint intensity quantified as a "rejection score" range from -12.3 to 6.17
+        - UCSC suggests a RS of 2 (high sensitivity and strongly enriched for true constraint sites)
+
+#### *Compare top k-th percentile of CDTS bins vs top k-th percentile scores of other annotations*
+```{r echo=F}
+mat1<-matrix(c(1,0.154,0.108,1), nrow = 2, ncol = 2)
+colnames(mat1)<-c("top5%_CDTS", "top5%_CADD")
+rownames(mat1)<-c("top5%_CDTS", "top5%_CADD")
+mat1
+```
+```{r echo=F}
+mat2<-matrix(c(1, 0.01, 0.087, 0.12, 1, NA, 0.12, NA, 1), nrow=3, ncol=3, byrow = T)
+colnames(mat2)<-c("top10%_CDTS", "top10%_LINSIGHT", "top10%_GERP")
+rownames(mat2)<-c("top10%_CDTS", "top10%_LINSIGHT", "top10%_GERP")
+mat2
+```
+**Summary**:
+
+1. Overall, there is a maximum of 15.4% overlapping between the bases within the top CDTS bins and those ranked among top annotation scores. 
+
+2. Only 1% of bases from top 10% CDTS bins have LINSIGHT scores above 10%, probably due to many missing predictions in LINSIGHT. 
+
+```{r echo=F}
+#extract raw cdts score at each nucleotide position
+# cdts<-fread("~/cluster/data/features/raw/coord_CDTS_percentile_N7794unrelated.txt.gz")
+# snpRanges<-make_ranges(paste0("chr",out$chr), out$pos, out$pos)
+# snpRanges <- plyranges::mutate(snpRanges, snp=out$snp)
+# cdts_ranges<-make_ranges(cdts$chromosome, cdts$start, cdts$end)
+# cdts_ranges<-plyranges::mutate(cdts_ranges, score=cdts$CDTS)
+# subsetdf <- IRanges::mergeByOverlaps(cdts_ranges, snpRanges)
+# df<-inner_join(out, data.frame(subsetdf)[,c("score", "snp")], by="snp")
+#gwas<-readRDS("~/cluster/data/gwas/2_Filtered/scz_2018_conservation.rds")
+
+############
+# library(data.table)
+# source("~/scripts/R/utility_func.R")
+# cdts<-fread("~/cluster/data/features/raw/coord_CDTS_hg19.txt.gz")
+# colnames(cdts)<-c("chromosome", "start", "end", "CDTS", "percentile")
+# cdts<-cdts[cdts$chromosome %in% paste0("chr",seq(1, 22, 1)),]
+# cdts_top5<-subset(cdts, percentile<=5)
+# 
+# cadd<-fread("~/cluster/data/features/raw/top5_unique_cadd.txt.gz")
+# snpRanges<-make_ranges(cadd$V2, cadd$V3, cadd$V3)
+# cdts_ranges<-make_ranges(unlist(lapply(cdts_top5$chromosome, function(i){strsplit(i, "r")[[1]][2]})), cdts_top5$start, cdts_top5$end-1)
+# count<-IRanges::mergeByOverlaps(cdts_ranges, snpRanges)
+# length(unique(count$snpRanges))/(dim(cdts_top5)[1]*10)
+# length(unique(count$snpRanges))/dim(cadd)[1]
+# 
+# cdts_split<-split(cdts, cdts$chromosome)
+# top10<-lapply(cdts_split, function(i){
+#   cutoff = quantile(i$CDTS, probs=0.1)
+#   return(i[i$CDTS<=cutoff,])
+#   })
+# 
+# output<-matrix(NA, nrow = 22, ncol=3)
+# for(i in 1:22){
+#   print(i)
+#   f <-read.table(sprintf("~/cluster/data/features/processed/LS_chr%d.bed", i), header=F)
+#   snpRanges<-make_ranges(f$V1, f$V2, f$V2)
+#   cdts_top10<-top10[[paste0("chr",i)]]
+#   cdts_ranges<-make_ranges(cdts_top10$chromosome, cdts_top10$start, cdts_top10$end-1)
+#   count<-IRanges::mergeByOverlaps(cdts_ranges, snpRanges)
+#   output[i,]<-c(dim(cdts_top10)[1]*10, dim(f)[1], length(unique(count$snpRanges)))
+# }
+# 
+# counts<-apply(output, 2, sum)
+# counts[3]/counts[1:2]
+
+############
+#percent of CDTS overlapping other features
+# tbl<-cor(data.frame(rank(gwas$phred), rank(gwas$LS_score), rank(gwas$G_score), rank(gwas$score)))
+# row.names(tbl)<-c("CADD", "LINSIGHT", "GERP", "CDTS")
+# colnames(tbl)<-c("CADD", "LINSIGHT", "GERP", "CDTS")
+# write.table(tbl, "data/rank_correlations.txt", quote = F)
+# print("5 million (68%) SCZ GWAS SNPs have conservation scores across all annotations.")
+# kable(read.table("data/", header = T),
+#       caption="Summary of the correlations between ranks for the conservation scores among annotations")
+```
+The correlation table shows the pair-wise correlations between ranks for the conservation scores on GWAS SNPs across all the annotations. CDTS seems to be uncorrelated to other conservation scores. CADD has a moderate correlation separately with LINSIGHT and GERP. A low correlation observed between GERP and LINSIGHT. 
+
+**joint enrichment analysis over conservation-related annotations**
+```{r echo=F}
+df<-read.table("output/torus_enrichment_constraints.est", header = F)
+df<-df[-1,] #skip intercept
+colnames(df)<-c("term", "estimate", "low", "high")
+annot<-c("coding", "CADD_top5%", "GERP(>2)", "LINSIGHT(>0.24)", "CDTS_top5%")
+snp_enrichment_plot(df, y.label = annot) + coord_cartesian(xlim=c(-0.5, 4))
+```
+With other conservation annotations as predictors in the model, we can see CDTS within top 5 percentile still shows around 8 fold enrichment.
+
+### 3D Genome folding
+* Akita is a deep-learning method that predicts variant effects on 3D genome folding
+* train Hi-C/Micro C and 1D DNA sequences and then make predictions at variant-level given any DNA sequence
+
+**contact maps generated with ref/alt at rs339331**     
+![comparison of contact maps surrounding rs339331 between ref and alt  alleles](assets/contact_maps_rs339331.png)
+
+**Summary statistics - SNP contact difference scores (SCD)**
+![Distribution of disruption scores](assets/scz_CTCF_variants_SCD.png)
+
+Only two SNPs are within 95% credible sets
+
+GWAS loci:
+* 11	24367339	24412992	rs1899543
+* 3	17221017	17888256	rs11409090
+
+By overlapping SNPs with a cumulative 95% of posterior probablity and CTCF peaks, I found only 57 out of 6104 the SNPs are within CTCF peaks. The amount of overlapped SNPs increases to 71 if 100bp flanking region incluode or 133 if 500bp flanking region included. 
+flank ctcf_pred ctcfl_pred ctcf_peaks
+```{r echo=F}
+kable(read.table("data/num_overlaps_finemapped_SNPs_and_ctcf.txt", header = T),
+caption="Table 5-Summary of overlapping between fine-mapped SNPs and CTCF motifs/peaks")
+```
+
+```{r echo=F}
+# library(dplyr)
+# akita_pred<-fread("~/cluster/github/basenji/manuscripts/akita/analysis/scz_akita_features.txt")
+# pips<-fread("~/cluster/share/SCZ_finemapped_SNPs.csv", skip=3)
+# check_pips<-left_join(akita_pred,pips[, c("SNP", "FINEMAP Posterior Probability"
+#                                         )], by="SNP")
+# sig<-check_pips[!is.na(check_pips$`FINEMAP Posterior Probability`),]
+# pips[pips$SNP %in% sig$SNP,]
+# 
+# ctcf_peaks<-read.table("~/cluster/data/features/raw/brain_annotations/LUHUMES/merge_ctcf_luhU.bed")
+# ctcf_pred<-fread("/project2/xinhe/shared_data/TFBS/JASPAR/MA0139.1.tsv.gz")
+# ctcfl_pred<-fread("/project2/xinhe/shared_data/TFBS/JASPAR/MA1102.2.tsv.gz")
+# 
+# count_overlaps<-function(snpRanges, c){
+#   ctcfPeak_ranges<-make_ranges(seqname=ctcf_peaks$V1, start=ctcf_peaks$V2-c, end=ctcf_peaks$V3+c)
+#   ctcfMotif_ranges<-make_ranges(seqname=ctcf_pred$V1, start=ctcf_pred$V2-c, end=ctcf_pred$V3+c)
+#   ctcflMotif_ranges<-make_ranges(seqname=ctcfl_pred$V1, start=ctcfl_pred$V2-c, end=ctcfl_pred$V3+c)
+#   ctcfOverlaps<-IRanges::mergeByOverlaps(ctcfMotif_ranges, snpRanges)
+#   ctcflOverlaps<-IRanges::mergeByOverlaps(ctcflMotif_ranges, snpRanges)
+#   ctcfPeaksOverlaps<-IRanges::mergeByOverlaps(ctcfPeak_ranges, snpRanges)
+#   output<-c(length(unique(ctcfOverlaps$snpRanges)), length(unique(ctcflOverlaps$snpRanges)), 
+#           length(unique(ctcfPeaksOverlaps$snpRanges)))
+#   return(output)
+# }
+# tbl<-c()
+# for(c in c(0, 10, 100, 500)){
+#   tbl<-rbind(tbl, count_overlaps(snpRanges, c))
+# }
+# colnames(tbl)<-c("ctcf_pred","ctcfl_pred", "ctcf_peaks")
+# rownames(tbl)<-c("flank0", "flank10", "flank100", "flank500")
+# 
+# 
+# ##check the overlapping with enhancer markers
+# count_SNP_overlaps<-function(df_snp, df_peak, c){
+#   snpRanges<-make_ranges(df_snp$chr, df_snp$pos, df_snp$pos)
+#   snpRanges <- plyranges::mutate(snpRanges, snp=df_snp$snp)
+#   peakRanges<-make_ranges(df_peak$V1, df_peak$V2, df_peak$V3)
+#   overlaps<-IRanges::mergeByOverlaps(peakRanges, snpRanges)
+#   print(length(unique(overlaps$snp)))
+#   return(overlaps)
+# }
+# path1<-"/project2/xinhe/shared_data/ENCODE/hg19/PsychEncode"
+# path2<-"/home/jinggu/cluster/data/features/formatted/asoc_science2020"
+# list1<-read.table(paste(path1, "brain_psychEncode.list", sep="/"), header = F)
+# list2<-read.table(paste(path2, "annotation_list.txt", sep="/"), header = F)
+# 
+# overlaps_encode=list()
+# for(i in 1:length(list1$V1)){
+#   print(i)
+#   df<-fread(paste(path1, list1$V1[i], sep="/"))
+#   overlaps_encode[[i]]<-count_SNP_overlaps(df_snp=akita, df_peak=df)
+# }
+# 
+# unionEncode<-c()
+# for(i in 1:length(list1$V1)){
+#   unionEncode<-union(unionEncode, overlaps_encode[[i]]$snp)
+# }
+# 
+# overlaps_OCR=list()
+# for(i in 1:length(list2$V1)){
+#   print(i)
+#   df<-fread(paste(path2, list2$V1[i], sep="/"))
+#   overlaps_OCR[[i]]<-count_SNP_overlaps(df_snp=akita, df_peak=df)
+# }
+# 
+# unionOCR<-c()
+# for(i in 1:length(list2$V1)){
+#   unionOCR<-union(unionOCR, overlaps_OCR[[i]]$snp)
+# }
+# print(c(length(unique(unionEncode)), length(unique(unionOCR))))
+```
+**Joint enrichment for CTCF-related annotations**
+```{r echo=F}
+# gwas<-readRDS("~/cluster/data/gwas/2_Filtered/scz_2018.rds")
+# scdRaw<-fread("~/cluster/data/features/formatted/akita_pred/snps_CTCF500_disrupted.bed")
+# colnames(scdRaw)<-c("chr", "start", "end", "scores")
+# scd<-scdRaw[scdRaw$scores>=0.9,]
+# snpRanges<-make_ranges(gwas$chr, gwas$pos, gwas$pos)
+# snpRanges <- plyranges::mutate(snpRanges, z=gwas$zscore)
+# scd_ranges<-make_ranges(scd$chr, scd$start, scd$end)
+# scd_ranges<-plyranges::mutate(scd_ranges, scores=scd$scores)
+# subsetdf <- IRanges::mergeByOverlaps(snpRanges, scd_ranges)
+```
+
+```{r echo=F}
+df<-read.table("output/torus_enrichment_ctcf.est", header = T)
+df<-df[-1,]
+annot<-c("CTCF peaks", "CTCF motifsflank100", "SCD(>0.12)", "coding",  "CADD top5%")
+snp_enrichment_plot(df, y.label = annot) + coord_cartesian(xlim=c(-2.5,5))
+```
+
+### DNA methylation
+
+**procedure**  
+
+1. concatenate and sort CG DNA methylation regions across 21 clusters    
+2. use `bedtools merge -i merged.bed` to merge overlapped regions in the concatenated bed file   
+3. check the distribution of peak lengths    
+![Histogram for the sizes of DNA methylation regions](assets/human_CG_DMR_peak_length.png)
+**Joint enrichment results**
+```{r echo=F}
+df<-read.table("output/torus_enrichment_DMR.est", header = T)
+df<-df[-1,]
+annot=c("brain H3K27ac", "brain OCR", "CG DMR", "CADD top5%(NC)", "coding")
+snp_enrichment_plot(df, y.label = annot)
+```
+
+### Post-Transcriptional Regulation
+
+#### m6A modification
+
+**m6A regions across tissues**   
+No differences in enrichment of SCZ risk variants across tissues
+
+**Joint enrichment analysis**
+```{r echo=F}
+df<-read.table("output/torus_enrichment_m6A.est", header = T)
+df<-df[-1,]
+annot<-c("brain H3K27ac", "brain OCR","coding", "CADD top5%(NC)","brain m6A")
+snp_enrichment_plot(df, y.label = annot)
+```
+
+#### Splicing
+
+SpliceAI is a deep CNN method with a ResNets architecture. It provides a general prediction of splicing with precision from an arbitrary pre-mRNA sequence. For each nucleotide in the pre-mRNA transcript, SpliceAI examines 5kb away from it to predict the probability of this nucleotide being acceptor, donor or neither.
+
+**Binary annotations at different cutoffs**
+```{r echo=F}
+outDIR="~/cluster/projects/torus_enrichment"
+cutoffs<-c(0.01, 0.03, 0.05, 0.07, 0.1,0.2)
+
+summarize_results<-function(trait){
+  tbl<-c()
+  for(i in cutoffs[1:(length(cutoffs)-1)]){
+    f<-read.table(sprintf("%s/%s/torus_enrichment.%s.est", outDIR, trait, as.character(i)))
+    tbl<-data.frame(rbind(tbl, f[2,2:4]))
+    }
+  tbl<-data.frame(cbind(paste("spliceAI",cutoffs[1:(length(cutoffs)-1)], sep="_"), tbl))
+  colnames(tbl)=c("term", "estimate", "high","low")
+  return(tbl)
+}
+snp_enrichment_plot(summarize_results("scz_2018"), trait="SCZ") + ggtitle("Torus Enrichment Results")
+```
+```{r echo=F}
+plot_enrichment<-function(output.tbl, trait){
+ p <- ggplot(output.tbl, aes(y=term, x=log2(exp(estimate)))) +
+                # show estimate as a point and the condifence interval as an error bar
+                geom_point(size=2) + geom_linerange(aes(xmax=log2(exp(high)), xmin=log2(exp(low)))) +
+                
+                ## customize axis
+                ylab("") +
+                xlab(sprintf("%s", trait)) + 
+                # add vertical line for no enrichment
+                geom_vline(xintercept=0, linetype="dashed", color="black") + 
+                # customize theme
+                theme(axis.text=element_text(size=14), axis.title=element_text(size=12))
+}
+```
+
+```{r echo=F, fig.width=12, fig.height=8}
+traits=c("aFib","allergy","bmi","HDL","height","ibd_CD","ibd_IBD","ibd_UC","LDL","scz_2018")
+output<-c()
+for(i in traits){
+  tbl<-summarize_results(i)
+  output<-rbind(output, cbind(rep(i, dim(tbl)[1]), tbl))
+}
+output<-data.frame(output)
+colnames(output)<-c("trait", "term", "estimate", "high", "low")
+for(i in 1:length(traits)){
+  p<-plot_enrichment(output[output$trait==traits[i],], trait=traits[i])
+  assign(paste0("p",i), p)
+}
+ggarrange(p1,p2,p6,p7,p8, ncol=3, nrow=2)
+ggarrange(p3,p4,p5,p9,p10, ncol=3, nrow=2)
+```
+Question:   
+How valid are those predictions with low values? GWAS variants are enriched with variants that are predicted to have low probability of altering splicing patterns. It does not convince me that splicing 
+
+**Joint enrichment results for m6A**     
+m6A features were previously found to be cell type specific. The best tissue for each trait was selected based on Christine's enrichment analyses using S-LDSC.
+
+* BMI - liver
+* Height - lung
+* HDL - liver
+* LDL - liver
+* SCZ - brain
+* IBD - stomach
+```{r echo=F, fig.width=10, fig.height=6}
+# library(ggplot2)
+# 
+# outDIR<-"/home/jinggu/cluster/projects/finemap_pipeline/torus_output"
+# neg_controls<-c("HDL", "LDL")
+# test<-"scz_2018"
+# 
+# outputList<-list()
+# for(i in c(neg_controls)){
+#   outputList[[i]]<-read.table(paste(outDIR, sprintf("%s/joint_0510/torus_joint_enrichment.est", i),sep="/"), header = T)
+#   outputList[[i]]<-outputList[[i]][-1,]
+#   outputList[[i]]$term<-unlist(lapply(outputList[[i]]$term, function(i){strsplit(i, "[.]")[[1]][1]}))
+#   outputList[[i]]<-cbind(rep(i, dim(outputList[[i]])[1]), outputList[[i]])
+# }
+# outputDF<-data.frame(do.call(rbind, outputList), row.names = NULL)
+# colnames(outputDF)[1]<-"trait"
+# 
+# ### This function will generate a plot listing the panels of enrichment estimates from multiple traits. 
+# ref <- outputDF[outputDF$trait=="scz_2018",]
+# ref_order<-reorder(ref$term, ref$estimate)
+# outputDF$term<-factor(outputDF$term, levels(ref_order), labels=c("protein coding", "CADD top5%", "CDTS top5%"))
+# outputDF$trait<-factor(outputDF$trait, levels=c("scz_2018", "LDL", "HDL", "ibd_CD", "ibd_UC","ibd_IBD", "bmi", "height"), labels = c("SCZ", "LDL", "HDL", "ibd_CD", "ibd_UC","ibd_IBD", "bmi", "height"))
+# ggplot(outputDF, aes(y=term, x=log2(exp(estimate)))) +
+#   geom_errorbar(aes(xmax=log2(exp(high)), xmin=log2(exp(low))),width=0.1) +   
+#   geom_point(size=2) + xlab("variant enrichment(log2)") +
+#   theme(axis.text=element_text(size=14), axis.title=element_text(size=16), strip.text.x=element_text(size=14)) +  geom_vline(xintercept=0, linetype="dashed", color="black") + facet_wrap(.~ trait, ncol=3)
+# 
+# 
+# 
+plot_enrichment<-function(traits, log_based){
+  if(log_based==T){
+    ggplot(outputDF[outputDF$trait %in% traits,],
+         aes(y=term, x=log2(exp(estimate)))) +
+    geom_errorbar(aes(xmax=log2(exp(high)), xmin=log2(exp(low))),width=0.1) +
+    geom_point(size=2) + xlab("variant enrichment(log2)") +
+    theme(axis.text=element_text(size=14), axis.title=element_text(size=16), strip.text.x=element_text(size=14)) + ylab("") +
+    geom_vline(xintercept=0, linetype="dashed", color="grey") + facet_grid(.~ trait)
+  }else{
+    ggplot(outputDF[outputDF$trait %in% traits & outputDF$estimate>0,],
+         aes(y=term, x=log2(estimate))) +
+    geom_errorbar(aes(xmax=log2(high), xmin=log2(low)),width=0.1) +
+    geom_point(size=2) + xlab("variant enrichment(log2)") +
+    theme(axis.text=element_text(size=14), axis.title=element_text(size=16),  strip.text.x=element_text(size=14)) + ylab("") +
+    geom_vline(xintercept=0, linetype="dashed", color="grey") + facet_grid(.~ trait)
+  }
+}
+# 
+# plot_enrichment(c("scz_2018", "HDL", "LDL", "bmi", "height", "ibd_IBD", "ibd_UC", "ibd_CD"), log_based = T)
+# #ggsave("~/projects/funcFinemapping/output/scz_lipid_joint_enrichment.png", width = 10, height=6)
+# plot_enrichment(c("scz_2018", "bmi", "height"), log_based = T)
+# #ggsave("~/projects/funcFinemapping/output/scz_bmi_joint_enrichment.png", width = 8, height=6)
+# plot_enrichment(c("scz_2018", "ibd_IBD", "ibd_UC", "ibd_CD"), log_based = T) + xlim(c(-7,7))
+# #ggsave("~/projects/funcFinemapping/output/scz_immune_joint_enrichment.png", width = 8, height=6)
+```
+
+## Evalutaion Across traits
+
+```{r}
+
+```
+
+
+
+
+
+
+
+## Refined annotation set for Torus joint analysis
+**Schizophrenia**
+```{r echo=F}
+df<-read.table("output/torus_joint_refined_enrichment.est", header = T)
+df<-df[-1,]
+annot<-c("iPSC_derived", "coding","m6A_brain", 
+        "human_CG_DMR", "CDTS_top5%(NC)", "CADD_top5%")
+snp_enrichment_plot(df, y.label = annot)
+```
+
+
+## Stratified-LSDC results    
+
+**Procedures**    
+
+1. Built the annotation sets by combining our own refined annotations with the baseline_LD annotations from S-LDSC.
+2. Computed LD scores for this customized annotation set
+3. Run S-LDSC using the ldsc.py code from the PolyFun. 
+4. The functional enrichment estimates were based on all SNPs, instead of only commmon SNPs. 
+5. Efficient sample size needs to be considered. (TO DO)
+
+**Schizophrenia** 
+```{r echo=F}
+outDIR<-"/home/jinggu/cluster/projects/finemap_pipeline/ldsc/output"
+df<-read.table(paste(outDIR, "enrichment_scz_2018_v2.results", sep="/"), header = T)
+df[,"high"]<-df$Enrichment+2*df$Enrichment_std_error
+df[,"low"]<-df$Enrichment-2*df$Enrichment_std_error
+df$Category<-unlist(lapply(df$Category, function(i){strsplit(i, "_0")[[1]][1]}))
+df$Category[3]<-"iPSC_derived"
+#ucsc<-df[grepl("ucsc_", tolower(df$Category)),]
+#encode<-df[grepl("promoter_ucsc_0", tolower(df$Category)),]
+#peaks<-df[grepl("peaks", tolower(df$Category)),]
+#kb<-df[grepl("10kb", tolower(df$Category)),]
+#tbl<-rbind(df[1:6,], ucsc, encode, peaks, kb)
+tbl<-df[df$Category %in% c("CDS", "PromoterFlanking_Hoffman.flanking.500", "CADD", "iPSC_derived", "human_CG_DMRs"),]
+ggplot(tbl, aes(y=reorder(Category, Enrichment), x=Enrichment)) + 
+       geom_errorbar(aes(xmax=high, xmin=low),width=0.2) + 
+       geom_point(size=1.5) + xlab("SCZ variant enrichment") + theme_bw() + 
+       scale_y_discrete(labels=c("Promoter", "iPSC_derived", "CDS", "CADD", "Brain-DMR")) +
+       ylab("") + geom_vline(xintercept=1, linetype="dashed", color="grey")
+
+
+```
+By performing S-LDSC analysis, we see DNA methylation and CDTS annotations shows 6-8 fold enrichment with SCZ variants conditional on all other annotations. 
+
+**Across traits** 
+```{r echo=F}
+neg_controls<-c("bmi", "height", "ibd_IBD", "ibd_UC", "ibd_CD", "HDL", "LDL")
+test<-"scz_2018_pop"
+outputList<-list()
+for(i in c(neg_controls, test)){
+  df<-read.table(paste(outDIR, sprintf("enrichment_%s.results", i),sep="/"), header = T)
+  df[,"high"]<-df$Enrichment+2*df$Enrichment_std_error
+  df[,"low"]<-df$Enrichment-2*df$Enrichment_std_error
+  df$Category<-unlist(lapply(df$Category, function(i){strsplit(i, "_0")[[1]][1]}))
+  df$Category[4]<-"iPSC_derived"
+  outputList[[i]]<-df[1:5,]
+  outputList[[i]]<-cbind(rep(i, dim(outputList[[i]])[1]), outputList[[i]])
+}
+outputDF<-data.frame(do.call(rbind, outputList), row.names = NULL)
+colnames(outputDF)[c(1, 2, 6)]<-c("trait", "term", "estimate")
+```
+**Notes**
+
+* Annotations with no estimates mean they have negative values.
+* If the lower end of 95% confidence interval of an estimate is negative, it will be assigned as 0.05 (-4.3 as log2 based).
+```{r echo=F, fig.width=8, fig.height=6}
+outputDF[outputDF$low<0,]$low <- 0.05
+ref <- outputDF[outputDF$trait=="scz_2018_pop",]
+ref_order<-reorder(ref$term, ref$estimate)
+outputDF$term<-factor(outputDF$term, levels(ref_order))
+
+plot_enrichment(c("scz_2018_pop", "HDL", "LDL"), log_based = F) 
+plot_enrichment(c("scz_2018_pop", "bmi", "height"), log_based = F)
+plot_enrichment(c("scz_2018_pop", "ibd_IBD", "ibd_UC", "ibd_CD"), log_based = F)
+```
+Overall, we see Torus and S-LDSC generates similar enrichment estimates, except for ibd_UC trait. There seems to be some discrepancy in the estimates, which needs a closer look. We so see the performance of annotations varies across traits. 
+
+* CDTS at top 5% bins that locate in non-coding regions can better distinguish SCZ from lipid-related trait, but no from bmi, height or immune related traits.
+* Human CpG methylations can distinguish SCZ from both immune related traits and lipid-related traits.
+* M6A can better distinguish SCZ from immune related traits.
+* SCZ variants are not enriched in protein coding regions, while variants associated with all other traits are enriched in protein coding regions. 
+
+
+```{r echo=F}
+# ###obtain SNP information for random SNPs generated from SNP-snap
+# library(bigsnpr)
+# ##load LD blocks
+# bigSNP <- bigsnpr::snp_attach(rdsfile = '/project2/xinhe/1kg/bigsnpr/EUR_variable_1kg.rds')
+# vcfPath<-"/home/jinggu/cluster/github/basenji/manuscripts/akita/data/scz_2018_vcf"
+# vcf<-read.table(paste(vcfPath, "snp_lists.txt", sep="/"), header=F)
+# colnames(vcf)<-"marker.ID"
+# snpInfo<-inner_join(vcf, bigSNP$map, by="marker.ID")
+# input<-apply(snpInfo[1:500,], 1, function(i){
+#               i[6]=trimws(i[6])
+#               i[8]=trimws(i[8])
+#               trimws(paste(i[c(6,8)], collapse = ":"))
+#               })
+# write.table(input, paste0(vcfPath, "/snpSnap_input.txt"), quote =F, row.names = F, col.names = F)
+```
+
+
+```{r}
+# gwas<-readRDS("~/cluster/data/gwas/2_Filtered/scz_2018.rds")
+# head(gwas)
+# intergenic<-read.table("/home/jinggu/resources/genomes/intergenic_hg19_sorted.bed", header = F)
+# snpRanges <- make_ranges(paste0("chr", gwas$chr), gwas$pos, gwas$pos)
+# snpRanges <- plyranges::mutate(snpRanges, snp=gwas$snp)
+# bedRanges<-make_ranges(intergenic$V1, intergenic$V2, intergenic$V3)
+# overlaps<-IRanges::subsetByOverlaps(snpRanges, bedRanges)
+# subgwas<-subset(gwas, subset=gwas$snp %in% overlaps$snp)
+```
+
+
+
+
+
+

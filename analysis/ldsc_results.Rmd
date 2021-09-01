@@ -1,0 +1,66 @@
+---
+title: "LDSC_enrichment"
+Date: 08/30/21
+output:
+  html_document:
+    df_print: paged
+---
+```{r echo=F}
+library(ggplot2)
+source("code/make_plots.R")
+```
+
+## Partitioned-LDSC enrichment results
+Baseline annotations:  
+DHS, H3K4me1, H3K4me3, and H3K9ac - peaks w/o flanking regions 
+Coding, Conserved, CTCF, DGF   
+FANTOM5-Enhancer, Enhancer, Fetal_DHS, H3K27ac    
+Intron, PromoterFlanking, Promoter, Repressed, Super-enhancer, TFBS, Transcribed TSS    
+3-prime UTR, 5-prime UTR, Weak Enhancer    
+
+### Schizophrenia  
+**NeuronalATAC+SpliceAI+baselineLD**
+```{r echo=F}
+outDIR<-"/home/jinggu/cluster/projects/ldsc_enrichment"
+traits<-c("scz")
+df<-read.table(sprintf("%s/%s/scz_spliceai_cutoff0.1.results", outDIR, traits[1]), header=T)
+test<-c("test_neuronal_atac", "test_spliceAI")
+plot_ldsc_enrichment(df,test)
+```
+**Heritability by quantile**
+```{r echo=F}
+df<-read.table("~/cluster/projects/ldsc_enrichment/scz/scz_spliceAI.q5.txt", header=T)
+df["quantile"]<-c("q1", "q2", "q3", "q4", "q5")
+ggplot(df, aes(x=quantile, y=enr)) + geom_bar(stat="identity") + 
+  geom_errorbar(aes(ymin=enr-enr_se,
+                      ymax=enr+enr_se))
+```
+
+
+### Across traits
+
+```{r echo = F}
+traits=c("aFib", "bmi", "height", "LDL", "HDL", "allergy","scz")
+df<-c()
+for(i in traits){
+  cutoffs<-c(0.01, 0.03, 0.05, 0.07, 0.1)
+  for(j in cutoffs){
+    f<-read.table(sprintf("%s/%s/%s_spliceai_cutoff%s.results", outDIR,i,i,j), header =T)
+    fsub<-tail(f,1)[, c("Category", "Enrichment", "Enrichment_std_error")]
+    fsub["trait"]<-i
+    fsub["cutoff"]<-j
+    df<-data.frame(rbind(df, fsub), row.names = NULL)
+  }
+}
+
+p<-ggplot(df, aes(x=trait, y=Enrichment, fill=factor(cutoff))) + 
+              geom_bar(stat="identity", position=position_dodge()) +
+              geom_errorbar(aes(ymin=Enrichment-Enrichment_std_error,
+                      ymax=Enrichment+Enrichment_std_error),
+                      width=.2, position=position_dodge(.9)) + 
+              scale_fill_discrete(name="Annotations", 
+                                  labels=paste0("cutoff", c(0.01,0.03,0.05,0.07,0.1)))
+p
+```
+
+
