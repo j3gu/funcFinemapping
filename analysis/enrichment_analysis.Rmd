@@ -422,6 +422,7 @@ snp_enrichment_plot(df, y.label = annot)
 SpliceAI is a deep CNN method with a ResNets architecture. It provides a general prediction of splicing with precision from an arbitrary pre-mRNA sequence. For each nucleotide in the pre-mRNA transcript, SpliceAI examines 5kb away from it to predict the probability of this nucleotide being acceptor, donor or neither.
 
 **Binary annotations at different cutoffs**
+SCZ
 ```{r echo=F}
 outDIR="~/cluster/projects/torus_enrichment"
 cutoffs<-c(0.01, 0.03, 0.05, 0.07, 0.1,0.2)
@@ -453,7 +454,7 @@ plot_enrichment<-function(output.tbl, trait){
                 theme(axis.text=element_text(size=14), axis.title=element_text(size=12))
 }
 ```
-
+Across tissues
 ```{r echo=F, fig.width=12, fig.height=8}
 traits=c("aFib","allergy","bmi","HDL","height","ibd_CD","ibd_IBD","ibd_UC","LDL","scz_2018")
 output<-c()
@@ -470,8 +471,7 @@ for(i in 1:length(traits)){
 ggarrange(p1,p2,p6,p7,p8, ncol=3, nrow=2)
 ggarrange(p3,p4,p5,p9,p10, ncol=3, nrow=2)
 ```
-Question:   
-How valid are those predictions with low values? GWAS variants are enriched with variants that are predicted to have low probability of altering splicing patterns. It does not convince me that splicing 
+
 
 **Joint enrichment results for m6A**     
 m6A features were previously found to be cell type specific. The best tissue for each trait was selected based on Christine's enrichment analyses using S-LDSC.
