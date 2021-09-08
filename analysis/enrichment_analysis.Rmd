@@ -578,18 +578,6 @@ plot_enrichment<-function(traits, log_based){
 # #ggsave("~/projects/funcFinemapping/output/scz_immune_joint_enrichment.png", width = 8, height=6)
 ```
 
-## Evalutaion Across traits
-
-```{r}
-
-```
-
-
-
-
-
-
-
 ## Refined annotation set for Torus joint analysis
 **Schizophrenia**
 ```{r echo=F}
