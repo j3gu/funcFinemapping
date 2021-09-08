@@ -370,7 +370,7 @@ div.tocify {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2021-09-01
+<strong>Last updated:</strong> 2021-09-08
 </p>
 <p>
 <strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 6 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 1
@@ -501,16 +501,16 @@ output/scz_immune_joint_enrichment.png
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomj3gufuncFinemappingtreeeaa3eeee1a7f2e363d325d89787d0f7f78231dedtargetblankeaa3eeea"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/j3gu/funcFinemapping/tree/eaa3eeee1a7f2e363d325d89787d0f7f78231ded" target="_blank">eaa3eee</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomj3gufuncFinemappingtree76ea7d1dce4c61adbfb0ba3bbeeae348ef737ea1targetblank76ea7d1a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/j3gu/funcFinemapping/tree/76ea7d1dce4c61adbfb0ba3bbeeae348ef737ea1" target="_blank">76ea7d1</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomj3gufuncFinemappingtreeeaa3eeee1a7f2e363d325d89787d0f7f78231dedtargetblankeaa3eeea" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomj3gufuncFinemappingtree76ea7d1dce4c61adbfb0ba3bbeeae348ef737ea1targetblank76ea7d1a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/j3gu/funcFinemapping/tree/eaa3eeee1a7f2e363d325d89787d0f7f78231ded" target="_blank">eaa3eee</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/j3gu/funcFinemapping/tree/76ea7d1dce4c61adbfb0ba3bbeeae348ef737ea1" target="_blank">76ea7d1</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -616,6 +616,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/j3gu/funcFinemapping/blob/76ea7d1dce4c61adbfb0ba3bbeeae348ef737ea1/analysis/enrichment_analysis.Rmd" target="_blank">76ea7d1</a>
+</td>
+<td>
+Jing Gu
+</td>
+<td>
+2021-09-08
+</td>
+<td>
+run spliceai against baselines
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/j3gu/funcFinemapping/dec3c68953a9152a0971baced0b73b76d17acbcb/docs/enrichment_analysis.html" target="_blank">dec3c68</a>
+</td>
+<td>
+Jing Gu
+</td>
+<td>
+2021-09-01
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -1205,8 +1239,7 @@ Jing Gu
 <div id="splicing" class="section level4">
 <h4>Splicing</h4>
 <p>SpliceAI is a deep CNN method with a ResNets architecture. It provides a general prediction of splicing with precision from an arbitrary pre-mRNA sequence. For each nucleotide in the pre-mRNA transcript, SpliceAI examines 5kb away from it to predict the probability of this nucleotide being acceptor, donor or neither.</p>
-<p><strong>Binary annotations at different cutoffs</strong></p>
-<p>SCZ <img src="figure/enrichment_analysis.Rmd/unnamed-chunk-17-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><strong>Binary annotations at different cutoffs</strong> SCZ <img src="figure/enrichment_analysis.Rmd/unnamed-chunk-17-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-17-1">
 Past versions of unnamed-chunk-17-1.png
@@ -1245,7 +1278,7 @@ Jing Gu
 </div>
 </div>
 <p>SpliceAI predictions with a cutoff lower than 0.05 show enrichment with SCZ risk variants. This implies SCZ risk variants are less likely to affect traits by disrupting mRNA splicing.</p>
-<p>Across tissues and cutoffs <img src="figure/enrichment_analysis.Rmd/unnamed-chunk-19-1.png" width="1152" style="display: block; margin: auto;" /></p>
+<p>Across traits and cutoffs <img src="figure/enrichment_analysis.Rmd/unnamed-chunk-19-1.png" width="1152" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-19-1">
 Past versions of unnamed-chunk-19-1.png
@@ -1322,15 +1355,17 @@ Jing Gu
 </div>
 </div>
 <p>For traits such as aFib, allergy, ibdCD, we observed that variants with predicted scores at a cutoff of 0.1 are more enriched with GWAS-associated SNPs. However, other traits require the predicted scores to be as low as 0.05 to show enrichment with GWAS-associated SNPs. Sample size may not be the main factor for the enrichment based on the results from BMI and height. It is interesting to see the enrichment of splicing variants in immune related disorders.</p>
-<p><strong>Joint enrichment results for m6A</strong><br />
-m6A features were previously found to be cell type specific. The best tissue for each trait was selected based on Christine's enrichment analyses using S-LDSC.</p>
+<p><strong>Joint enrichment for spliceAI scores at 0.01 threshold</strong></p>
 <ul>
+<li>baseline: CDS <img src="figure/enrichment_analysis.Rmd/unnamed-chunk-20-1.png" width="672" style="display: block; margin: auto;" /></li>
+<li><p>baseline: CDS, top5% CADD, neuronal OCRs <img src="figure/enrichment_analysis.Rmd/unnamed-chunk-21-1.png" width="672" style="display: block; margin: auto;" /> <strong>Joint enrichment results for m6A</strong><br />
+m6A features were previously found to be cell type specific. The best tissue for each trait was selected based on Christine's enrichment analyses using S-LDSC.</p></li>
 <li>BMI - liver</li>
 <li>Height - lung</li>
 <li>HDL - liver</li>
 <li>LDL - liver</li>
 <li>SCZ - brain</li>
-<li>IBD - stomach</li>
+<li><p>IBD - stomach</p></li>
 </ul>
 </div>
 </div>
@@ -1340,44 +1375,7 @@ m6A features were previously found to be cell type specific. The best tissue for
 </div>
 <div id="refined-annotation-set-for-torus-joint-analysis" class="section level2">
 <h2>Refined annotation set for Torus joint analysis</h2>
-<p><strong>Schizophrenia</strong> <img src="figure/enrichment_analysis.Rmd/unnamed-chunk-22-1.png" width="672" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-22-1">
-Past versions of unnamed-chunk-22-1.png
-</button>
-</p>
-<div id="fig-unnamed-chunk-22-1" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/j3gu/funcFinemapping/blob/05f73e942320177f10cffd317526a654adc06b06/docs/figure/enrichment_analysis.Rmd/unnamed-chunk-22-1.png" target="_blank">05f73e9</a>
-</td>
-<td>
-Jing Gu
-</td>
-<td>
-2021-09-01
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
+<p><strong>Schizophrenia</strong> <img src="figure/enrichment_analysis.Rmd/unnamed-chunk-24-1.png" width="672" style="display: block; margin: auto;" /></p>
 </div>
 <div id="stratified-lsdc-results" class="section level2">
 <h2>Stratified-LSDC results</h2>
@@ -1389,51 +1387,7 @@ Jing Gu
 <li>The functional enrichment estimates were based on all SNPs, instead of only commmon SNPs.</li>
 <li>Efficient sample size needs to be considered. (TO DO)</li>
 </ol>
-<p><strong>Schizophrenia</strong> <img src="figure/enrichment_analysis.Rmd/unnamed-chunk-23-1.png" width="672" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-23-1">
-Past versions of unnamed-chunk-23-1.png
-</button>
-</p>
-<div id="fig-unnamed-chunk-23-1" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/j3gu/funcFinemapping/blob/05f73e942320177f10cffd317526a654adc06b06/docs/figure/enrichment_analysis.Rmd/unnamed-chunk-23-1.png" target="_blank">05f73e9</a>
-</td>
-<td>
-Jing Gu
-</td>
-<td>
-2021-09-01
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-<p>By performing S-LDSC analysis, we see DNA methylation and CDTS annotations shows 6-8 fold enrichment with SCZ variants conditional on all other annotations.</p>
-<p><strong>Across traits</strong></p>
-<p><strong>Notes</strong></p>
-<ul>
-<li>Annotations with no estimates mean they have negative values.</li>
-<li>If the lower end of 95% confidence interval of an estimate is negative, it will be assigned as 0.05 (-4.3 as log2 based). <img src="figure/enrichment_analysis.Rmd/unnamed-chunk-25-1.png" width="768" style="display: block; margin: auto;" /></li>
-</ul>
+<p><strong>Schizophrenia</strong> <img src="figure/enrichment_analysis.Rmd/unnamed-chunk-25-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-25-1">
 Past versions of unnamed-chunk-25-1.png
@@ -1471,88 +1425,16 @@ Jing Gu
 </table>
 </div>
 </div>
-<p><img src="figure/enrichment_analysis.Rmd/unnamed-chunk-25-2.png" width="768" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-25-2">
-Past versions of unnamed-chunk-25-2.png
-</button>
-</p>
-<div id="fig-unnamed-chunk-25-2" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/j3gu/funcFinemapping/blob/05f73e942320177f10cffd317526a654adc06b06/docs/figure/enrichment_analysis.Rmd/unnamed-chunk-25-2.png" target="_blank">05f73e9</a>
-</td>
-<td>
-Jing Gu
-</td>
-<td>
-2021-09-01
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-<p><img src="figure/enrichment_analysis.Rmd/unnamed-chunk-25-3.png" width="768" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-25-3">
-Past versions of unnamed-chunk-25-3.png
-</button>
-</p>
-<div id="fig-unnamed-chunk-25-3" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/j3gu/funcFinemapping/blob/05f73e942320177f10cffd317526a654adc06b06/docs/figure/enrichment_analysis.Rmd/unnamed-chunk-25-3.png" target="_blank">05f73e9</a>
-</td>
-<td>
-Jing Gu
-</td>
-<td>
-2021-09-01
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-<p>Overall, we see Torus and S-LDSC generates similar enrichment estimates, except for ibd_UC trait. There seems to be some discrepancy in the estimates, which needs a closer look. We so see the performance of annotations varies across traits.</p>
+<p>By performing S-LDSC analysis, we see DNA methylation and CDTS annotations shows 6-8 fold enrichment with SCZ variants conditional on all other annotations.</p>
+<p><strong>Across traits</strong></p>
+<p><strong>Notes</strong></p>
 <ul>
+<li>Annotations with no estimates mean they have negative values.</li>
+<li><p>If the lower end of 95% confidence interval of an estimate is negative, it will be assigned as 0.05 (-4.3 as log2 based). <img src="figure/enrichment_analysis.Rmd/unnamed-chunk-27-1.png" width="768" style="display: block; margin: auto;" /><img src="figure/enrichment_analysis.Rmd/unnamed-chunk-27-2.png" width="768" style="display: block; margin: auto;" /><img src="figure/enrichment_analysis.Rmd/unnamed-chunk-27-3.png" width="768" style="display: block; margin: auto;" /> Overall, we see Torus and S-LDSC generates similar enrichment estimates, except for ibd_UC trait. There seems to be some discrepancy in the estimates, which needs a closer look. We so see the performance of annotations varies across traits.</p></li>
 <li>CDTS at top 5% bins that locate in non-coding regions can better distinguish SCZ from lipid-related trait, but no from bmi, height or immune related traits.</li>
 <li>Human CpG methylations can distinguish SCZ from both immune related traits and lipid-related traits.</li>
 <li>M6A can better distinguish SCZ from immune related traits.</li>
-<li>SCZ variants are not enriched in protein coding regions, while variants associated with all other traits are enriched in protein coding regions.</li>
+<li><p>SCZ variants are not enriched in protein coding regions, while variants associated with all other traits are enriched in protein coding regions.</p></li>
 </ul>
 <pre class="r"><code># gwas&lt;-readRDS(&quot;~/cluster/data/gwas/2_Filtered/scz_2018.rds&quot;)
 # head(gwas)
