@@ -422,29 +422,30 @@ snp_enrichment_plot(df, y.label = annot)
 SpliceAI is a deep CNN method with a ResNets architecture. It provides a general prediction of splicing with precision from an arbitrary pre-mRNA sequence. For each nucleotide in the pre-mRNA transcript, SpliceAI examines 5kb away from it to predict the probability of this nucleotide being acceptor, donor or neither.
 
 **Binary annotations at different cutoffs**
-
 SCZ
 ```{r echo=F}
 outDIR="~/cluster/projects/torus_enrichment"
-cutoffs<-c(0.01, 0.03, 0.05, 0.07, 0.1,0.2)
+cutoffs<-c(0.01, 0.03, 0.05, 0.07, 0.1, 0.2)
 
-summarize_results<-function(trait){
+summarize_results<-function(trait, annoType){
   tbl<-c()
   for(i in cutoffs[1:(length(cutoffs)-1)]){
-    f<-read.table(sprintf("%s/%s/torus_enrichment.%s.est", outDIR, trait, as.character(i)))
+    f<-read.table(sprintf("%s/%s/%s/torus_enrichment.%s.est", outDIR
+                          , trait, annoType, as.character(i)))
     tbl<-data.frame(rbind(tbl, f[2,2:4]))
     }
   tbl<-data.frame(cbind(paste("spliceAI",cutoffs[1:(length(cutoffs)-1)], sep="_"), tbl))
   colnames(tbl)=c("term", "estimate", "high","low")
+  tbl$term<-factor(tbl$term)
   return(tbl)
 }
-snp_enrichment_plot(summarize_results("scz_2018"), trait="SCZ") + ggtitle("Torus Enrichment Results")
+snp_enrichment_plot(summarize_results(trait="scz_2018", annoType = "spliceAI")) + ggtitle("Torus Enrichment Results")
 ```
 SpliceAI predictions with a cutoff lower than 0.05 show enrichment with SCZ risk variants. This implies SCZ risk variants are less likely to affect traits by disrupting mRNA splicing.
 
 ```{r echo=F}
 plot_enrichment<-function(output.tbl, trait){
- p <- ggplot(output.tbl, aes(y=term, x=log2(exp(estimate)))) +
+ p <- ggplot(output.tbl, aes(y=reorder(term,estimate), x=log2(exp(estimate)))) +
                 # show estimate as a point and the condifence interval as an error bar
                 geom_point(size=2) + geom_linerange(aes(xmax=log2(exp(high)), xmin=log2(exp(low)))) +
                 
@@ -457,16 +458,18 @@ plot_enrichment<-function(output.tbl, trait){
                 theme(axis.text=element_text(size=14), axis.title=element_text(size=12))
 }
 ```
-Across tissues and cutoffs 
+Across traits and cutoffs 
 ```{r echo=F, fig.width=12, fig.height=8}
 traits=c("aFib","allergy","bmi","HDL","height","ibd_CD","ibd_IBD","ibd_UC","LDL","scz_2018")
+
 output<-c()
 for(i in traits){
-  tbl<-summarize_results(i)
+  tbl<-summarize_results(i, "spliceAI")
   output<-rbind(output, cbind(rep(i, dim(tbl)[1]), tbl))
 }
 output<-data.frame(output)
 colnames(output)<-c("trait", "term", "estimate", "high", "low")
+output$term<-factor(output$term)
 for(i in 1:length(traits)){
   p<-plot_enrichment(output[output$trait==traits[i],], trait=traits[i])
   assign(paste0("p",i), p)
@@ -476,6 +479,41 @@ ggarrange(p3,p4,p5,p9,p10, ncol=3, nrow=2)
 ```
 For traits such as aFib, allergy, ibdCD, we observed that variants with predicted scores at a cutoff of 0.1 are more enriched with GWAS-associated SNPs. However, other traits require the predicted scores to be as low as 0.05 to show enrichment with GWAS-associated SNPs. Sample size may not be the main factor for the enrichment based on the results from BMI and height. It is interesting to see the enrichment of splicing variants in immune related disorders.
 
+**Joint enrichment for spliceAI scores at 0.01 threshold**
+
+* baseline: CDS
+```{r echo=F}
+traits=c("aFib","allergy","bmi","HDL","height","ibd_CD","ibd_IBD","ibd_UC","LDL","scz_2018")
+output<-c()
+for(i in traits){
+  f<-read.table(sprintf("%s/%s/joint/torus_cds_spliceai.enrichment.est", outDIR, i))
+  f["trait"]<-rep(i, dim(f)[1])
+  output<-data.frame(rbind(output, f[-1,]))
+}
+colnames(output)<-c("term", "estimate", "high", "low", "trait")
+output$term<-factor(output$term)
+output$trait<-factor(output$trait)
+p<-ggplot(output, aes(x=trait, y=log2(exp(estimate)), fill=term)) + 
+          geom_bar(stat="identity",position=position_dodge()) + ylab("Enrichment estimates")+
+          geom_errorbar(aes(ymin=log2(exp(low)), ymax=log2(exp(high))), width=.2, position=position_dodge(.9))
+p
+```
+* baseline: CDS, top5% CADD, neuronal OCRs
+```{r echo=F}
+output<-c()
+for(i in traits){
+  f<-read.table(sprintf("%s/%s/joint/torus_joint.enrichment.est", outDIR, i))
+  f["trait"]<-rep(i, dim(f)[1])
+  output<-data.frame(rbind(output, f[-1,]))
+}
+colnames(output)<-c("term", "estimate", "high", "low", "trait")
+output$term<-factor(output$term)
+output$trait<-factor(output$trait)
+p<-ggplot(output, aes(x=trait, y=log2(exp(estimate)), fill=term)) + 
+          geom_bar(stat="identity",position=position_dodge()) + ylab("Enrichment estimates")+
+          geom_errorbar(aes(ymin=log2(exp(low)), ymax=log2(exp(high))), width=.2, position=position_dodge(.9))
+p
+```
 **Joint enrichment results for m6A**     
 m6A features were previously found to be cell type specific. The best tissue for each trait was selected based on Christine's enrichment analyses using S-LDSC.
 
@@ -561,6 +599,9 @@ annot<-c("iPSC_derived", "coding","m6A_brain",
         "human_CG_DMR", "CDTS_top5%(NC)", "CADD_top5%")
 snp_enrichment_plot(df, y.label = annot)
 ```
+
+
+
 
 
 ## Stratified-LSDC results    
