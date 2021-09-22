@@ -30,7 +30,9 @@ colnames(gginput)<-c("term", "counts")
 gginput["cell_type"]<-unlist(lapply(gginput$term, function(i){cell_dict[cell_dict$X1==i,]$X2}))
 ggplot(gginput, aes(x=cell_type, y=counts))+geom_bar(stat="identity") + theme(axis.text.x=element_text(angle=90, vjust = +0.7))
 ```
+
 ### Enrichment results
+
 ```{r echo=F}
 df<-read.table("output/asthma/celltype_specific_adult_lungs_torus.est",header = F)
 colnames(df)<-c("term", "est", "low", "high")
@@ -54,6 +56,7 @@ df["cell_type"]<-unlist(lapply(df$term, function(i){strsplit(i, "_U")[[1]][1]}))
 df['omit']<-df$low < -10 | df$high > 10
 plot_torus_enrichment(df[df['omit']==F,], text_angle=60, vjust=0) + ggtitle("Differentiation-specific & accessible regions in blood")
 ```
+
 * Not sure why much fewer cell types show differentially accessiblity during differentiation. 
 
 ```{r echo=F}
@@ -91,7 +94,6 @@ plot_torus_enrichment(df[df['omit']==F,], text_angle=90, vjust=1) + ggtitle("Blo
 ```
 Both clusters of cell-type specific accessible regions from T lymphocytes in lungs are significantly enriched with risk variants conditional on differentiation-specific regions identified from blood. 
 
-**regions with stimulation-specific accessibility in blood**
 ```{r echo=F}
 df<-read.table("output/asthma/joint_lung_vs_blood_immune_stimu_torus.est",header = F)
 colnames(df)<-c("term", "est", "low", "high")
