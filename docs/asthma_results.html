@@ -11,7 +11,7 @@
 
 
 
-<title>Fine-mapping Pipeline</title>
+<title>Asthma project</title>
 
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -28,6 +28,9 @@
        h6 {font-size: 12px;}
        code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
        pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
@@ -225,6 +228,69 @@ $(document).ready(function () {
 
 
 
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
 
 </head>
 
@@ -232,6 +298,16 @@ $(document).ready(function () {
 
 
 <div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-sm-12 col-md-4 col-lg-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-sm-12 col-md-8 col-lg-9">
 
 
 
@@ -269,7 +345,7 @@ $(document).ready(function () {
 
 
 
-<h1 class="title toc-ignore">Fine-mapping Pipeline</h1>
+<h1 class="title toc-ignore">Asthma project</h1>
 
 </div>
 
@@ -297,7 +373,7 @@ $(document).ready(function () {
 <strong>Last updated:</strong> 2021-09-22
 </p>
 <p>
-<strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 2 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
+<strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
 </p>
 <p>
 <strong>Knit directory:</strong> <code>funcFinemapping/</code> <span class="glyphicon glyphicon-question-sign" aria-hidden="true" title="This is the local directory in which the code in this file was executed."> </span>
@@ -319,6 +395,66 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div id="strongRMarkdownfilestronguptodate" class="panel-collapse collapse">
 <div class="panel-body">
 <p>Great! Since the R Markdown file has been committed to the Git repository, you know the exact version of the code that produced these results.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongEnvironmentstrongempty"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Environment:</strong> empty </a>
+</p>
+</div>
+<div id="strongEnvironmentstrongempty" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! The global environment was empty. Objects defined in the global environment can affect the analysis in your R Markdown file in unknown ways. For reproduciblity it's best to always run the code in an empty environment.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSeedstrongcodesetseed20210404code"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Seed:</strong> <code>set.seed(20210404)</code> </a>
+</p>
+</div>
+<div id="strongSeedstrongcodesetseed20210404code" class="panel-collapse collapse">
+<div class="panel-body">
+<p>The command <code>set.seed(20210404)</code> was run prior to running the code in the R Markdown file. Setting a seed ensures that any results that rely on randomness, e.g. subsampling or permutations, are reproducible.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSessioninformationstrongrecorded"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Session information:</strong> recorded </a>
+</p>
+</div>
+<div id="strongSessioninformationstrongrecorded" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! Recording the operating system, R version, and package versions is critical for reproducibility.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongCachestrongnone"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Cache:</strong> none </a>
+</p>
+</div>
+<div id="strongCachestrongnone" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Nice! There were no cached chunks for this analysis, so you can be confident that you successfully produced the results during this run.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongFilepathsstrongrelative"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>File paths:</strong> relative </a>
+</p>
+</div>
+<div id="strongFilepathsstrongrelative" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! Using relative paths to the files within your workflowr project makes it easier to run your code on other machines.</p>
 </div>
 </div>
 </div>
@@ -399,7 +535,7 @@ Note that any generated files, e.g. HTML, png, CSS, etc., are not included in th
 <div id="versions" class="tab-pane fade">
 
 <p>
-These are the previous versions of the repository in which changes were made to the R Markdown (<code>analysis/index.Rmd</code>) and HTML (<code>docs/index.html</code>) files. If you've configured a remote Git repository (see <code>?wflow_git_remote</code>), click on the hyperlinks in the table below to view the files as they were in that past version.
+These are the previous versions of the repository in which changes were made to the R Markdown (<code>analysis/asthma_results.Rmd</code>) and HTML (<code>docs/asthma_results.html</code>) files. If you've configured a remote Git repository (see <code>?wflow_git_remote</code>), click on the hyperlinks in the table below to view the files as they were in that past version.
 </p>
 <div class="table-responsive">
 <table class="table table-condensed table-hover">
@@ -428,7 +564,7 @@ Message
 Rmd
 </td>
 <td>
-<a href="https://github.com/j3gu/funcFinemapping/blob/8a5656cf110594c30de185f7ba5d12cc21a41e08/analysis/index.Rmd" target="_blank">8a5656c</a>
+<a href="https://github.com/j3gu/funcFinemapping/blob/8a5656cf110594c30de185f7ba5d12cc21a41e08/analysis/asthma_results.Rmd" target="_blank">8a5656c</a>
 </td>
 <td>
 Jing Gu
@@ -440,363 +576,6 @@ Jing Gu
 analyzed Asthma GWAS with functional priors from single cell data
 </td>
 </tr>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/j3gu/funcFinemapping/639aacfea2387dc7ad5dd85854b4666912d3c0c1/docs/index.html" target="_blank">639aacf</a>
-</td>
-<td>
-Jing Gu
-</td>
-<td>
-2021-09-08
-</td>
-<td>
-Build site.
-</td>
-</tr>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/j3gu/funcFinemapping/c046e9e96de0bcaf5382954783d57e660e42354d/docs/index.html" target="_blank">c046e9e</a>
-</td>
-<td>
-Jing Gu
-</td>
-<td>
-2021-09-08
-</td>
-<td>
-Build site.
-</td>
-</tr>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/j3gu/funcFinemapping/05f73e942320177f10cffd317526a654adc06b06/docs/index.html" target="_blank">05f73e9</a>
-</td>
-<td>
-Jing Gu
-</td>
-<td>
-2021-09-01
-</td>
-<td>
-Build site.
-</td>
-</tr>
-<tr>
-<td>
-Rmd
-</td>
-<td>
-<a href="https://github.com/j3gu/funcFinemapping/blob/bed838e6d4f2f222fbcb9bc8cde0d2e5e66bf48a/analysis/index.Rmd" target="_blank">bed838e</a>
-</td>
-<td>
-Jing Gu
-</td>
-<td>
-2021-09-01
-</td>
-<td>
-update evaluations on slicing
-</td>
-</tr>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/j3gu/funcFinemapping/bbfe1d41681fcf52636e941ef2b1372fab8568c1/docs/index.html" target="_blank">bbfe1d4</a>
-</td>
-<td>
-Jing Gu
-</td>
-<td>
-2021-04-22
-</td>
-<td>
-Build site.
-</td>
-</tr>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/j3gu/funcFinemapping/540e287734a85d462236518a91a70d1e90c91e88/docs/index.html" target="_blank">540e287</a>
-</td>
-<td>
-Jing Gu
-</td>
-<td>
-2021-04-21
-</td>
-<td>
-Build site.
-</td>
-</tr>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/j3gu/funcFinemapping/e597d4ed8f7db6c2146a6c55ef6ff6801c76197f/docs/index.html" target="_blank">e597d4e</a>
-</td>
-<td>
-Jing Gu
-</td>
-<td>
-2021-04-21
-</td>
-<td>
-Build site.
-</td>
-</tr>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/j3gu/funcFinemapping/491ca5ccff37db99cae0f1dc9263beaded759acd/docs/index.html" target="_blank">491ca5c</a>
-</td>
-<td>
-Jing Gu
-</td>
-<td>
-2021-04-14
-</td>
-<td>
-Build site.
-</td>
-</tr>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/j3gu/funcFinemapping/ba251cb4b94ee3d0e77190320421211dc34b99b5/docs/index.html" target="_blank">ba251cb</a>
-</td>
-<td>
-Jing Gu
-</td>
-<td>
-2021-04-14
-</td>
-<td>
-Build site.
-</td>
-</tr>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/j3gu/funcFinemapping/66c75b9b528c238fb339e8d7bececbdbacf3a1c1/docs/index.html" target="_blank">66c75b9</a>
-</td>
-<td>
-Jing Gu
-</td>
-<td>
-2021-04-06
-</td>
-<td>
-Build site.
-</td>
-</tr>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/j3gu/funcFinemapping/1a76b294e45c0bb495ac2108d8c2b021d430577d/docs/index.html" target="_blank">1a76b29</a>
-</td>
-<td>
-Jing Gu
-</td>
-<td>
-2021-04-06
-</td>
-<td>
-Build site.
-</td>
-</tr>
-<tr>
-<td>
-Rmd
-</td>
-<td>
-<a href="https://github.com/j3gu/funcFinemapping/blob/ae12e8aa24b22a009ea11c30c06102393df7ff28/analysis/index.Rmd" target="_blank">ae12e8a</a>
-</td>
-<td>
-Jing Gu
-</td>
-<td>
-2021-04-06
-</td>
-<td>
-evaluate sequence constraints
-</td>
-</tr>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/j3gu/funcFinemapping/752cb393786591800d7a9477093e2f731cd88433/docs/index.html" target="_blank">752cb39</a>
-</td>
-<td>
-Jing Gu
-</td>
-<td>
-2021-04-05
-</td>
-<td>
-Build site.
-</td>
-</tr>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/j3gu/funcFinemapping/f1c5950cd9ff555c31e73394072eb624a8254955/docs/index.html" target="_blank">f1c5950</a>
-</td>
-<td>
-Jing Gu
-</td>
-<td>
-2021-04-05
-</td>
-<td>
-Build site.
-</td>
-</tr>
-<tr>
-<td>
-Rmd
-</td>
-<td>
-<a href="https://github.com/j3gu/funcFinemapping/blob/5e70eccfdf2eb1d13b5fd97e7abe51a662b54894/analysis/index.Rmd" target="_blank">5e70ecc</a>
-</td>
-<td>
-Jing Gu
-</td>
-<td>
-2021-04-05
-</td>
-<td>
-edit index page
-</td>
-</tr>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/j3gu/funcFinemapping/d16a5e0ba9cc157232914ff14a755f7df7a1bf5b/docs/index.html" target="_blank">d16a5e0</a>
-</td>
-<td>
-Jing Gu
-</td>
-<td>
-2021-04-05
-</td>
-<td>
-Build site.
-</td>
-</tr>
-<tr>
-<td>
-Rmd
-</td>
-<td>
-<a href="https://github.com/j3gu/funcFinemapping/blob/6f7214b5258820d1c3a3ea16ebe150474514f9ec/analysis/index.Rmd" target="_blank">6f7214b</a>
-</td>
-<td>
-Jing Gu
-</td>
-<td>
-2021-04-05
-</td>
-<td>
-edit index page
-</td>
-</tr>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/j3gu/funcFinemapping/4d851a879f76ce9a8479ade95826e6f7c7d48ee4/docs/index.html" target="_blank">4d851a8</a>
-</td>
-<td>
-Jing Gu
-</td>
-<td>
-2021-04-05
-</td>
-<td>
-Build site.
-</td>
-</tr>
-<tr>
-<td>
-Rmd
-</td>
-<td>
-<a href="https://github.com/j3gu/funcFinemapping/blob/4cc091d4f1fa642f9503e463782157e779a7bc21/analysis/index.Rmd" target="_blank">4cc091d</a>
-</td>
-<td>
-Jing Gu
-</td>
-<td>
-2021-04-05
-</td>
-<td>
-start my phd project
-</td>
-</tr>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/j3gu/funcFinemapping/12fa9ffdf0845454855a4fbee5c489d9e6deb92f/docs/index.html" target="_blank">12fa9ff</a>
-</td>
-<td>
-Jing Gu
-</td>
-<td>
-2021-04-04
-</td>
-<td>
-Build site.
-</td>
-</tr>
-<tr>
-<td>
-Rmd
-</td>
-<td>
-<a href="https://github.com/j3gu/funcFinemapping/blob/c00a877f4881e8d1bdfc11250bcb1b5bb75a757b/analysis/index.Rmd" target="_blank">c00a877</a>
-</td>
-<td>
-Jing Gu
-</td>
-<td>
-2021-04-04
-</td>
-<td>
-Start workflowr project.
-</td>
-</tr>
 </tbody>
 </table>
 </div>
@@ -804,44 +583,96 @@ Start workflowr project.
 </div>
 </div>
 </div>
-<div id="welcome-to-the-project-website." class="section level1">
-<h1>Welcome to the project website.</h1>
-<p>My thesis project is about improving functional fine mapping procedures that enable us to identify causal variants underlying complex traits such as obsesity and asthma.</p>
+<div id="overall-goal" class="section level2">
+<h2>Overall Goal</h2>
+<p>Identify disease-relevant cell types and genes for Asthma</p>
 </div>
-<div id="introduction" class="section level1">
-<h1>Introduction</h1>
-<p>This document will provide an overview of my thesis project, including the aims for the project, summary of previous work, details of the method, and preliminary results. By constantly reviewing this document, I can keep track of my research aims without getting diverted too far.</p>
-<div id="literature-reviews" class="section level2">
-<h2>Literature reviews</h2>
+<div id="enrichment-estimates-for-individual-annotation" class="section level2">
+<h2>Enrichment estimates for individual annotation</h2>
+<div id="adult-onset-asthma" class="section level3">
+<h3>Adult-onset asthma</h3>
 <ul>
-<li>[Current challenges in functional fine-mapping]</li>
-<li>[Existing pipelines or methods]
+<li>GWAS: <em>Zhu et al. 2019</em> (case N=22296, control N=347481)<br />
+</li>
+<li>cell-type specific Annotations: <em>Zhang et al.2021</em> - single-cell ATAC-Seq data for adult lungs
 <ul>
-<li>Polyfun + SuSiE</li>
-<li>TORUS + SuSiE</li>
+<li>Entropy based method used to identify cell-type specific peaks</li>
+<li>For each cell type, peaks that pass 0.1% FDR cutoff were used to generate binary annotations</li>
 </ul></li>
-<li><a href="biology_bkg.html">Biology backgrounds</a></li>
-<li><a href="method_bkg.html">Prediction methods</a></li>
 </ul>
 </div>
-<div id="results-by-methods" class="section level2">
-<h2>Results by Methods</h2>
+<div id="cell-compositions-for-adult-lung-tissues" class="section level3">
+<h3>Cell compositions for adult lung tissues</h3>
+<p><img src="figure/asthma_results.Rmd/unnamed-chunk-1-1.png" width="672" style="display: block; margin: auto;" /> ### Enrichment results <img src="figure/asthma_results.Rmd/unnamed-chunk-2-1.png" width="672" style="display: block; margin: auto;" /> Log2 scaled enrichment estimates for each cell type, which was individually run using Torus. The highlighted bars show significant enrichment, while the bars in grey color do not. Asthma-associated variants are significantly enriched in certain sub-clusters of macrophages and fibroblasts, but not in others. The cell types that show the highest enrichment in the chromatin accessibility peaks from immune-related cells.</p>
 <ul>
-<li>[feedbacks]</li>
-<li><a href="enrichment_analysis.html">Torus enrichment results</a></li>
-<li><a href="ldsc_results.html">LDSC enrichment results</a></li>
-<li>[fine mapping results]</li>
-<li>[gene mapping results]</li>
-</ul>
-</div>
-<div id="results-by-projects" class="section level2">
-<h2>Results by Projects</h2>
+<li><em>Caldero et al. 2019</em> - ATAC-Seq data for FACS-sorted cells from whole blood
 <ul>
-<li><a href="asthma_results.html">Asthma Projects</a></li>
+<li>Significant differentially accessible regions when compared to progenitor cells</li>
+<li>Significant differentially accessible regions under stimulation</li>
+</ul></li>
 </ul>
+<p><img src="figure/asthma_results.Rmd/unnamed-chunk-3-1.png" width="672" style="display: block; margin: auto;" /> * Not sure why much fewer cell types show differentially accessiblity during differentiation.</p>
+<p><img src="figure/asthma_results.Rmd/unnamed-chunk-4-1.png" width="672" style="display: block; margin: auto;" /> Upon stimulation, the enrichment signals prevail across a broader range of immune cells. There are more diverse stimulated cell types that show differential accessibility against the unstimulated ones.</p>
 </div>
-<div id="references" class="section level2">
-<h2>References</h2>
+</div>
+<div id="joint-enrichment-estimates-across-annotations" class="section level2">
+<h2>Joint enrichment estimates across annotations</h2>
+<div id="immune-cells-in-lungs-vs.-immune-cells-in-blood" class="section level3">
+<h3>immune cells in lungs vs. immune cells in blood</h3>
+<p><strong>regions with differentiation-specific accessibility in blood</strong> <img src="figure/asthma_results.Rmd/unnamed-chunk-5-1.png" width="672" style="display: block; margin: auto;" /> Both clusters of cell-type specific accessible regions from T lymphocytes in lungs are significantly enriched with risk variants conditional on differentiation-specific regions identified from blood.</p>
+<p><strong>regions with stimulation-specific accessibility in blood</strong> <img src="figure/asthma_results.Rmd/unnamed-chunk-6-1.png" width="672" style="display: block; margin: auto;" /> The enrichment signal of T lymphocytes remains after conditional on stimulated immune cell types in blood. The additional enrichment signals come from stimulated memoryCD8+ T-cells, T_helpler cells, mast cells, Th1 precursors, and Th2 precursors.</p>
+</div>
+<div id="children-onset-asthma" class="section level3">
+<h3>Children-onset Asthma</h3>
+<ul>
+<li>GWAS: <em>Zhu et al. 2019</em><br />
+</li>
+<li>cell-type specific Annotations: <em>Domcke et al.2020</em> - single-cell ATAC-Seq data for fetal lungs</li>
+</ul>
+<br>
+<p>
+<button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
+<span class="glyphicon glyphicon-wrench" aria-hidden="true"></span> Session information
+</button>
+</p>
+<div id="workflowr-sessioninfo" class="collapse">
+<pre class="r"><code>sessionInfo()</code></pre>
+<pre><code>R version 4.0.4 (2021-02-15)
+Platform: x86_64-pc-linux-gnu (64-bit)
+Running under: Scientific Linux 7.4 (Nitrogen)
+
+Matrix products: default
+BLAS/LAPACK: /software/openblas-0.3.13-el7-x86_64/lib/libopenblas_haswellp-r0.3.13.so
+
+locale:
+ [1] LC_CTYPE=en_US.UTF-8       LC_NUMERIC=C              
+ [3] LC_TIME=en_US.UTF-8        LC_COLLATE=en_US.UTF-8    
+ [5] LC_MONETARY=en_US.UTF-8    LC_MESSAGES=en_US.UTF-8   
+ [7] LC_PAPER=en_US.UTF-8       LC_NAME=C                 
+ [9] LC_ADDRESS=C               LC_TELEPHONE=C            
+[11] LC_MEASUREMENT=en_US.UTF-8 LC_IDENTIFICATION=C       
+
+attached base packages:
+[1] stats     graphics  grDevices utils     datasets  methods   base     
+
+other attached packages:
+[1] ggplot2_3.3.3   workflowr_1.6.2
+
+loaded via a namespace (and not attached):
+ [1] Rcpp_1.0.7        highr_0.8         pillar_1.5.0      compiler_4.0.4   
+ [5] bslib_0.2.4       later_1.1.0.1     jquerylib_0.1.3   git2r_0.28.0     
+ [9] tools_4.0.4       digest_0.6.27     jsonlite_1.7.2    evaluate_0.14    
+[13] lifecycle_1.0.0   tibble_3.0.6      gtable_0.3.0      pkgconfig_2.0.3  
+[17] rlang_0.4.11      DBI_1.1.1         yaml_2.2.1        xfun_0.21        
+[21] withr_2.4.2       dplyr_1.0.4       stringr_1.4.0     knitr_1.31       
+[25] generics_0.1.0    fs_1.5.0          vctrs_0.3.8       sass_0.3.1       
+[29] tidyselect_1.1.1  rprojroot_2.0.2   grid_4.0.4        glue_1.4.2       
+[33] R6_2.5.1          fansi_0.5.0       rmarkdown_2.7     farver_2.1.0     
+[37] purrr_0.3.4       magrittr_2.0.1    whisker_0.4       scales_1.1.1     
+[41] promises_1.2.0.1  ellipsis_0.3.2    htmltools_0.5.1.1 assertthat_0.2.1 
+[45] colorspace_2.0-2  httpuv_1.5.5      labeling_0.4.2    utf8_1.2.2       
+[49] stringi_1.5.3     munsell_0.5.0     crayon_1.4.1     </code></pre>
+</div>
 </div>
 </div>
 
@@ -859,6 +690,8 @@ footer is added to webpages before the MathJax javascript. -->
 </script>
 
 
+</div>
+</div>
 
 </div>
 
@@ -891,6 +724,32 @@ $(document).ready(function () {
 
 <!-- code folding -->
 
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
 
 <!-- dynamically load mathjax for compatibility with self-contained -->
 <script>
