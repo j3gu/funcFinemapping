@@ -1,0 +1,7 @@
+term	estimate	low	high
+Intercept	-9.073	-9.093	-9.052
+CTCF_peaks.1	0.519	-1.051	2.09
+CTCF_motifs100.1	0.574	0.056	1.093
+CTCF_snps.1	0.991	-35.968	37.949
+CADD_noncoding.1	2.05	1.48	2.62
+cds.1	2.036	0.977	3.095

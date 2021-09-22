@@ -1,0 +1,2 @@
+TissueType	Fol	Acn	Skm1	Fib.1	Mac.1	Vsm.1	Fib.2	End.1	Mfb.1	Enc.1	Vsm.2	Skm2	Smm.1	Msc	Mac.2	Tly.1	Fib.3	End.2	Mfb.2	Cam	Swn.1	Eep.1	Tly.2	Pal	Fib.4	Enc.2	Adc	Eep.2	Mae	Grn	Gcf	Bas.1	Bly	Krt	Prt	Hpc	Lue	Fib.5	Mfb.3	Gbl.1	Gbl.2	Dut	Mes	Mst	Adi	Ned	Enc.3	Smm.2	Agb	Fib.6	Stl	Bas.2	Mac.3	Swn.2	Total
+Lung	0	0	0	41	3011	2	29	254	0	0	6	0	107	675	4566	1105	21	624	0	0	4	1	1856	8566	319	0	0	1	4	10	0	0	399	5	1	0	4	0	7	0	9	1	15	95	0	4	0	1	349	4	0	0	4	0	22100

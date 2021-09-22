@@ -1,0 +1,7 @@
+term	estimate	low	high
+Intercept	-9.166	-9.187	-9.145
+CG_DMR.1	1.666	1.31	2.022
+brain_H3K27ac.1	-0.31	-0.823	0.202
+iPSC_derived.1	0.015	-0.306	0.335
+CADD.1	1.704	1.145	2.262
+cds.1	1.827	0.837	2.818

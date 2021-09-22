@@ -1,0 +1,4 @@
+snps_CTCF500_disrupted.bed.1	1.239	-11.493	13.971
+CTCF_pred_binding_sites_100bp.bed.1	0.407	-0.057	0.871
+CTCF_pred_binding_sites.bed.1	0.602	-0.775	1.978
+CTCF_peaks_neurons.bed.1	0.463	-0.647	1.573

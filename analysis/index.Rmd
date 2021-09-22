@@ -24,12 +24,14 @@ This document will provide an overview of my thesis project, including the aims 
 * [Biology backgrounds](biology_bkg.html)
 * [Prediction methods](method_bkg.html)
 
-## Results 
+## Results by Methods 
 * [feedbacks]
 * [Torus enrichment results](enrichment_analysis.html)
 * [LDSC enrichment results](ldsc_results.html)
 * [fine mapping results]
 * [gene mapping results]
 
+## Results by Projects
+* [Asthma Projects](asthma_results.html)
 
 ## References

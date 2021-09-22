@@ -1,0 +1,134 @@
+---
+title: "Asthma project"
+output: html_document
+---
+## Overall Goal
+Identify disease-relevant cell types and genes for Asthma
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(ggplot2)
+source("code/make_plots.R")
+```
+## Enrichment estimates for individual annotation
+### Adult-onset asthma
+* GWAS: *Zhu et al. 2019* (case N=22296, control N=347481)  
+* cell-type specific Annotations: *Zhang et al.2021* - single-cell ATAC-Seq data for adult lungs
+    + Entropy based method used to identify cell-type specific peaks
+    + For each cell type, peaks that pass 0.1% FDR cutoff were used to generate binary annotations
+
+### Cell compositions for adult lung tissues
+```{r echo=F}
+cell_dict<-read.table("output/asthma/lung_clusters_dict.txt", header=T)
+#Distributions of number of cell-type specific peaks across tissues
+lungs<-read.table("output/asthma/lung_clusters_info.txt", header=T)
+lungs<-lungs[-1]
+df<-lungs[lungs>5]
+names(df)<-names(lungs)[which(lungs>5)]
+df<-df[1:(length(df)-1)]
+gginput<-data.frame(names(df), df)
+colnames(gginput)<-c("term", "counts")
+gginput["cell_type"]<-unlist(lapply(gginput$term, function(i){cell_dict[cell_dict$X1==i,]$X2}))
+ggplot(gginput, aes(x=cell_type, y=counts))+geom_bar(stat="identity") + theme(axis.text.x=element_text(angle=90, vjust = +0.7))
+```
+### Enrichment results
+```{r echo=F}
+df<-read.table("output/asthma/celltype_specific_adult_lungs_torus.est",header = F)
+colnames(df)<-c("term", "est", "low", "high")
+df["cell_type_raw"]<-unlist(lapply(df$term, function(i){strsplit(i, "_atac")[[1]][1]}))
+df['highlight']<-df$low >=0
+df["cell_type"]<-unlist(lapply(df$cell_type_raw, function(i){cell_dict[cell_dict$X1==i,]$X2}))
+plot_torus_enrichment(df, text_angle=90)
+```
+Log2 scaled enrichment estimates for each cell type, which was individually run using Torus. The highlighted bars show significant enrichment, while the bars in grey color do not. Asthma-associated variants are significantly enriched in certain sub-clusters of macrophages and fibroblasts, but not in others. The cell types that show the highest enrichment in the chromatin accessibility peaks from immune-related cells.
+
+* *Caldero et al. 2019* - ATAC-Seq data for FACS-sorted cells from whole blood
+    - Significant differentially accessible regions when compared to progenitor cells
+    - Significant differentially accessible regions under stimulation
+
+```{r echo=F}
+df<-read.table("output/asthma/diffe_adult_blood_torus.est", header = F)
+colnames(df)<-c("term", "est", "low", "high")
+df['highlight']<-df$low >=0
+df["cell_type"]<-unlist(lapply(df$term, function(i){strsplit(i, "_U")[[1]][1]}))
+#omit cell types with very large standard deviations
+df['omit']<-df$low < -10 | df$high > 10
+plot_torus_enrichment(df[df['omit']==F,], text_angle=60, vjust=0) + ggtitle("Differentiation-specific & accessible regions in blood")
+```
+* Not sure why much fewer cell types show differentially accessiblity during differentiation. 
+
+```{r echo=F}
+df<-read.table("output/asthma/stimu_adult_blood_torus.est",header = F)
+colnames(df)<-c("term", "est", "low", "high")
+df["cell_type"]<-unlist(lapply(df$term, function(i){strsplit(i, "_S")[[1]][1]}))
+df['highlight']<-df$low >=0
+#omit cell types with very large standard deviations
+df['omit']<-df$low < -10 | df$high > 10
+plot_torus_enrichment(df[df['omit']==F,], text_angle=90, vjust=1) + ggtitle("Stimulation-specific & accessible regions in blood")
+
+```
+Upon stimulation, the enrichment signals prevail across a broader range of immune cells. There are more diverse stimulated cell types that show differential accessibility against the unstimulated ones. 
+
+## Joint enrichment estimates across annotations 
+
+### immune cells in lungs vs. immune cells in blood
+**regions with differentiation-specific accessibility in blood**
+```{r echo=F}
+df<-read.table("output/asthma/joint_lung_vs_blood_immune_diff_torus.est",header = F)
+colnames(df)<-c("term", "est", "low", "high")
+df<-df[-1,]
+df["cell_type_raw"]<-unlist(lapply(df$term, function(i){strsplit(i, "_atac")[[1]][1]}))
+df["cell_type"]<-unlist(lapply(df$cell_type_raw, function(i){
+  if(i %in% cell_dict$X1){
+    return(cell_dict[cell_dict$X1==i,]$X2)
+  }else{
+    return(i)
+  }
+}))
+df['highlight']<-df$low >=0
+#omit cell types with very large standard deviations
+df['omit']<-df$low < -15 | df$high > 10
+plot_torus_enrichment(df[df['omit']==F,], text_angle=90, vjust=1) + ggtitle("Blood differentiation-specific & accessible regions")
+```
+Both clusters of cell-type specific accessible regions from T lymphocytes in lungs are significantly enriched with risk variants conditional on differentiation-specific regions identified from blood. 
+
+**regions with stimulation-specific accessibility in blood**
+```{r echo=F}
+df<-read.table("output/asthma/joint_lung_vs_blood_immune_stimu_torus.est",header = F)
+colnames(df)<-c("term", "est", "low", "high")
+df<-df[-1,]
+df["cell_type_raw"]<-unlist(lapply(df$term, function(i){strsplit(i, "_atac")[[1]][1]}))
+df["cell_type"]<-unlist(lapply(df$cell_type_raw, function(i){
+  if(i %in% cell_dict$X1){
+    return(cell_dict[cell_dict$X1==i,]$X2)
+  }else{
+    return(i)
+  }
+}))
+df['highlight']<-df$low >=0
+#omit cell types with very large standard deviations
+df['omit']<-df$low < -15 | df$high > 10
+plot_torus_enrichment(df[df['omit']==F,], text_angle=90, vjust=1) + ggtitle("Stimulation-specific & accessible regions in blood")
+```
+The enrichment signal of T lymphocytes remains after conditional on stimulated immune cell types in blood. The additional enrichment signals come from stimulated memoryCD8+ T-cells, T_helpler cells, mast cells, Th1 precursors, and Th2 precursors. 
+
+### Children-onset Asthma
+* GWAS: *Zhu et al. 2019*  
+* cell-type specific Annotations: *Domcke et al.2020* - single-cell ATAC-Seq data for fetal lungs
+```{r echo=F}
+# lung_cells<-c("Bronchiolar_alveolar_epithelial_cell",
+#               "Ciliated_epithelial_cell",
+#               "Lymphatic_endothelial_cell",
+#               "Lymphoid_cell",
+#               "Myeloid_cell",
+#               "Neuroendocrine_cell",
+#               "Megakaryocyte",
+#               "Neuroendocrine_cell",
+#               "Stromal_cell_lineage"
+#               )
+# df<-read.table(paste(workdir, "asthma_child/torus_enrichment_all.est", sep="/"),
+#               header = F)
+# colnames(df)<-c("term", "est", "low", "high")
+# df["cell_type"]<-unlist(lapply(df$term, function(i){strsplit(i, "_atac")[[1]][1]}))
+# df['highlight']<-df$low >=0
+# plot_torus_enrichment(df[df$cell_type %in% lung_cells,], text_angle=45, vjust=0)
+```

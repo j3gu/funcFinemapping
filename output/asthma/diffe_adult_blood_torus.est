@@ -1,0 +1,11 @@
+Central_memory_CD8pos_T_U_atac.bed.1      3.993        -0.919      8.904
+Effector_CD4pos_T_U_atac.bed.1      3.780        -1.391      8.950
+ Immature_NK_U_atac.bed.1      3.989         1.725      6.253
+       Mem_B_U_atac.bed.1      2.632        -1.745      7.009
+Memory_Teffs_U_atac.bed.1     -1.235       -42.675     40.205
+   Monocytes_U_atac.bed.1      0.986        -1.393      3.364
+     Naive_B_U_atac.bed.1      4.904         0.998      8.810
+ Naive_CD8_T_U_atac.bed.1      2.872        -0.446      6.189
+ Naive_Teffs_U_atac.bed.1      3.557         0.194      6.921
+ Naive_Tregs_U_atac.bed.1     -5.163       -97.495     87.170
+        pDCs_U_atac.bed.1      1.128        -1.953      4.210

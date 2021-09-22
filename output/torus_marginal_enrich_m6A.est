@@ -1,0 +1,6 @@
+term	estimate	low	high
+Intercept	-9.129	-9.15	-9.109
+m6A.1	1.824	0.976	2.672
+iPSC_derived.1	0.659	0.335	0.983
+CADD.1	1.846	1.322	2.37
+cds.1	1.443	0.48	2.406
