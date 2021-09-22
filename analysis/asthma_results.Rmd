@@ -74,7 +74,7 @@ Upon stimulation, the enrichment signals prevail across a broader range of immun
 ## Joint enrichment estimates across annotations 
 
 ### immune cells in lungs vs. immune cells in blood
-**regions with differentiation-specific accessibility in blood**
+
 ```{r echo=F}
 df<-read.table("output/asthma/joint_lung_vs_blood_immune_diff_torus.est",header = F)
 colnames(df)<-c("term", "est", "low", "high")
