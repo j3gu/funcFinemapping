@@ -7,6 +7,7 @@ Identify disease-relevant cell types and genes for Asthma
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 library(ggplot2)
+getwd()
 source("code/make_plots.R")
 ```
 ## Enrichment estimates for individual annotation
@@ -38,10 +39,15 @@ df<-read.table("output/asthma/celltype_specific_adult_lungs_torus.est",header = 
 colnames(df)<-c("term", "est", "low", "high")
 df["cell_type_raw"]<-unlist(lapply(df$term, function(i){strsplit(i, "_atac")[[1]][1]}))
 df['highlight']<-df$low >=0
-df["cell_type"]<-unlist(lapply(df$cell_type_raw, function(i){cell_dict[cell_dict$X1==i,]$X2}))
+bg_percent<-read.table("output/asthma/zhang2021_annot_percent.txt", header = F)
+df["cell_type"]<-unlist(lapply(df$cell_type_raw, function(i){
+                                  fullname<-cell_dict[cell_dict$X1==i,]$X2
+                                  output<-sprintf("%s(%s)", fullname, bg_percent[bg_percent$V1==i,]$V3)
+                                  }))
 plot_torus_enrichment(df, text_angle=90)
+
 ```
-Log2 scaled enrichment estimates for each cell type, which was individually run using Torus. The highlighted bars show significant enrichment, while the bars in grey color do not. Asthma-associated variants are significantly enriched in certain sub-clusters of macrophages and fibroblasts, but not in others. The cell types that show the highest enrichment in the chromatin accessibility peaks from immune-related cells.
+Log2 scaled enrichment estimates for each cell type, which was individually run using Torus. The highlighted bars show significant enrichment, while the bars in grey color do not. The x-axis tickmark labels consist of the annotation name and percent of all SNPs that have that annotation. Asthma-associated variants are significantly enriched in certain sub-clusters of macrophages and fibroblasts, but not in others. The cell types that show the highest enrichment in the chromatin accessibility peaks are immune-related cells.
 
 * *Caldero et al. 2019* - ATAC-Seq data for FACS-sorted cells from whole blood
     - Significant differentially accessible regions when compared to progenitor cells
@@ -51,10 +57,27 @@ Log2 scaled enrichment estimates for each cell type, which was individually run 
 df<-read.table("output/asthma/diffe_adult_blood_torus.est", header = F)
 colnames(df)<-c("term", "est", "low", "high")
 df['highlight']<-df$low >=0
-df["cell_type"]<-unlist(lapply(df$term, function(i){strsplit(i, "_U")[[1]][1]}))
+bg_percent<-read.table("output/asthma/Caldero2019_diffDA_annot_percent.txt", header = F)
+df["cell_type"]<-unlist(lapply(df$term, function(i){
+                                  name=strsplit(i, "_atac")[[1]][1]
+                                  fname=strsplit(i, "_U")[[1]][1]
+                                  return(sprintf("%s(%s)", fname, bg_percent[bg_percent$V1==name,]$V3))}))
 #omit cell types with very large standard deviations
 df['omit']<-df$low < -10 | df$high > 10
-plot_torus_enrichment(df[df['omit']==F,], text_angle=60, vjust=0) + ggtitle("Differentiation-specific & accessible regions in blood")
+plot_torus_enrichment(df[df['omit']==F,], text_angle=90, vjust=0) + ggtitle("Differentiation-specific & accessible regions in blood")
+```
+
+```{r}
+# bg_percent=c()
+# for(i in df$term){
+#   fname<-strsplit(i, "_atac")[[1]][1]
+#   annot<-fread(sprintf("/home/jinggu/cluster/projects/torus_enrichment/asthma_adult/stimu_DA/torus_annotations_%s.txt.gz",fname))
+#   bg_percent<-rbind(bg_percent, c(fname, sum(annot[,2])))
+# }
+# bg_percent<-data.frame(bg_percent)
+# bg_percent$X2<-as.numeric(bg_percent$X2)
+# bg_percent["percent"]<-paste0(round(bg_percent$X2/dim(gwas)[1]*100,2), "%")
+# write.table(bg_percent,"~/projects/funcFinemapping/output/asthma/Caldero2019_stimuDA_annot_percent.txt", quote = F,row.names=F, col.names = F, sep='\t')
 ```
 
 * Not sure why much fewer cell types show differentially accessiblity during differentiation. 
@@ -62,7 +85,11 @@ plot_torus_enrichment(df[df['omit']==F,], text_angle=60, vjust=0) + ggtitle("Dif
 ```{r echo=F}
 df<-read.table("output/asthma/stimu_adult_blood_torus.est",header = F)
 colnames(df)<-c("term", "est", "low", "high")
-df["cell_type"]<-unlist(lapply(df$term, function(i){strsplit(i, "_S")[[1]][1]}))
+bg_percent<-read.table("output/asthma/Caldero2019_stimuDA_annot_percent.txt", header = F)
+df["cell_type"]<-unlist(lapply(df$term, function(i){
+                                  name=strsplit(i, "_atac")[[1]][1]
+                                  fname=strsplit(i, "_S")[[1]][1]
+                                  return(sprintf("%s(%s)", fname, bg_percent[bg_percent$V1==name,]$V3))}))
 df['highlight']<-df$low >=0
 #omit cell types with very large standard deviations
 df['omit']<-df$low < -10 | df$high > 10
