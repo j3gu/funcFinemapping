@@ -423,10 +423,16 @@ SpliceAI is a deep CNN method with a ResNets architecture. It provides a general
 
 **Binary annotations at different cutoffs**
 SCZ
-```{r echo=F}
+```{r echo=F, message=F}
 outDIR="~/cluster/projects/torus_enrichment"
+allSNPs=9997253
 cutoffs<-c(0.01, 0.03, 0.05, 0.07, 0.1, 0.2)
-
+bgDIR<-"/home/jinggu/cluster/data/ldsc/spliceAI"
+bg_percent<-unlist(lapply(cutoffs, function(i){
+                  f<-read.table(sprintf("%s/spliceAI_binary%s/spliceAI_pred.all.l2.M", bgDIR, i), 
+                                header=F)
+                  return(paste0(round(sum(f)/allSNPs*100, 2), "%"))
+                }))
 summarize_results<-function(trait, annoType){
   tbl<-c()
   for(i in cutoffs[1:(length(cutoffs)-1)]){
@@ -439,9 +445,13 @@ summarize_results<-function(trait, annoType){
   tbl$term<-factor(tbl$term)
   return(tbl)
 }
-snp_enrichment_plot(summarize_results(trait="scz_2018", annoType = "spliceAI")) + ggtitle("Torus Enrichment Results")
+df<-summarize_results(trait="scz_2018", annoType = "spliceAI")
+names(df)[1]<-"raw_term"
+df["bg_percent"]<-bg_percent[1:(length(bg_percent)-1)]
+df["term"]<-unlist(apply(df, 1, function(i){return(sprintf("%s(%s)", i[1], i[5]))}))
+snp_enrichment_plot(df) + ggtitle("Torus Enrichment Results") 
 ```
-SpliceAI predictions with a cutoff lower than 0.05 show enrichment with SCZ risk variants. This implies SCZ risk variants are less likely to affect traits by disrupting mRNA splicing.
+The percentage of random SNPs above each spliceAI threshold was listed in the parenthesis. 
 
 ```{r echo=F}
 plot_enrichment<-function(output.tbl, trait){
