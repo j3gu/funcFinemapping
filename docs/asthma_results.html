@@ -352,7 +352,7 @@ div.tocify {
 
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-report" data-toggle="collapse" data-target="#workflowr-report">
-<span class="glyphicon glyphicon-list" aria-hidden="true"></span> workflowr <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span>
+<span class="glyphicon glyphicon-list" aria-hidden="true"></span> workflowr <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
 </button>
 </p>
 <div id="workflowr-report" class="collapse">
@@ -361,7 +361,7 @@ div.tocify {
 <a data-toggle="tab" href="#summary">Summary</a>
 </li>
 <li>
-<a data-toggle="tab" href="#checks"> Checks <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> </a>
+<a data-toggle="tab" href="#checks"> Checks <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> </a>
 </li>
 <li>
 <a data-toggle="tab" href="#versions">Past versions</a>
@@ -370,10 +370,10 @@ div.tocify {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2021-09-23
+<strong>Last updated:</strong> 2021-10-04
 </p>
 <p>
-<strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 6 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 1
+<strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
 </p>
 <p>
 <strong>Knit directory:</strong> <code>funcFinemapping/</code> <span class="glyphicon glyphicon-question-sign" aria-hidden="true" title="This is the local directory in which the code in this file was executed."> </span>
@@ -449,52 +449,28 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongFilepathsstrongabsolute"> <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> <strong>File paths:</strong> absolute </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongFilepathsstrongrelative"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>File paths:</strong> relative </a>
 </p>
 </div>
-<div id="strongFilepathsstrongabsolute" class="panel-collapse collapse">
+<div id="strongFilepathsstrongrelative" class="panel-collapse collapse">
 <div class="panel-body">
-<p>
-Using absolute paths to the files within your workflowr project makes it difficult for you and others to run your code on a different machine. Change the absolute path(s) below to the suggested relative path(s) to make your code more reproducible.
-</p>
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th style="text-align:left;">
-absolute
-</th>
-<th style="text-align:left;">
-relative
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left;">
-~/projects/funcFinemapping/output/asthma/Caldero2019_stimuDA_annot_percent.txt
-</td>
-<td style="text-align:left;">
-output/asthma/Caldero2019_stimuDA_annot_percent.txt
-</td>
-</tr>
-</tbody>
-</table>
+<p>Great job! Using relative paths to the files within your workflowr project makes it easier to run your code on other machines.</p>
 </div>
 </div>
 </div>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomj3gufuncFinemappingtreee5d6f32829e9eb7e66be1e71b4fafb183d1e7ab1targetblanke5d6f32a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/j3gu/funcFinemapping/tree/e5d6f32829e9eb7e66be1e71b4fafb183d1e7ab1" target="_blank">e5d6f32</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomj3gufuncFinemappingtree3df804aefbe1c267dc621149c910256f6b78e94ctargetblank3df804aa"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/j3gu/funcFinemapping/tree/3df804aefbe1c267dc621149c910256f6b78e94c" target="_blank">3df804a</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomj3gufuncFinemappingtreee5d6f32829e9eb7e66be1e71b4fafb183d1e7ab1targetblanke5d6f32a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomj3gufuncFinemappingtree3df804aefbe1c267dc621149c910256f6b78e94ctargetblank3df804aa" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/j3gu/funcFinemapping/tree/e5d6f32829e9eb7e66be1e71b4fafb183d1e7ab1" target="_blank">e5d6f32</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/j3gu/funcFinemapping/tree/3df804aefbe1c267dc621149c910256f6b78e94c" target="_blank">3df804a</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -510,6 +486,8 @@ Ignored files:
 Untracked files:
     Untracked:  SNPs_categories,png
     Untracked:  SNPs_categories.png
+    Untracked:  analysis/asthma_prelim_results.Rmd
+    Untracked:  analysis/asthma_results_cp.Rmd
     Untracked:  analysis/enhancer_gene_feature.Rmd
     Untracked:  analysis/feedback.Rmd
     Untracked:  analysis/gene_finemapping_results.Rmd
@@ -534,18 +512,12 @@ Untracked files:
     Untracked:  fig2.pdf
     Untracked:  fig_panel2.pdf
     Untracked:  gene_mapping.pdf
+    Untracked:  output/background_SNPs_annotated_percent.txt
     Untracked:  panel_figure2.pdf
     Untracked:  test.txt
 
 Unstaged changes:
-    Modified:   analysis/biology_bkg.Rmd
-    Modified:   analysis/method_bkg.Rmd
-    Deleted:    analysis/results.Rmd
-    Deleted:    data/joint_torus_conservation_enrichment.est
-    Deleted:    data/torus_enrichment.est
-    Deleted:    data/torus_enrichment_DMR.est
-    Modified:   data/torus_enrichment_ambigousSNPs.est
-    Deleted:    data/torus_enrichment_m6A.est
+    Modified:   analysis/index.Rmd
 
 </code></pre>
 <p>
@@ -584,6 +556,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/j3gu/funcFinemapping/blob/3df804aefbe1c267dc621149c910256f6b78e94c/analysis/asthma_results.Rmd" target="_blank">3df804a</a>
+</td>
+<td>
+Jing Gu
+</td>
+<td>
+2021-10-04
+</td>
+<td>
+wrote a more detailed documentation
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/j3gu/funcFinemapping/a52be14865ac86cc5c88e8ca7d1bc6c10ca3e8a4/docs/asthma_results.html" target="_blank">a52be14</a>
+</td>
+<td>
+Jing Gu
+</td>
+<td>
+2021-09-23
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -738,15 +744,15 @@ analyzed Asthma GWAS with functional priors from single cell data
 <ul>
 <li>GWAS: <em>Zhu et al. 2019</em> (case N=22296, control N=347481)<br />
 </li>
-<li>cell-type specific Annotations: <em>Zhang et al.2021</em> - single-cell ATAC-Seq data for adult lungs
+<li>Annotations: <em>Zhang et al.2021</em> - single-cell ATAC-Seq data for adult lungs
 <ul>
+<li>A union set of cCRE accessibility across cell types was provided in the following format: chr:start-end cell_type1 cell_type2...</li>
 <li>Entropy based method used to identify cell-type specific peaks</li>
-<li>For each cell type, peaks that pass 0.1% FDR cutoff were used to generate binary annotations</li>
 </ul></li>
 </ul>
-</div>
-<div id="cell-compositions-for-adult-lung-tissues" class="section level3">
-<h3>Cell compositions for adult lung tissues</h3>
+<p>As neither the number of peaks identified for each cell type nor the list of cell-type specific peaks was available, I followed their way of identifying cell-type restricted peaks. First, I took a subset of accessibility scores for lung cells only. Then I modeled the null distribution of the log2-based cell-type dependent fold changes from the avg level using a normal distribution, with mean 0 and standard deviation estimated by that of top 50% least variable peaks. By sampling from the null distribution, we can compute p-values for each site and for each cell type. A 0.1% FDR cutoff was set to decide which peaks are considered to be cell-type specific.</p>
+<div id="cell-compositions-for-adult-lung-tissues" class="section level4">
+<h4>Cell compositions for adult lung tissues</h4>
 <p><img src="figure/asthma_results.Rmd/unnamed-chunk-1-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-1-1">
@@ -786,8 +792,8 @@ Jing Gu
 </div>
 </div>
 </div>
-<div id="enrichment-results" class="section level3">
-<h3>Enrichment results</h3>
+<div id="peak-summary-for-adult-lung-tissues" class="section level4">
+<h4>peak summary for adult lung tissues</h4>
 <p><img src="figure/asthma_results.Rmd/unnamed-chunk-2-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-2-1">
@@ -813,6 +819,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/j3gu/funcFinemapping/blob/a52be14865ac86cc5c88e8ca7d1bc6c10ca3e8a4/docs/figure/asthma_results.Rmd/unnamed-chunk-2-1.png" target="_blank">a52be14</a>
+</td>
+<td>
+Jing Gu
+</td>
+<td>
+2021-09-23
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/j3gu/funcFinemapping/blob/b0b938bcb9c43790bb7bb0aa211ad03429e47934/docs/figure/asthma_results.Rmd/unnamed-chunk-2-1.png" target="_blank">b0b938b</a>
 </td>
 <td>
@@ -826,150 +843,232 @@ Jing Gu
 </table>
 </div>
 </div>
+<p><strong>Check overlaps in peaks across cell types</strong><br />
+We want to know to what extent are the cell-type restricted peaks across cell types overlapped with each other. The table shows the majority of the identified cell types overlap with each other by less than 15%. As Msc has the highest amount of peaks, it's expected the most overlapped cell-type is Msc for almost all other cell types. We also see high percent of overlaps between subclusters of one cell type, such as fibroblast, endothelial cells. Lastly, B cells share 9% of peaks with T-lymphocyte subcluster 1.</p>
+<table>
+<caption>Table 1-Summary of peak overlaps between a pair of cell types</caption>
+<colgroup>
+<col width="6%" />
+<col width="18%" />
+<col width="22%" />
+<col width="24%" />
+<col width="28%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left"></th>
+<th align="right">most_overlapped_per</th>
+<th align="left">most_overlapped_celltype</th>
+<th align="right">second_most_overlapped_per</th>
+<th align="left">second_most_overlapped_celltype</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">Agb</td>
+<td align="right">0.12</td>
+<td align="left">Msc</td>
+<td align="right">0.08</td>
+<td align="left">Mac.2</td>
+</tr>
+<tr class="even">
+<td align="left">Bly</td>
+<td align="right">0.10</td>
+<td align="left">Msc</td>
+<td align="right">0.07</td>
+<td align="left">Mac.1</td>
+</tr>
+<tr class="odd">
+<td align="left">End.1</td>
+<td align="right">0.16</td>
+<td align="left">End.2</td>
+<td align="right">0.14</td>
+<td align="left">Msc</td>
+</tr>
+<tr class="even">
+<td align="left">End.2</td>
+<td align="right">0.15</td>
+<td align="left">Msc</td>
+<td align="right">0.12</td>
+<td align="left">Mac.2</td>
+</tr>
+<tr class="odd">
+<td align="left">Fib.1</td>
+<td align="right">0.15</td>
+<td align="left">Msc</td>
+<td align="right">0.14</td>
+<td align="left">Fib.2</td>
+</tr>
+<tr class="even">
+<td align="left">Fib.2</td>
+<td align="right">0.18</td>
+<td align="left">Fib.1</td>
+<td align="right">0.15</td>
+<td align="left">Fib.4</td>
+</tr>
+<tr class="odd">
+<td align="left">Fib.3</td>
+<td align="right">0.16</td>
+<td align="left">Msc</td>
+<td align="right">0.12</td>
+<td align="left">Fib.1</td>
+</tr>
+<tr class="even">
+<td align="left">Fib.4</td>
+<td align="right">0.13</td>
+<td align="left">Msc</td>
+<td align="right">0.13</td>
+<td align="left">Fib.1</td>
+</tr>
+<tr class="odd">
+<td align="left">Gbl.2</td>
+<td align="right">0.12</td>
+<td align="left">Msc</td>
+<td align="right">0.07</td>
+<td align="left">Mac.2</td>
+</tr>
+<tr class="even">
+<td align="left">Grn</td>
+<td align="right">0.09</td>
+<td align="left">Fib.2</td>
+<td align="right">0.09</td>
+<td align="left">Fib.1</td>
+</tr>
+<tr class="odd">
+<td align="left">Mac.1</td>
+<td align="right">0.12</td>
+<td align="left">Msc</td>
+<td align="right">0.07</td>
+<td align="left">Fib.4</td>
+</tr>
+<tr class="even">
+<td align="left">Mac.2</td>
+<td align="right">0.16</td>
+<td align="left">Msc</td>
+<td align="right">0.06</td>
+<td align="left">End.2</td>
+</tr>
+<tr class="odd">
+<td align="left">Mes</td>
+<td align="right">0.15</td>
+<td align="left">Msc</td>
+<td align="right">0.09</td>
+<td align="left">Mac.2</td>
+</tr>
+<tr class="even">
+<td align="left">Mfb.2</td>
+<td align="right">0.16</td>
+<td align="left">Msc</td>
+<td align="right">0.10</td>
+<td align="left">Mac.2</td>
+</tr>
+<tr class="odd">
+<td align="left">Msc</td>
+<td align="right">0.06</td>
+<td align="left">Mac.2</td>
+<td align="right">0.03</td>
+<td align="left">Fib.3</td>
+</tr>
+<tr class="even">
+<td align="left">Mst</td>
+<td align="right">0.10</td>
+<td align="left">Msc</td>
+<td align="right">0.09</td>
+<td align="left">Mac.1</td>
+</tr>
+<tr class="odd">
+<td align="left">Pal</td>
+<td align="right">0.15</td>
+<td align="left">Msc</td>
+<td align="right">0.10</td>
+<td align="left">Mac.2</td>
+</tr>
+<tr class="even">
+<td align="left">Smm.1</td>
+<td align="right">0.14</td>
+<td align="left">Msc</td>
+<td align="right">0.12</td>
+<td align="left">Fib.1</td>
+</tr>
+<tr class="odd">
+<td align="left">Tly.1</td>
+<td align="right">0.09</td>
+<td align="left">Msc</td>
+<td align="right">0.09</td>
+<td align="left">Bly</td>
+</tr>
+<tr class="even">
+<td align="left">Tly.2</td>
+<td align="right">0.12</td>
+<td align="left">Msc</td>
+<td align="right">0.12</td>
+<td align="left">Mac.2</td>
+</tr>
+<tr class="odd">
+<td align="left">Vsm.2</td>
+<td align="right">0.15</td>
+<td align="left">Msc</td>
+<td align="right">0.13</td>
+<td align="left">Fib.1</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div id="enrichment-results" class="section level3">
+<h3>Enrichment results</h3>
+<ul>
+<li>Tly.1(T_lymphocyte1) and Tly.2(T_lymphocyte2) cannot be distinguished simply based on known immune marker genes. Both of them show differential expression among genes such as CD3D, GZMA, IFNG. <img src="figure/asthma_results.Rmd/unnamed-chunk-4-1.png" width="672" style="display: block; margin: auto;" /></li>
+</ul>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-4-1">
+Past versions of unnamed-chunk-4-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-4-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/j3gu/funcFinemapping/blob/a52be14865ac86cc5c88e8ca7d1bc6c10ca3e8a4/docs/figure/asthma_results.Rmd/unnamed-chunk-4-1.png" target="_blank">a52be14</a>
+</td>
+<td>
+Jing Gu
+</td>
+<td>
+2021-09-23
+</td>
+</tr>
+<tr>
+<td>
+<a href="https://github.com/j3gu/funcFinemapping/blob/b0b938bcb9c43790bb7bb0aa211ad03429e47934/docs/figure/asthma_results.Rmd/unnamed-chunk-4-1.png" target="_blank">b0b938b</a>
+</td>
+<td>
+Jing Gu
+</td>
+<td>
+2021-09-22
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p>Log2 scaled enrichment estimates for each cell type, which was individually run using Torus. The highlighted bars show significant enrichment, while the bars in grey color do not. The x-axis tickmark labels consist of the annotation name and percent of all SNPs that have that annotation. Asthma-associated variants are significantly enriched in certain sub-clusters of macrophages and fibroblasts, but not in others. The cell types that show the highest enrichment in the chromatin accessibility peaks are immune-related cells.</p>
-<ul>
-<li><em>Caldero et al. 2019</em> - ATAC-Seq data for FACS-sorted cells from whole blood
-<ul>
-<li>Significant differentially accessible regions when compared to progenitor cells</li>
-<li>Significant differentially accessible regions under stimulation</li>
-</ul></li>
-</ul>
-<p><img src="figure/asthma_results.Rmd/unnamed-chunk-3-1.png" width="672" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-3-1">
-Past versions of unnamed-chunk-3-1.png
-</button>
-</p>
-<div id="fig-unnamed-chunk-3-1" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/j3gu/funcFinemapping/blob/b0b938bcb9c43790bb7bb0aa211ad03429e47934/docs/figure/asthma_results.Rmd/unnamed-chunk-3-1.png" target="_blank">b0b938b</a>
-</td>
-<td>
-Jing Gu
-</td>
-<td>
-2021-09-22
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-<pre class="r"><code># bg_percent=c()
-# for(i in df$term){
-#   fname&lt;-strsplit(i, &quot;_atac&quot;)[[1]][1]
-#   annot&lt;-fread(sprintf(&quot;/home/jinggu/cluster/projects/torus_enrichment/asthma_adult/stimu_DA/torus_annotations_%s.txt.gz&quot;,fname))
-#   bg_percent&lt;-rbind(bg_percent, c(fname, sum(annot[,2])))
-# }
-# bg_percent&lt;-data.frame(bg_percent)
-# bg_percent$X2&lt;-as.numeric(bg_percent$X2)
-# bg_percent[&quot;percent&quot;]&lt;-paste0(round(bg_percent$X2/dim(gwas)[1]*100,2), &quot;%&quot;)
-# write.table(bg_percent,&quot;~/projects/funcFinemapping/output/asthma/Caldero2019_stimuDA_annot_percent.txt&quot;, quote = F,row.names=F, col.names = F, sep=&#39;\t&#39;)</code></pre>
-<ul>
-<li>Not sure why much fewer cell types show differentially accessiblity during differentiation.</li>
-</ul>
-<p><img src="figure/asthma_results.Rmd/unnamed-chunk-5-1.png" width="672" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-5-1">
-Past versions of unnamed-chunk-5-1.png
-</button>
-</p>
-<div id="fig-unnamed-chunk-5-1" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/j3gu/funcFinemapping/blob/b0b938bcb9c43790bb7bb0aa211ad03429e47934/docs/figure/asthma_results.Rmd/unnamed-chunk-5-1.png" target="_blank">b0b938b</a>
-</td>
-<td>
-Jing Gu
-</td>
-<td>
-2021-09-22
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-<p>Upon stimulation, the enrichment signals prevail across a broader range of immune cells. There are more diverse stimulated cell types that show differential accessibility against the unstimulated ones.</p>
-</div>
-</div>
-<div id="joint-enrichment-estimates-across-annotations" class="section level2">
-<h2>Joint enrichment estimates across annotations</h2>
-<div id="immune-cells-in-lungs-vs.-immune-cells-in-blood" class="section level3">
-<h3>immune cells in lungs vs. immune cells in blood</h3>
-<p><img src="figure/asthma_results.Rmd/unnamed-chunk-6-1.png" width="672" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-6-1">
-Past versions of unnamed-chunk-6-1.png
-</button>
-</p>
-<div id="fig-unnamed-chunk-6-1" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/j3gu/funcFinemapping/blob/b0b938bcb9c43790bb7bb0aa211ad03429e47934/docs/figure/asthma_results.Rmd/unnamed-chunk-6-1.png" target="_blank">b0b938b</a>
-</td>
-<td>
-Jing Gu
-</td>
-<td>
-2021-09-22
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-<p>Both clusters of cell-type specific accessible regions from T lymphocytes in lungs are significantly enriched with risk variants conditional on differentiation-specific regions identified from blood.</p>
-<p><img src="figure/asthma_results.Rmd/unnamed-chunk-7-1.png" width="672" style="display: block; margin: auto;" /> The enrichment signal of T lymphocytes remains after conditional on stimulated immune cell types in blood. The additional enrichment signals come from stimulated memoryCD8+ T-cells, T_helpler cells, mast cells, Th1 precursors, and Th2 precursors.</p>
 </div>
 <div id="children-onset-asthma" class="section level3">
 <h3>Children-onset Asthma</h3>
@@ -1005,22 +1104,22 @@ attached base packages:
 [1] stats     graphics  grDevices utils     datasets  methods   base     
 
 other attached packages:
-[1] ggplot2_3.3.3   workflowr_1.6.2
+[1] knitr_1.31      ggplot2_3.3.3   workflowr_1.6.2
 
 loaded via a namespace (and not attached):
- [1] Rcpp_1.0.7        pillar_1.5.0      compiler_4.0.4    bslib_0.2.4      
- [5] later_1.1.0.1     jquerylib_0.1.3   git2r_0.28.0      highr_0.8        
+ [1] Rcpp_1.0.7        highr_0.8         pillar_1.5.0      compiler_4.0.4   
+ [5] bslib_0.2.4       later_1.1.0.1     jquerylib_0.1.3   git2r_0.28.0     
  [9] tools_4.0.4       digest_0.6.27     jsonlite_1.7.2    evaluate_0.14    
 [13] lifecycle_1.0.0   tibble_3.0.6      gtable_0.3.0      pkgconfig_2.0.3  
 [17] rlang_0.4.11      DBI_1.1.1         yaml_2.2.1        xfun_0.21        
-[21] withr_2.4.2       dplyr_1.0.4       stringr_1.4.0     knitr_1.31       
-[25] generics_0.1.0    fs_1.5.0          vctrs_0.3.8       sass_0.3.1       
-[29] tidyselect_1.1.1  rprojroot_2.0.2   grid_4.0.4        glue_1.4.2       
-[33] R6_2.5.1          fansi_0.5.0       rmarkdown_2.7     farver_2.1.0     
-[37] purrr_0.3.4       magrittr_2.0.1    whisker_0.4       scales_1.1.1     
-[41] promises_1.2.0.1  ellipsis_0.3.2    htmltools_0.5.1.1 assertthat_0.2.1 
-[45] colorspace_2.0-2  httpuv_1.5.5      labeling_0.4.2    utf8_1.2.2       
-[49] stringi_1.5.3     munsell_0.5.0     crayon_1.4.1     </code></pre>
+[21] withr_2.4.2       dplyr_1.0.4       stringr_1.4.0     generics_0.1.0   
+[25] fs_1.5.0          vctrs_0.3.8       sass_0.3.1        tidyselect_1.1.1 
+[29] rprojroot_2.0.2   grid_4.0.4        glue_1.4.2        R6_2.5.1         
+[33] fansi_0.5.0       rmarkdown_2.7     farver_2.1.0      purrr_0.3.4      
+[37] magrittr_2.0.1    whisker_0.4       scales_1.1.1      promises_1.2.0.1 
+[41] ellipsis_0.3.2    htmltools_0.5.1.1 assertthat_0.2.1  colorspace_2.0-2 
+[45] httpuv_1.5.5      labeling_0.4.2    utf8_1.2.2        stringi_1.5.3    
+[49] munsell_0.5.0     crayon_1.4.1     </code></pre>
 </div>
 </div>
 </div>
