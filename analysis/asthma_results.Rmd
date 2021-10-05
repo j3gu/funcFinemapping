@@ -7,17 +7,21 @@ Identify disease-relevant cell types and genes for Asthma
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 library(ggplot2)
+library(knitr)
 getwd()
 source("code/make_plots.R")
 ```
 ## Enrichment estimates for individual annotation
 ### Adult-onset asthma
 * GWAS: *Zhu et al. 2019* (case N=22296, control N=347481)  
-* cell-type specific Annotations: *Zhang et al.2021* - single-cell ATAC-Seq data for adult lungs
+* Annotations: *Zhang et al.2021* - single-cell ATAC-Seq data for adult lungs
+    + A union set of cCRE accessibility across cell types was provided in the following format:
+      chr:start-end cell_type1 cell_type2...
     + Entropy based method used to identify cell-type specific peaks
-    + For each cell type, peaks that pass 0.1% FDR cutoff were used to generate binary annotations
+    
+As neither the number of peaks identified for each cell type nor the list of cell-type specific peaks was available, I followed their way of identifying cell-type restricted peaks. First, I took a subset of accessibility scores for lung cells only. Then I modeled the null distribution of the log2-based cell-type dependent fold changes from the avg level using a normal distribution, with mean 0 and standard deviation estimated by that of top 50% least variable peaks. By sampling from the null distribution, we can compute p-values for each site and for each cell type. A 0.1% FDR cutoff was set to decide which peaks are considered to be cell-type specific.
 
-### Cell compositions for adult lung tissues
+#### Cell compositions for adult lung tissues
 ```{r echo=F}
 cell_dict<-read.table("output/asthma/lung_clusters_dict.txt", header=T)
 #Distributions of number of cell-type specific peaks across tissues
@@ -29,116 +33,61 @@ df<-df[1:(length(df)-1)]
 gginput<-data.frame(names(df), df)
 colnames(gginput)<-c("term", "counts")
 gginput["cell_type"]<-unlist(lapply(gginput$term, function(i){cell_dict[cell_dict$X1==i,]$X2}))
-ggplot(gginput, aes(x=cell_type, y=counts))+geom_bar(stat="identity") + theme(axis.text.x=element_text(angle=90, vjust = +0.7))
+ggplot(gginput, aes(x=cell_type, y=counts))+geom_bar(stat="identity") + theme(axis.text.x=element_text(angle=90, vjust = +0.7)) + ylab("Numbers of cells")
+```
+#### peak summary for adult lung tissues
+```{r echo=F}
+tbl<-read.table("output/asthma/zhang2021_peaks_per_celltype.txt", header = F)
+colnames(tbl)<-c("counts","raw_term")
+tbl["term"]<-unlist(lapply(tbl$raw_term, function(i){strsplit(i, "_atac")[[1]][1]}))
+tbl["cell_type"]<-unlist(lapply(tbl$term, function(i){cell_dict[cell_dict$X1==i,]$X2}))
+ggplot(tbl, aes(x=cell_type,y=counts)) + geom_bar(stat="identity") + 
+        theme(axis.text.x=element_text(angle=90, vjust = +0.7)) + ylab("Numbers of peaks")
+```
+**Check overlaps in peaks across cell types**   
+We want to know to what extent are the cell-type restricted peaks across cell types overlapped with each other. The table shows the majority of the identified cell types overlap with each other by less than 15%. As Msc has the highest amount of peaks, it's expected the most overlapped cell-type is Msc for almost all other cell types. We also see high percent of overlaps between subclusters of one cell type, such as fibroblast, endothelial cells. Lastly, B cells share 9% of peaks with T-lymphocyte subcluster 1. 
+```{r echo=F}
+kable(read.table("output/asthma/zhang2021_cell_type_overlaps.txt", header = T),
+      caption="Table 1-Summary of peak overlaps between a pair of cell types")
+# bedDIR<-"/home/jinggu/cluster/data/features/formatted/Zhang2021/hg19"
+# fname<-read.table(paste(bedDIR, "name.txt", sep='/'), header=F)
+# for(i in fname$V1){
+#   f<-read.table(sprintf("%s/%s_peaks.bed", bedDIR, i), header=F)
+#   assign(i, make_ranges(f$V1, f$V2, f$V3))
+# }
+# df<-matrix(nrow=length(fname$V1), ncol=length(fname$V1))
+# for(i in 1:length(fname$V1)){
+#   for(j in 1:length(fname$V1)){
+#       overlaps<-IRanges::subsetByOverlaps(get(fname$V1[i]), get(fname$V1[j]))
+#       df[i, j] = length(overlaps@ranges)/length(get(fname$V1[i])@ranges)
+#   }
+# }
+# # record the cell type with the highest percent of overlaps with the query one
+# secondmax<-round(apply(df, 1, function(i){sort(i, decreasing = T)[2]}),2)
+# thirdmax<-round(apply(df, 1, function(i){sort(i, decreasing = T)[3]}),2)
+# celltype2<-apply(df, 1, function(i){fname$V1[which(i==sort(i, decreasing = T)[2])]})
+# celltype3<-apply(df, 1, function(i){fname$V1[which(i==sort(i, decreasing = T)[3])]})
+# output<-data.frame(cbind(fname$V1, secondmax, celltype2, thirdmax, celltype3))
+#colnames(output)<-c("query_celltype", "most_overlapped_per", "most_overlapped_celltype",
+                     #"second_most_overlapped_per", "second_most_overlapped_celltype")
 ```
 
 ### Enrichment results
-
+* Tly.1(T_lymphocyte1) and Tly.2(T_lymphocyte2) cannot be distinguished simply based on known immune marker genes. Both of them show differential expression among genes such as CD3D, GZMA, IFNG.
 ```{r echo=F}
 df<-read.table("output/asthma/celltype_specific_adult_lungs_torus.est",header = F)
 colnames(df)<-c("term", "est", "low", "high")
 df["cell_type_raw"]<-unlist(lapply(df$term, function(i){strsplit(i, "_atac")[[1]][1]}))
 df['highlight']<-df$low >=0
-bg_percent<-read.table("output/asthma/zhang2021_annot_percent.txt", header = F)
+#bg_percent<-read.table("output/asthma/zhang2021_annot_percent.txt", header = F)
 df["cell_type"]<-unlist(lapply(df$cell_type_raw, function(i){
-                                  fullname<-cell_dict[cell_dict$X1==i,]$X2
-                                  output<-sprintf("%s(%s)", fullname, bg_percent[bg_percent$V1==i,]$V3)
+                                  return(cell_dict[cell_dict$X1==i,]$X2)
                                   }))
 plot_torus_enrichment(df, text_angle=90)
 
 ```
 Log2 scaled enrichment estimates for each cell type, which was individually run using Torus. The highlighted bars show significant enrichment, while the bars in grey color do not. The x-axis tickmark labels consist of the annotation name and percent of all SNPs that have that annotation. Asthma-associated variants are significantly enriched in certain sub-clusters of macrophages and fibroblasts, but not in others. The cell types that show the highest enrichment in the chromatin accessibility peaks are immune-related cells.
 
-* *Caldero et al. 2019* - ATAC-Seq data for FACS-sorted cells from whole blood
-    - Significant differentially accessible regions when compared to progenitor cells
-    - Significant differentially accessible regions under stimulation
-
-```{r echo=F}
-df<-read.table("output/asthma/diffe_adult_blood_torus.est", header = F)
-colnames(df)<-c("term", "est", "low", "high")
-df['highlight']<-df$low >=0
-bg_percent<-read.table("output/asthma/Caldero2019_diffDA_annot_percent.txt", header = F)
-df["cell_type"]<-unlist(lapply(df$term, function(i){
-                                  name=strsplit(i, "_atac")[[1]][1]
-                                  fname=strsplit(i, "_U")[[1]][1]
-                                  return(sprintf("%s(%s)", fname, bg_percent[bg_percent$V1==name,]$V3))}))
-#omit cell types with very large standard deviations
-df['omit']<-df$low < -10 | df$high > 10
-plot_torus_enrichment(df[df['omit']==F,], text_angle=90, vjust=0) + ggtitle("Differentiation-specific & accessible regions in blood")
-```
-
-```{r}
-# bg_percent=c()
-# for(i in df$term){
-#   fname<-strsplit(i, "_atac")[[1]][1]
-#   annot<-fread(sprintf("/home/jinggu/cluster/projects/torus_enrichment/asthma_adult/stimu_DA/torus_annotations_%s.txt.gz",fname))
-#   bg_percent<-rbind(bg_percent, c(fname, sum(annot[,2])))
-# }
-# bg_percent<-data.frame(bg_percent)
-# bg_percent$X2<-as.numeric(bg_percent$X2)
-# bg_percent["percent"]<-paste0(round(bg_percent$X2/dim(gwas)[1]*100,2), "%")
-# write.table(bg_percent,"~/projects/funcFinemapping/output/asthma/Caldero2019_stimuDA_annot_percent.txt", quote = F,row.names=F, col.names = F, sep='\t')
-```
-
-* Not sure why much fewer cell types show differentially accessiblity during differentiation. 
-
-```{r echo=F}
-df<-read.table("output/asthma/stimu_adult_blood_torus.est",header = F)
-colnames(df)<-c("term", "est", "low", "high")
-bg_percent<-read.table("output/asthma/Caldero2019_stimuDA_annot_percent.txt", header = F)
-df["cell_type"]<-unlist(lapply(df$term, function(i){
-                                  name=strsplit(i, "_atac")[[1]][1]
-                                  fname=strsplit(i, "_S")[[1]][1]
-                                  return(sprintf("%s(%s)", fname, bg_percent[bg_percent$V1==name,]$V3))}))
-df['highlight']<-df$low >=0
-#omit cell types with very large standard deviations
-df['omit']<-df$low < -10 | df$high > 10
-plot_torus_enrichment(df[df['omit']==F,], text_angle=90, vjust=1) + ggtitle("Stimulation-specific & accessible regions in blood")
-
-```
-Upon stimulation, the enrichment signals prevail across a broader range of immune cells. There are more diverse stimulated cell types that show differential accessibility against the unstimulated ones. 
-
-## Joint enrichment estimates across annotations 
-
-### immune cells in lungs vs. immune cells in blood
-
-```{r echo=F}
-df<-read.table("output/asthma/joint_lung_vs_blood_immune_diff_torus.est",header = F)
-colnames(df)<-c("term", "est", "low", "high")
-df<-df[-1,]
-df["cell_type_raw"]<-unlist(lapply(df$term, function(i){strsplit(i, "_atac")[[1]][1]}))
-df["cell_type"]<-unlist(lapply(df$cell_type_raw, function(i){
-  if(i %in% cell_dict$X1){
-    return(cell_dict[cell_dict$X1==i,]$X2)
-  }else{
-    return(i)
-  }
-}))
-df['highlight']<-df$low >=0
-#omit cell types with very large standard deviations
-df['omit']<-df$low < -15 | df$high > 10
-plot_torus_enrichment(df[df['omit']==F,], text_angle=90, vjust=1) + ggtitle("Blood differentiation-specific & accessible regions")
-```
-Both clusters of cell-type specific accessible regions from T lymphocytes in lungs are significantly enriched with risk variants conditional on differentiation-specific regions identified from blood. 
-
-```{r echo=F}
-df<-read.table("output/asthma/joint_lung_vs_blood_immune_stimu_torus.est",header = F)
-colnames(df)<-c("term", "est", "low", "high")
-df<-df[-1,]
-df["cell_type_raw"]<-unlist(lapply(df$term, function(i){strsplit(i, "_atac")[[1]][1]}))
-df["cell_type"]<-unlist(lapply(df$cell_type_raw, function(i){
-  if(i %in% cell_dict$X1){
-    return(cell_dict[cell_dict$X1==i,]$X2)
-  }else{
-    return(i)
-  }
-}))
-df['highlight']<-df$low >=0
-#omit cell types with very large standard deviations
-df['omit']<-df$low < -15 | df$high > 10
-plot_torus_enrichment(df[df['omit']==F,], text_angle=90, vjust=1) + ggtitle("Stimulation-specific & accessible regions in blood")
-```
-The enrichment signal of T lymphocytes remains after conditional on stimulated immune cell types in blood. The additional enrichment signals come from stimulated memoryCD8+ T-cells, T_helpler cells, mast cells, Th1 precursors, and Th2 precursors. 
 
 ### Children-onset Asthma
 * GWAS: *Zhu et al. 2019*  

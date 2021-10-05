@@ -1,0 +1,22 @@
+most_overlapped_per	most_overlapped_celltype	second_most_overlapped_per	second_most_overlapped_celltype
+Agb	0.12	Msc	0.08	Mac.2
+Bly	0.1	Msc	0.07	Mac.1
+End.1	0.16	End.2	0.14	Msc
+End.2	0.15	Msc	0.12	Mac.2
+Fib.1	0.15	Msc	0.14	Fib.2
+Fib.2	0.18	Fib.1	0.15	Fib.4
+Fib.3	0.16	Msc	0.12	Fib.1
+Fib.4	0.13	Msc	0.13	Fib.1
+Gbl.2	0.12	Msc	0.07	Mac.2
+Grn	0.09	Fib.2	0.09	Fib.1
+Mac.1	0.12	Msc	0.07	Fib.4
+Mac.2	0.16	Msc	0.06	End.2
+Mes	0.15	Msc	0.09	Mac.2
+Mfb.2	0.16	Msc	0.1	Mac.2
+Msc	0.06	Mac.2	0.03	Fib.3
+Mst	0.1	Msc	0.09	Mac.1
+Pal	0.15	Msc	0.1	Mac.2
+Smm.1	0.14	Msc	0.12	Fib.1
+Tly.1	0.09	Msc	0.09	Bly
+Tly.2	0.12	Msc	0.12	Mac.2
+Vsm.2	0.15	Msc	0.13	Fib.1
