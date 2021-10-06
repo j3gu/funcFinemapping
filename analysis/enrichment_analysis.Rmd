@@ -16,7 +16,7 @@ library(ggpubr)
 source("code/make_plots.R")
 ```
 
-## Evaluations on SCZ summary stats
+## Evaluations of functional annotations
 **GWAS summary statistics**   
 Schizopherenia - Pardinas et al., 2018 
 
@@ -490,7 +490,6 @@ ggarrange(p3,p4,p5,p9,p10, ncol=3, nrow=2)
 For traits such as aFib, allergy, ibdCD, we observed that variants with predicted scores at a cutoff of 0.1 are more enriched with GWAS-associated SNPs. However, other traits require the predicted scores to be as low as 0.05 to show enrichment with GWAS-associated SNPs. Sample size may not be the main factor for the enrichment based on the results from BMI and height. It is interesting to see the enrichment of splicing variants in immune related disorders.
 
 **Joint enrichment for spliceAI scores at 0.01 threshold**
-
 * baseline: CDS
 ```{r echo=F}
 traits=c("aFib","allergy","bmi","HDL","height","ibd_CD","ibd_IBD","ibd_UC","LDL","scz_2018")
@@ -588,6 +587,30 @@ plot_enrichment<-function(traits, log_based){
 # #ggsave("~/projects/funcFinemapping/output/scz_immune_joint_enrichment.png", width = 8, height=6)
 ```
 
+#### Tissue-specific Splicing
+**MMSplice - not tissue-specific **
+```{r echo=F}
+outDIR="/home/jinggu/cluster/projects/torus_enrichment/aFib/mmsplice"
+df<-read.table(sprintf("%s/torus_enrichment_agg.est", outDIR), header=F)
+colnames(df)<-c("raw_term", "estimate", "low", "high")
+df["label"]<-paste("mmsplice", seq(0.4, 1.8, 0.2), sep="_")
+df["numOfVariants"]<-c(2103, 1124, 728, 504, 371, 315, 266, 226)
+df["term"]<-sprintf("%s(%s)", df$label, df$numOfVariants)
+snp_enrichment_plot(df[1:4,], trait="AFib")
+```
+**MTSplice - tissue-specific **
+For AFib, I took an average of MTSplice predicted scores for Atrial Appendage - Heart and Left Ventricle - Heart. 
+```{r echo=F}
+outDIR="/home/jinggu/cluster/projects/torus_enrichment/aFib/mtsplice"
+df<-read.table(sprintf("%s/torus_enrichment_agg.est", outDIR), header=F)
+colnames(df)<-c("raw_term", "estimate", "low", "high")
+df["label"]<-paste("mtsplice", seq(1.0, 2.0, 0.2), sep="_")
+df["numOfVariants"]<-c(22389, 17157, 14155, 12019, 10414, 9081)
+df["term"]<-sprintf("%s(%s)", df$label, df$numOfVariants)
+snp_enrichment_plot(df, trait="AFib")
+```
+
+
 ## Refined annotation set for Torus joint analysis
 **Schizophrenia**
 ```{r echo=F}
@@ -597,9 +620,6 @@ annot<-c("iPSC_derived", "coding","m6A_brain",
         "human_CG_DMR", "CDTS_top5%(NC)", "CADD_top5%")
 snp_enrichment_plot(df, y.label = annot)
 ```
-
-
-
 
 
 ## Stratified-LSDC results    
