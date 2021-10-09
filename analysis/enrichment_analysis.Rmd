@@ -421,7 +421,7 @@ snp_enrichment_plot(df, y.label = annot)
 
 SpliceAI is a deep CNN method with a ResNets architecture. It provides a general prediction of splicing with precision from an arbitrary pre-mRNA sequence. For each nucleotide in the pre-mRNA transcript, SpliceAI examines 5kb away from it to predict the probability of this nucleotide being acceptor, donor or neither.
 
-**Binary annotations at different cutoffs**
+**Binary annotations at different cutoffs**  
 SCZ
 ```{r echo=F, message=F}
 outDIR="~/cluster/projects/torus_enrichment"
@@ -451,7 +451,7 @@ df["bg_percent"]<-bg_percent[1:(length(bg_percent)-1)]
 df["term"]<-unlist(apply(df, 1, function(i){return(sprintf("%s(%s)", i[1], i[5]))}))
 snp_enrichment_plot(df) + ggtitle("Torus Enrichment Results") 
 ```
-The percentage of random SNPs above each spliceAI threshold was listed in the parenthesis. 
+*The percentage of random SNPs above each spliceAI threshold was listed in the parenthesis. 
 
 ```{r echo=F}
 plot_enrichment<-function(output.tbl, trait){
@@ -489,8 +489,10 @@ ggarrange(p3,p4,p5,p9,p10, ncol=3, nrow=2)
 ```
 For traits such as aFib, allergy, ibdCD, we observed that variants with predicted scores at a cutoff of 0.1 are more enriched with GWAS-associated SNPs. However, other traits require the predicted scores to be as low as 0.05 to show enrichment with GWAS-associated SNPs. Sample size may not be the main factor for the enrichment based on the results from BMI and height. It is interesting to see the enrichment of splicing variants in immune related disorders.
 
-**Joint enrichment for spliceAI scores at 0.01 threshold**
+**Joint enrichment for spliceAI scores at 0.01 threshold**    
+
 * baseline: CDS
+
 ```{r echo=F}
 traits=c("aFib","allergy","bmi","HDL","height","ibd_CD","ibd_IBD","ibd_UC","LDL","scz_2018")
 output<-c()
@@ -523,15 +525,7 @@ p<-ggplot(output, aes(x=trait, y=log2(exp(estimate)), fill=term)) +
           geom_errorbar(aes(ymin=log2(exp(low)), ymax=log2(exp(high))), width=.2, position=position_dodge(.9))
 p
 ```
-**Joint enrichment results for m6A**     
-m6A features were previously found to be cell type specific. The best tissue for each trait was selected based on Christine's enrichment analyses using S-LDSC.
 
-* BMI - liver
-* Height - lung
-* HDL - liver
-* LDL - liver
-* SCZ - brain
-* IBD - stomach
 ```{r echo=F, fig.width=10, fig.height=6}
 # library(ggplot2)
 # 
@@ -587,29 +581,51 @@ plot_enrichment<-function(traits, log_based){
 # #ggsave("~/projects/funcFinemapping/output/scz_immune_joint_enrichment.png", width = 8, height=6)
 ```
 
-#### Tissue-specific Splicing
-**MMSplice - not tissue-specific **
+#### Tissue-specific Splicing       
+Background: 
+From literature, only a limited fraction between 7 to 21% of splicing QTLs are tissue-specific (Meme et al.2015). When tissue-specific splicing was predicted using TSplice, the author found out less than 3.4% tested pairs of tissue-specific splicing scores deviated by 20% from the tissue-averaged splicing scores. In terms of the performance, TSplice's predictions is positively correlated with measurements (mean $\rho=0.22$). By combining the models of tissue-specific and tissue-indenpendent effects on splicing (called as MTSplice), they were able to achieve significant improvement, especially in 10 out of 12 brain tissues. However, the improvement in relevant mean square error was modest.
+
+##### Testrun on Afib GWAS    
+**MMSplice - not tissue-specific **   
 ```{r echo=F}
-outDIR="/home/jinggu/cluster/projects/torus_enrichment/aFib/mmsplice"
-df<-read.table(sprintf("%s/torus_enrichment_agg.est", outDIR), header=F)
+tbl<-read.table("output/splicing/aFIb_numVar_in_mmsplice_pred.txt", header=F)
+colnames(tbl)<-c("cutoff(absolute value)", 
+                 "num_gwasVar_in_annot", 
+                 "num_randomVar_in_annot")
+N = 8318559
+tbl["prop_randomVar_in"]=round(tbl$num_randomVar_in_annot/N,4)
+df<-read.table("output/splicing/torus_enrichment_aFib_mmsplice_all.est", header=F)
 colnames(df)<-c("raw_term", "estimate", "low", "high")
-df["label"]<-paste("mmsplice", seq(0.4, 1.8, 0.2), sep="_")
-df["numOfVariants"]<-c(2103, 1124, 728, 504, 371, 315, 266, 226)
-df["term"]<-sprintf("%s(%s)", df$label, df$numOfVariants)
-snp_enrichment_plot(df[1:4,], trait="AFib")
+df["term"]<-paste("mmsplice", c(seq(0.2, 1.8, 0.4), 2.0), sep="_")
+snp_enrichment_plot(df[1:(dim(df)[1]-1),], trait="aFib")
 ```
-**MTSplice - tissue-specific **
-For AFib, I took an average of MTSplice predicted scores for Atrial Appendage - Heart and Left Ventricle - Heart. 
-```{r echo=F}
-outDIR="/home/jinggu/cluster/projects/torus_enrichment/aFib/mtsplice"
-df<-read.table(sprintf("%s/torus_enrichment_agg.est", outDIR), header=F)
+Tissue: Atrial Appendage-Heart   
+**MTSplice - tissue-specific + tissue-independent **    
+```{r echo=F, message=F}
+df<-read.table("output/splicing/torus_enrichment_aFib_Atrial_app.est",header=F)
 colnames(df)<-c("raw_term", "estimate", "low", "high")
-df["label"]<-paste("mtsplice", seq(1.0, 2.0, 0.2), sep="_")
-df["numOfVariants"]<-c(22389, 17157, 14155, 12019, 10414, 9081)
-df["term"]<-sprintf("%s(%s)", df$label, df$numOfVariants)
+df["term"]<-paste("mtsplice", seq(0.2, 1.8, 0.4), sep="_")
 snp_enrichment_plot(df, trait="AFib")
 ```
-
+##### Testrun on SCZ GWAS    
+**MMSplice - not tissue-specific **      
+```{r echo=F}
+df<-read.table("output/splicing/torus_enrichment_scz_mmsplice_all.est", header=F)
+colnames(df)<-c("raw_term", "estimate", "low", "high")
+df["term"]<-paste("mmsplice", c(seq(0.2, 1.8, 0.4),2.0), sep="_")
+snp_enrichment_plot(df, trait="SCZ")
+```
+**Number of Variants in tisse-specific splicing annotations**
+```{r echo=F}
+tbl<-read.table("output/splicing/numVar_in_annot_by_tissue.txt", header=T)
+tbl["cutoff"]<-c(seq(0.2, 2, 0.4), 2.0)
+library(reshape2)
+df<-melt(tbl[-1,], "cutoff")
+ggplot(df, aes(x=variable, y=value, fill=factor(cutoff))) + 
+  geom_bar(stat="identity", position=position_dodge()) + 
+  theme(axis.text.x=element_text(angle=90, vjust = +0.7)) + 
+  ylab("Number of variants in Annotations")
+```
 
 ## Refined annotation set for Torus joint analysis
 **Schizophrenia**
