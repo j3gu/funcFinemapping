@@ -594,6 +594,7 @@ colnames(tbl)<-c("cutoff(absolute value)",
                  "num_randomVar_in_annot")
 N = 8318559
 tbl["prop_randomVar_in"]=round(tbl$num_randomVar_in_annot/N,4)
+tbl
 df<-read.table("output/splicing/torus_enrichment_aFib_mmsplice_all.est", header=F)
 colnames(df)<-c("raw_term", "estimate", "low", "high")
 df["term"]<-paste("mmsplice", c(seq(0.2, 1.8, 0.4), 2.0), sep="_")
