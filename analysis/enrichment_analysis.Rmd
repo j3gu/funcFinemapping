@@ -583,50 +583,87 @@ plot_enrichment<-function(traits, log_based){
 
 #### Tissue-specific Splicing       
 Background: 
-From literature, only a limited fraction between 7 to 21% of splicing QTLs are tissue-specific (Meme et al.2015). When tissue-specific splicing was predicted using TSplice, the author found out less than 3.4% tested pairs of tissue-specific splicing scores deviated by 20% from the tissue-averaged splicing scores. In terms of the performance, TSplice's predictions is positively correlated with measurements (mean $\rho=0.22$). By combining the models of tissue-specific and tissue-indenpendent effects on splicing (called as MTSplice), they were able to achieve significant improvement, especially in 10 out of 12 brain tissues. However, the improvement in relevant mean square error was modest.
+From literature, only a limited fraction between 7 to 21% of splicing QTLs are tissue-specific (Meme et al.2015). The quantity for measuring variant effect on splicing is the inclusion level of the exon, denoted by percent spliced in (PSI $\Psi$). It was defined as the fratcion of the number of overlapped reads (IR) out of total reads, which are the sum of overlapped reads (IR) and split reads (ER) that are aligned to multiple exons due to alternative splicing.
+$$
+\Psi = \frac{IR}{IR+ES}
+$$
+When tissue-specific splicing was predicted using TSplice, the author found out less than 3.4% tested pairs of tissue-specific splicing scores deviated by 20% from the tissue-averaged splicing scores. In terms of the performance, TSplice's predictions is positively correlated with measurements (mean $\rho=0.22$). By combining the models of tissue-specific and tissue-indenpendent effects on splicing (called as MTSplice), they were able to achieve significant improvement, especially in 10 out of 12 brain tissues. However, the improvement in relevant mean square error was modest.
+
+The main score predicted by the tissue-independent model(MMSplice) is delta_logit_psi ($\Delta\text{logit}(\Psi)$), which denotes the difference in the the inclusion level of the exon between ref and alt alleles. The score is on a logit scale. The $\Delta\text{logit}(\Psi)$ score for each tissue predicted by the combined model (MTSplice) are included in the same output table. As multiple exons were examined for each variant, we retain the highest absolute value of delta_logit_psi across the variant-exon pairs. Lastly, it is recommended that effect of a variant with $|\Delta\text{logit}(\Psi)|$ >=2 is considered to be strong. 
 
 ##### Testrun on Afib GWAS    
-**MMSplice - not tissue-specific **   
+**MMSplice - not tissue-specific **     
+This test run was based on splicing annotations generated using a tissue-independent model. AFib's Risk variants were significantly enriched in $|\Delta\text{logit}(\Psi)|$ >= 0.6, which indicates risk variants tend to exert small effects on splicing. Across the cutoffs with higher values, AFib's risk variants were depleted in splicing annotations. 
 ```{r echo=F}
 tbl<-read.table("output/splicing/aFIb_numVar_in_mmsplice_pred.txt", header=F)
 colnames(tbl)<-c("cutoff(absolute value)", 
                  "num_gwasVar_in_annot", 
                  "num_randomVar_in_annot")
 N = 8318559
-tbl["prop_randomVar_in"]=round(tbl$num_randomVar_in_annot/N,4)
+tbl["prop_randomVar_in_annot"]=round(tbl$num_randomVar_in_annot/N,4)
 tbl
 df<-read.table("output/splicing/torus_enrichment_aFib_mmsplice_all.est", header=F)
+#remove the last row
+df<-df[1:(dim(df)[1]-1),]
 colnames(df)<-c("raw_term", "estimate", "low", "high")
-df["term"]<-paste("mmsplice", c(seq(0.2, 1.8, 0.4), 2.0), sep="_")
-snp_enrichment_plot(df[1:(dim(df)[1]-1),], trait="aFib")
+df["label"]<-paste("mmsplice", seq(0.2, 1.8, 0.4), sep="_")
+df["counts"]<-tbl$num_gwasVar_in_annot
+df["term"]<-sprintf("%s(%s)", df$label, df$counts)
+snp_enrichment_plot(df, trait="aFib")
 ```
 Tissue: Atrial Appendage-Heart   
-**MTSplice - tissue-specific + tissue-independent **    
+**MTSplice - tissue-specific + tissue-independent **  
+Very similar to tissue-independent predictions
 ```{r echo=F, message=F}
-df<-read.table("output/splicing/torus_enrichment_aFib_Atrial_app.est",header=F)
+counts<-read.table("output/splicing/aFIb_numVar_in_AtrialApp_annot_pred.txt",header=F)
+df<-read.table("output/splicing/torus_enrichment_aFib_Atrial_app.est", header= F)
 colnames(df)<-c("raw_term", "estimate", "low", "high")
-df["term"]<-paste("mtsplice", seq(0.2, 1.8, 0.4), sep="_")
+df["label"]<-paste("mtsplice", seq(0.2, 1.8, 0.4), sep="_")
+df["counts"]<-counts$V2
+df["term"]<-sprintf("%s(%s)", df$label, df$counts)
 snp_enrichment_plot(df, trait="AFib")
 ```
 ##### Testrun on SCZ GWAS    
-**MMSplice - not tissue-specific **      
+**MMSplice - not tissue-specific **
+This test run was based on splicing annotations generated using a tissue-independent model. For SCZ, we observed the enrichment estimates take positive values and their standard deviations were smaller compared to AFib's risk variants. 
 ```{r echo=F}
+tbl<-read.table("output/splicing/scz_numVar_in_mmsplice_pred.txt", header=F)
+colnames(tbl)<-c("cutoff(absolute value)", 
+                 "num_gwasVar_in_annot", 
+                 "num_randomVar_in_annot")
+N = 8318559
+tbl["prop_randomVar_in_annot"]=round(tbl$num_randomVar_in_annot/N,4)
 df<-read.table("output/splicing/torus_enrichment_scz_mmsplice_all.est", header=F)
 colnames(df)<-c("raw_term", "estimate", "low", "high")
-df["term"]<-paste("mmsplice", c(seq(0.2, 1.8, 0.4),2.0), sep="_")
-snp_enrichment_plot(df, trait="SCZ")
+df["label"]<-paste("mmsplice", c(seq(0.2, 1.8, 0.4), 2.0), sep="_")
+df["counts"]<-tbl$num_gwasVar_in_annot
+df["term"]<-sprintf("%s(%s)", df$label, df$counts)
+snp_enrichment_plot(df)
 ```
 **Number of Variants in tisse-specific splicing annotations**
-```{r echo=F}
+We counted the number of variants with the predicted splicing scores greater than each cutoff across multiple brain tissues. We observed greater variations across tissues at a lower cutoff. 
+```{r echo=F, message=F}
 tbl<-read.table("output/splicing/numVar_in_annot_by_tissue.txt", header=T)
 tbl["cutoff"]<-c(seq(0.2, 2, 0.4), 2.0)
-library(reshape2)
 df<-melt(tbl[-1,], "cutoff")
-ggplot(df, aes(x=variable, y=value, fill=factor(cutoff))) + 
+ggplot(df, aes(x=variable, y=value, fill=factor(cutoff))) + xlab("") + 
   geom_bar(stat="identity", position=position_dodge()) + 
   theme(axis.text.x=element_text(angle=90, vjust = +0.7)) + 
-  ylab("Number of variants in Annotations")
+  ylab("Number of variants in Annotations") 
 ```
+**Enrichment of SCZ risk variants in brain-specific annotations**
+Though the tissue-indenpendent predictions of variants effects on splicing show no significant enrichment with risk variants, we see different levels of enrichments on the combined predictions across multiple brain tissues as well as whole blood. 
+```{r}
+df<-read.table("output/splicing/torus_enrichment_scz_mtsplice_brain.est", header=F)
+colnames(df)<-c("raw_term", "estimate", "low", "high")
+df["label"]<-unlist(lapply(df$raw_term, function(i){strsplit(i, "_")[[1]][1]}))
+df["counts"]<-c(as.numeric(tbl[tbl$cutoff=="0.6", 1:(dim(tbl)[2]-1)]), 10884)
+df["term"]<-sprintf("%s(%s)", df$label, df$counts)
+snp_enrichment_plot(df)
+```
+
+
+
 
 ## Refined annotation set for Torus joint analysis
 **Schizophrenia**
