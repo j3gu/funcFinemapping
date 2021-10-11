@@ -611,6 +611,8 @@ df["counts"]<-tbl$num_gwasVar_in_annot
 df["term"]<-sprintf("%s(%s)", df$label, df$counts)
 snp_enrichment_plot(df, trait="aFib")
 ```
+* The numbers in parenthesis represent the number of variants overlapped with annotations.
+
 Tissue: Atrial Appendage-Heart   
 **MTSplice - tissue-specific + tissue-independent **  
 Very similar to tissue-independent predictions
@@ -653,7 +655,7 @@ ggplot(df, aes(x=variable, y=value, fill=factor(cutoff))) + xlab("") +
 ```
 **Enrichment of SCZ risk variants in brain-specific annotations**
 Though the tissue-indenpendent predictions of variants effects on splicing show no significant enrichment with risk variants, we see different levels of enrichments on the combined predictions across multiple brain tissues as well as whole blood. 
-```{r}
+```{r echo=F}
 df<-read.table("output/splicing/torus_enrichment_scz_mtsplice_brain.est", header=F)
 colnames(df)<-c("raw_term", "estimate", "low", "high")
 df["label"]<-unlist(lapply(df$raw_term, function(i){strsplit(i, "_")[[1]][1]}))
@@ -661,8 +663,13 @@ df["counts"]<-c(as.numeric(tbl[tbl$cutoff=="0.6", 1:(dim(tbl)[2]-1)]), 10884)
 df["term"]<-sprintf("%s(%s)", df$label, df$counts)
 snp_enrichment_plot(df)
 ```
-
-
+**Joint run over tissue-independent and combined predictions**
+```{r echo=F, fig.width=10}
+df<-read.table("output/splicing/torus_enrichment_joint_Hypotha.est", header=F)
+colnames(df)<-c("term", "estimate", "low", "high")
+snp_enrichment_plot(df[-1,], y.label = c("MMsplice(tissue average)", "MTSplice(Combined)")) + 
+  ggtitle("Enrichment of splicing predictions specific to Hypothalamus-Brain tissue")
+```
 
 
 ## Refined annotation set for Torus joint analysis
