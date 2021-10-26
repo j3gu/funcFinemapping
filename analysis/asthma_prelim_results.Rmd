@@ -1,0 +1,109 @@
+---
+title: "asthma_prelim_results"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(ggplot2)
+library(knitr)
+getwd()
+source("code/make_plots.R")
+```
+## cell-type specific annotations
+* *Caldero et al. 2019* - ATAC-Seq data for FACS-sorted cells from whole blood
+I extracted ATAC-Seq peaks specific to each immune cell type from the count table that consists of a union set of peaks across cells based on the provided cutoffs.
+
+### Rheumatoid arthritis 
+
+This analysis was done to replicate the enrichment results from figure 5b in the paper. Overall, the magnitude of enrichment estimates are much smaller than that in figure 5b. It is possible that we did not use the same GWAS dataset. They used LDSC to estimate enrichment estimates. I will check how they ran LDSC over these annotations. The stimulated immune cells tend to have slightly higher enrichment estimates, but not as significant due to overlapped CIs. However, the figure in the paper demonstrates strong enrichment of stimulated-related peaks for cells such as Bulk B, naive B, CD8+ T and Th1. 
+```{r echo=F}
+rest<-read.table("output/AAD/ra_2014/torus_enrichment_all_rest.est", header=F)
+stimu<-read.table("output/AAD/ra_2014/torus_enrichment_all_stimulated.est", header=F)
+immune_cells<-c("Bulk B", "Naive B", "Mem B","Plasmablasts",
+              "CD8pos T", "Naive CD8 T", "Central memory CD8pos T", 
+              "Effector memory CD8pos T", "Gamma delta T", "Regulatory T","Naive Tregs",
+              "Memory Tregs","Effector CD4pos T","Naive Teffs", "Memory Teffs",
+              "Th1 precursors", "Th2 precursors", "Th17 precursors",
+             "Follicular T Helper","Immature NK", "Mature NK", "Memory NK",
+             "Monocytes", "pDCs", "Myeloid DCs")
+colnames(rest)<-c("raw_term", "estimate", "low", "high")
+colnames(stimu)<-c("raw_term", "estimate", "low", "high")
+rest["term"]<-unlist(lapply(rest$raw_term, function(i){paste(strsplit(strsplit(i, "[.]")[[1]][1], "_")[[1]], collapse = " ")}))
+rest["condition"]<-"resting"
+stimu["condition"]<-"stimulated"
+stimu["term"]<-unlist(lapply(stimu$raw_term, function(i){paste(strsplit(strsplit(i, "[.]")[[1]][1], "_")[[1]], collapse = " ")}))
+df<-rbind(rest, stimu)
+df$condition<-factor(df$condition, levels=c("stimulated", "resting"))
+snp_enrichment_plot(df, split.data = "condition", y.order = rev(immune_cells), trait="Rheumatoid arthritis")
+```
+
+### Adult-Onset Asthma
+
+For Asthma, we did not see stronger enrichment of stimulated-related peaks compared with resting ones. But overall all immune cells whether or not stimulated (except for the stimulated mature NK) are significantly enriched for GWAS risk variants. 
+```{r echo=F}
+rest<-read.table("output/AAD/asthma/torus_enrichment_all_rest.est", header=F)
+stimu<-read.table("output/AAD/asthma/torus_enrichment_all_stimulated.est", header=F)
+colnames(rest)<-c("raw_term", "estimate", "low", "high")
+colnames(stimu)<-c("raw_term", "estimate", "low", "high")
+rest["term"]<-unlist(lapply(rest$raw_term, function(i){paste(strsplit(strsplit(i, "[.]")[[1]][1], "_")[[1]], collapse = " ")}))
+rest["condition"]<-"resting"
+stimu["condition"]<-"stimulated"
+stimu["term"]<-unlist(lapply(stimu$raw_term, function(i){paste(strsplit(strsplit(i, "[.]")[[1]][1], "_")[[1]], collapse = " ")}))
+df<-rbind(rest, stimu)
+df$condition<-factor(df$condition, levels=c("stimulated", "resting"))
+snp_enrichment_plot(df, split.data = "condition", y.order = rev(immune_cells), trait="Adult-onset Asthma")
+```
+
+### Allergy
+
+```{r echo=F}
+rest<-read.table("output/AAD/allergy/torus_enrichment_all_rest.est", header=F)
+stimu<-read.table("output/AAD/allergy/torus_enrichment_all_stimulated.est", header=F)
+colnames(rest)<-c("raw_term", "estimate", "low", "high")
+colnames(stimu)<-c("raw_term", "estimate", "low", "high")
+rest["term"]<-unlist(lapply(rest$raw_term, function(i){paste(strsplit(strsplit(i, "[.]")[[1]][1], "_")[[1]], collapse = " ")}))
+rest["condition"]<-"resting"
+stimu["condition"]<-"stimulated"
+stimu["term"]<-unlist(lapply(stimu$raw_term, function(i){paste(strsplit(strsplit(i, "[.]")[[1]][1], "_")[[1]], collapse = " ")}))
+df<-rbind(rest, stimu)
+df$condition<-factor(df$condition, levels=c("stimulated", "resting"))
+snp_enrichment_plot(df, split.data = "condition", y.order = rev(immune_cells), trait="Allergy")
+```
+
+## Joint Enrichment of a pair of annotations
+
+### Adult-Onset Asthma
+A pair of annotations - stimulated and resting for each immune cell type was jointly tested for their enrichment of GWAS risk variants. We observed many cell types share GWAS association signals. Conditional on resting cells,there are five stimulated cell types still show enrichment including Naive B, Memory B, CD8+ T , Naive CD8+ T and Naive Tregs cells. 
+```{r echo=F}
+df<-read.table("output/AAD/asthma/joint_blood_immune_rest_vs_stimu.est", header=F)
+colnames(df)<-c("raw_term", "estimate", "low", "high")
+df["label"]<-unlist(lapply(df$raw_term, function(i){strsplit(i, "[.]")[[1]][1]}))
+df["condition"]<-unlist(lapply(df$label, function(i){
+                        words<-strsplit(i, "_")[[1]]
+                        return(words[length(words)])}))
+df["term"]<-unlist(lapply(df$label, function(i){
+                          words<-strsplit(i, "_")[[1]]
+                          return(paste(words[1:(length(words)-1)], collapse = " "))}))
+df$condition<-factor(df$condition, levels = c("S", "U"), labels=c("stimulated", "resting"))
+snp_enrichment_plot(df, split.data = "condition", y.order = rev(immune_cells), trait="Adult-onset Asthma")
+```
+
+## Annotations - Differential accessible peaks 
+*Caldero et al. 2019* 
+
+  - Significant differentially accessible regions when compared to progenitor cells
+  - Significant differentially accessible regions under stimulation
+
+```{r echo=F}
+df<-read.table("output/AAD/asthma/stimu_adult_blood_torus.est",header = F)
+colnames(df)<-c("term", "est", "low", "high")
+df["cell_type"]<-unlist(lapply(df$term, function(i){strsplit(i, "_S")[[1]][1]}))
+df['highlight']<-df$low >=0
+#omit cell types with very large standard deviations
+df['omit']<-df$low < -10 | df$high > 10
+plot_torus_enrichment(df[df['omit']==F,], text_angle=90, vjust=1) + ggtitle("Stimulation-specific & accessible regions in blood")
+```
+    
+
+    

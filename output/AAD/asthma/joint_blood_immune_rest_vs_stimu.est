@@ -1,0 +1,40 @@
+               Bulk_B_S.1     -0.758        -1.449     -0.066
+               Bulk_B_U.1      2.311         1.257      3.364
+             CD8pos_T_S.1      1.217         0.446      1.987
+             CD8pos_T_U.1      0.512        -0.082      1.106
+Central_memory_CD8pos_T_S.1     -0.330        -1.559      0.900
+Central_memory_CD8pos_T_U.1      2.413         1.395      3.430
+    Effector_CD4pos_T_S.1      0.456        -0.155      1.066
+    Effector_CD4pos_T_U.1      1.134         0.303      1.965
+Effector_memory_CD8pos_T_S.1     -0.998        -1.519     -0.476
+Effector_memory_CD8pos_T_U.1      2.843         1.588      4.098
+  Follicular_T_Helper_S.1      0.381        -0.128      0.891
+  Follicular_T_Helper_U.1      1.383         0.571      2.196
+        Gamma_delta_T_S.1     -0.647        -1.438      0.145
+        Gamma_delta_T_U.1      2.271         1.087      3.455
+            Mature_NK_S.1     -1.634        -2.100     -1.169
+            Mature_NK_U.1      2.977         1.752      4.203
+                Mem_B_S.1      1.316         0.569      2.064
+                Mem_B_U.1      0.253        -0.264      0.770
+         Memory_Teffs_S.1      0.713         0.102      1.324
+         Memory_Teffs_U.1      1.205         0.428      1.982
+         Memory_Tregs_S.1      0.677         0.045      1.309
+         Memory_Tregs_U.1      1.041         0.248      1.834
+            Monocytes_S.1      0.031        -0.188      0.249
+            Monocytes_U.1      1.238         0.449      2.026
+              Naive_B_S.1      1.599         0.837      2.362
+              Naive_B_U.1      0.279        -0.198      0.756
+          Naive_CD8_T_S.1      1.144         0.387      1.901
+          Naive_CD8_T_U.1      0.314        -0.308      0.936
+          Naive_Teffs_S.1      0.353        -0.203      0.909
+          Naive_Teffs_U.1      1.337         0.527      2.147
+          Naive_Tregs_S.1      1.401         0.597      2.204
+          Naive_Tregs_U.1      0.129        -0.345      0.603
+         Regulatory_T_S.1      0.357        -0.171      0.886
+         Regulatory_T_U.1      1.424         0.578      2.269
+      Th17_precursors_S.1      0.376        -0.216      0.967
+      Th17_precursors_U.1      1.229         0.324      2.133
+       Th1_precursors_S.1      0.482        -0.045      1.009
+       Th1_precursors_U.1      1.503         0.696      2.310
+       Th2_precursors_S.1      0.901         0.288      1.514
+       Th2_precursors_U.1      1.111         0.425      1.797

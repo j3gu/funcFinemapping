@@ -1,0 +1,11 @@
+Central_memory_CD8pos_T_U	3013	0.05%
+Effector_CD4pos_T_U	2162	0.03%
+Immature_NK_U	14540	0.22%
+Mem_B_U	8321	0.13%
+Memory_Teffs_U	606	0.01%
+Monocytes_U	103743	1.57%
+Naive_B_U	1692	0.03%
+Naive_CD8_T_U	16757	0.25%
+Naive_Teffs_U	9030	0.14%
+Naive_Tregs_U	497	0.01%
+pDCs_U	59342	0.9%

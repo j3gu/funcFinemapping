@@ -1,0 +1,20 @@
+                 Bulk_B.1      1.620         1.115      2.125
+               CD8pos_T.1      1.925         1.438      2.412
+Central_memory_CD8pos_T.1      2.079         1.618      2.539
+      Effector_CD4pos_T.1      1.973         1.496      2.450
+Effector_memory_CD8pos_T.1      1.992         1.522      2.463
+    Follicular_T_Helper.1      1.670         1.230      2.110
+          Gamma_delta_T.1      1.968         1.482      2.454
+              Mature_NK.1      1.497         1.022      1.972
+                  Mem_B.1      1.690         1.240      2.141
+           Memory_Teffs.1      2.114         1.661      2.567
+           Memory_Tregs.1      1.869         1.415      2.324
+              Monocytes.1      1.416         0.956      1.876
+                Naive_B.1      1.839         1.366      2.313
+            Naive_CD8_T.1      1.671         1.221      2.121
+            Naive_Teffs.1      1.944         1.483      2.405
+            Naive_Tregs.1      1.751         1.297      2.204
+           Regulatory_T.1      1.863         1.408      2.319
+        Th17_precursors.1      1.979         1.517      2.441
+         Th1_precursors.1      2.016         1.573      2.459
+         Th2_precursors.1      1.833         1.367      2.298
