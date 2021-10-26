@@ -11,12 +11,12 @@ getwd()
 source("code/make_plots.R")
 ```
 ## cell-type specific annotations
-* *Caldero et al. 2019* - ATAC-Seq data for FACS-sorted cells from whole blood
+*Caldero et al. 2019* - ATAC-Seq data for FACS-sorted cells from whole blood   
 I extracted ATAC-Seq peaks specific to each immune cell type from the count table that consists of a union set of peaks across cells based on the provided cutoffs.
 
 ### Rheumatoid arthritis 
 
-This analysis was done to replicate the enrichment results from figure 5b in the paper. Overall, the magnitude of enrichment estimates are much smaller than that in figure 5b. It is possible that we did not use the same GWAS dataset. They used LDSC to estimate enrichment estimates. I will check how they ran LDSC over these annotations. The stimulated immune cells tend to have slightly higher enrichment estimates, but not as significant due to overlapped CIs. However, the figure in the paper demonstrates strong enrichment of stimulated-related peaks for cells such as Bulk B, naive B, CD8+ T and Th1. 
+This analysis was done to replicate the enrichment results from figure 5b in the paper. Overall, the magnitude of enrichment estimates are much smaller than that in figure 5b. I could not find their resouce of GWAS datase, but I believe that I used a different GWAS data set for RA. They claimed 20% per-SNP heritability for RA, while the dataset in 2014 I used only found 8% genome-wide heritability. They used LDSC to estimate enrichment estimates. The stimulated immune cells tend to have slightly higher enrichment estimates, but not as significant due to overlapped CIs. However, the figure in the paper demonstrates strong enrichment of stimulated-related peaks for cells such as Bulk B, naive B, CD8+ T and Th1. 
 ```{r echo=F}
 rest<-read.table("output/AAD/ra_2014/torus_enrichment_all_rest.est", header=F)
 stimu<-read.table("output/AAD/ra_2014/torus_enrichment_all_stimulated.est", header=F)
