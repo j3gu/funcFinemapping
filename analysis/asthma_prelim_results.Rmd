@@ -16,7 +16,7 @@ I extracted ATAC-Seq peaks specific to each immune cell type from the count tabl
 
 ### Rheumatoid arthritis 
 
-This analysis was done to replicate the enrichment results from figure 5b in the paper. Overall, the magnitude of enrichment estimates are much smaller than that in figure 5b. I could not find their resouce of GWAS datase, but I believe that I used a different GWAS data set for RA. They claimed 20% per-SNP heritability for RA, while the dataset in 2014 I used only found 8% genome-wide heritability. They used LDSC to estimate enrichment estimates. The stimulated immune cells tend to have slightly higher enrichment estimates, but not as significant due to overlapped CIs. However, the figure in the paper demonstrates strong enrichment of stimulated-related peaks for cells such as Bulk B, naive B, CD8+ T and Th1. 
+This analysis was done to replicate the enrichment results from figure 5b in the paper. Overall, the magnitude of enrichment estimates are much smaller than that in figure 5b. I could not find their resouce of GWAS dataset, but I believe that I used a different GWAS data set for RA. They claimed 20% per-SNP heritability for RA, while the dataset in 2014 I used only found 8% genome-wide heritability. They used LDSC to estimate enrichment estimates. The stimulated immune cells tend to have slightly higher enrichment estimates, but not as significant due to overlapped CIs. However, the figure in the paper demonstrates strong enrichment of stimulated-related peaks for cells such as Bulk B, naive B, CD8+ T and Th1. 
 ```{r echo=F}
 rest<-read.table("output/AAD/ra_2014/torus_enrichment_all_rest.est", header=F)
 stimu<-read.table("output/AAD/ra_2014/torus_enrichment_all_stimulated.est", header=F)
@@ -27,6 +27,7 @@ immune_cells<-c("Bulk B", "Naive B", "Mem B","Plasmablasts",
               "Th1 precursors", "Th2 precursors", "Th17 precursors",
              "Follicular T Helper","Immature NK", "Mature NK", "Memory NK",
              "Monocytes", "pDCs", "Myeloid DCs")
+# name the terms in a simpler form (todo)
 colnames(rest)<-c("raw_term", "estimate", "low", "high")
 colnames(stimu)<-c("raw_term", "estimate", "low", "high")
 rest["term"]<-unlist(lapply(rest$raw_term, function(i){paste(strsplit(strsplit(i, "[.]")[[1]][1], "_")[[1]], collapse = " ")}))
@@ -97,8 +98,10 @@ snp_enrichment_plot(df, split.data = "condition", y.order = rev(immune_cells), t
 
 ```{r echo=F}
 df<-read.table("output/AAD/asthma/stimu_adult_blood_torus.est",header = F)
-colnames(df)<-c("term", "est", "low", "high")
-df["cell_type"]<-unlist(lapply(df$term, function(i){strsplit(i, "_S")[[1]][1]}))
+colnames(df)<-c("raw_term", "est", "low", "high")
+df["term"]<-unlist(lapply(df$raw_term, function(i){
+                          term<-strsplit(i, "_S")[[1]][1]
+                          return(paste(strsplit(term, "_")[[1]], collapse = " "))}))
 df['highlight']<-df$low >=0
 #omit cell types with very large standard deviations
 df['omit']<-df$low < -10 | df$high > 10
