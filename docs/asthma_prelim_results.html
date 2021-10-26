@@ -461,16 +461,16 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomj3gufuncFinemappingtreedb3c6f96af3bb6ed4d4e210f7ac5585517152b8atargetblankdb3c6f9a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/j3gu/funcFinemapping/tree/db3c6f96af3bb6ed4d4e210f7ac5585517152b8a" target="_blank">db3c6f9</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomj3gufuncFinemappingtreeb3259c5a06750b948cdb118eb6c9371b32b1dc3atargetblankb3259c5a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/j3gu/funcFinemapping/tree/b3259c5a06750b948cdb118eb6c9371b32b1dc3a" target="_blank">b3259c5</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomj3gufuncFinemappingtreedb3c6f96af3bb6ed4d4e210f7ac5585517152b8atargetblankdb3c6f9a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomj3gufuncFinemappingtreeb3259c5a06750b948cdb118eb6c9371b32b1dc3atargetblankb3259c5a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/j3gu/funcFinemapping/tree/db3c6f96af3bb6ed4d4e210f7ac5585517152b8a" target="_blank">db3c6f9</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/j3gu/funcFinemapping/tree/b3259c5a06750b948cdb118eb6c9371b32b1dc3a" target="_blank">b3259c5</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -576,6 +576,40 @@ Message
 Rmd
 </td>
 <td>
+<a href="https://github.com/j3gu/funcFinemapping/blob/b3259c5a06750b948cdb118eb6c9371b32b1dc3a/analysis/asthma_prelim_results.Rmd" target="_blank">b3259c5</a>
+</td>
+<td>
+Jing Gu
+</td>
+<td>
+2021-10-26
+</td>
+<td>
+wflow_publish(&quot;analysis/asthma_prelim_results.Rmd&quot;)
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/j3gu/funcFinemapping/5b65bd10f715e7c6d2f8dffdcac3cfb13feac2cf/docs/asthma_prelim_results.html" target="_blank">5b65bd1</a>
+</td>
+<td>
+Jing Gu
+</td>
+<td>
+2021-10-26
+</td>
+<td>
+Build site.
+</td>
+</tr>
+<tr>
+<td>
+Rmd
+</td>
+<td>
 <a href="https://github.com/j3gu/funcFinemapping/blob/db3c6f96af3bb6ed4d4e210f7ac5585517152b8a/analysis/asthma_prelim_results.Rmd" target="_blank">db3c6f9</a>
 </td>
 <td>
@@ -597,20 +631,130 @@ test enrichment for asthma risk variants
 </div>
 <div id="cell-type-specific-annotations" class="section level2">
 <h2>cell-type specific annotations</h2>
-<ul>
-<li><em>Caldero et al. 2019</em> - ATAC-Seq data for FACS-sorted cells from whole blood I extracted ATAC-Seq peaks specific to each immune cell type from the count table that consists of a union set of peaks across cells based on the provided cutoffs.</li>
-</ul>
+<p><em>Caldero et al. 2019</em> - ATAC-Seq data for FACS-sorted cells from whole blood<br />
+I extracted ATAC-Seq peaks specific to each immune cell type from the count table that consists of a union set of peaks across cells based on the provided cutoffs.</p>
 <div id="rheumatoid-arthritis" class="section level3">
 <h3>Rheumatoid arthritis</h3>
-<p>This analysis was done to replicate the enrichment results from figure 5b in the paper. Overall, the magnitude of enrichment estimates are much smaller than that in figure 5b. It is possible that we did not use the same GWAS dataset. They used LDSC to estimate enrichment estimates. I will check how they ran LDSC over these annotations. The stimulated immune cells tend to have slightly higher enrichment estimates, but not as significant due to overlapped CIs. However, the figure in the paper demonstrates strong enrichment of stimulated-related peaks for cells such as Bulk B, naive B, CD8+ T and Th1. <img src="figure/asthma_prelim_results.Rmd/unnamed-chunk-1-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>This analysis was done to replicate the enrichment results from figure 5b in the paper. Overall, the magnitude of enrichment estimates are much smaller than that in figure 5b. I could not find their resouce of GWAS datase, but I believe that I used a different GWAS data set for RA. They claimed 20% per-SNP heritability for RA, while the dataset in 2014 I used only found 8% genome-wide heritability. They used LDSC to estimate enrichment estimates. The stimulated immune cells tend to have slightly higher enrichment estimates, but not as significant due to overlapped CIs. However, the figure in the paper demonstrates strong enrichment of stimulated-related peaks for cells such as Bulk B, naive B, CD8+ T and Th1. <img src="figure/asthma_prelim_results.Rmd/unnamed-chunk-1-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-1-1">
+Past versions of unnamed-chunk-1-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-1-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/j3gu/funcFinemapping/blob/5b65bd10f715e7c6d2f8dffdcac3cfb13feac2cf/docs/figure/asthma_prelim_results.Rmd/unnamed-chunk-1-1.png" target="_blank">5b65bd1</a>
+</td>
+<td>
+Jing Gu
+</td>
+<td>
+2021-10-26
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="adult-onset-asthma" class="section level3">
 <h3>Adult-Onset Asthma</h3>
 <p>For Asthma, we did not see stronger enrichment of stimulated-related peaks compared with resting ones. But overall all immune cells whether or not stimulated (except for the stimulated mature NK) are significantly enriched for GWAS risk variants. <img src="figure/asthma_prelim_results.Rmd/unnamed-chunk-2-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-2-1">
+Past versions of unnamed-chunk-2-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-2-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/j3gu/funcFinemapping/blob/5b65bd10f715e7c6d2f8dffdcac3cfb13feac2cf/docs/figure/asthma_prelim_results.Rmd/unnamed-chunk-2-1.png" target="_blank">5b65bd1</a>
+</td>
+<td>
+Jing Gu
+</td>
+<td>
+2021-10-26
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="allergy" class="section level3">
 <h3>Allergy</h3>
 <p><img src="figure/asthma_prelim_results.Rmd/unnamed-chunk-3-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-3-1">
+Past versions of unnamed-chunk-3-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-3-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/j3gu/funcFinemapping/blob/5b65bd10f715e7c6d2f8dffdcac3cfb13feac2cf/docs/figure/asthma_prelim_results.Rmd/unnamed-chunk-3-1.png" target="_blank">5b65bd1</a>
+</td>
+<td>
+Jing Gu
+</td>
+<td>
+2021-10-26
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 </div>
 <div id="joint-enrichment-of-a-pair-of-annotations" class="section level2">
@@ -618,6 +762,43 @@ test enrichment for asthma risk variants
 <div id="adult-onset-asthma-1" class="section level3">
 <h3>Adult-Onset Asthma</h3>
 <p>A pair of annotations - stimulated and resting for each immune cell type was jointly tested for their enrichment of GWAS risk variants. We observed many cell types share GWAS association signals. Conditional on resting cells,there are five stimulated cell types still show enrichment including Naive B, Memory B, CD8+ T , Naive CD8+ T and Naive Tregs cells. <img src="figure/asthma_prelim_results.Rmd/unnamed-chunk-4-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-4-1">
+Past versions of unnamed-chunk-4-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-4-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/j3gu/funcFinemapping/blob/5b65bd10f715e7c6d2f8dffdcac3cfb13feac2cf/docs/figure/asthma_prelim_results.Rmd/unnamed-chunk-4-1.png" target="_blank">5b65bd1</a>
+</td>
+<td>
+Jing Gu
+</td>
+<td>
+2021-10-26
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 </div>
 <div id="annotations---differential-accessible-peaks" class="section level2">
@@ -628,6 +809,43 @@ test enrichment for asthma risk variants
 <li>Significant differentially accessible regions under stimulation</li>
 </ul>
 <p><img src="figure/asthma_prelim_results.Rmd/unnamed-chunk-5-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-5-1">
+Past versions of unnamed-chunk-5-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-5-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/j3gu/funcFinemapping/blob/5b65bd10f715e7c6d2f8dffdcac3cfb13feac2cf/docs/figure/asthma_prelim_results.Rmd/unnamed-chunk-5-1.png" target="_blank">5b65bd1</a>
+</td>
+<td>
+Jing Gu
+</td>
+<td>
+2021-10-26
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
