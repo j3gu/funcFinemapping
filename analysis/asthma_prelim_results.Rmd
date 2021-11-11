@@ -9,12 +9,56 @@ library(ggplot2)
 library(knitr)
 source("code/make_plots.R")
 ```
-## cell-type resolved annotations
-*Caldero et al. 2019* - ATAC-Seq data for FACS-sorted cells from whole blood   
-I extracted ATAC-Seq peaks specific to each immune cell type from the count table that consists of a union set of peaks across cells based on the provided cutoffs.
+## Asthama and Allergy diseases
+The aim for this project is to identify causal variants, genes and cell types relevant to AAD by integrating omics data of lung samples. We hypothesize that open chromatin regions of lung-resident immune cells can explain broader heritability for AAD than those of blood immune cells. The disease associated variants annotated by these regulatory functions are  more likely to contribute to disease risk, so this prior knowledge can be leveraged to prioritize risk variants in GWAS loci. 
 
-### immune traits 
-This analysis was done to replicate the enrichment results from figure 5b in the paper. Overall, the magnitude of enrichment estimates are much smaller than that in figure 5b. I could not find their resouce of GWAS dataset, but I believe that I used a different GWAS data set for RA. They claimed 20% per-SNP heritability for RA, while the dataset in 2014 I used only found 8% genome-wide heritability. They used LDSC to estimate enrichment estimates. The stimulated immune cells tend to have slightly higher enrichment estimates, but not as significant due to overlapped CIs. However, the figure in the paper demonstrates strong enrichment of stimulated-related peaks for cells such as Bulk B, naive B, CD8+ T and Th1. 
+## Dataset
+### ATAC-seq data for Blood immune cells (Caldero2019)
+**Dataset**: ATAC-Seq profiles for FACS-sorted cells from the peripheral blood of up to 4 healthy donors
+
+**Output files**:  
+1. An ATAC-seq count table with a union set of peaks as rows and individual cell as columns  
+2. A Sample QC table that includes number of peaks and cell type identity for each cell   
+3. Significant differentially accessible regions when compared to progenitor cells   
+4. Significant differentially accessible regions under stimulation   
+
+**Procedure**: I used the number of peaks after QC for each cell to extract its corresponding ATAC-Seq peaks from the count table. 
+<details>
+  <summary>Details of the procedure</summary>
+  For the cells of interest, I sorted their corresponding columns of the count table and store the top N number of peaks according to the number of peaks from the QC table as cell type resolved peaks. 
+</details> 
+
+### ATAC-seq data for hematopoietic cells (Ulirsch2019)
+**Dataset**: ATAC-Seq profiles for FACS-sorted cells from human peripheral blood or bone marrow. 
+
+**Output files**:   
+1.peak files downloaded from: https://github.com/caleblareau/singlecell_bloodtraits/tree/master/data/bulk/ATAC/narrowpeaks
+
+### scATAC-seq data for lung tissues (Wang2020)
+**Dataset**: scATAC-Seq and scRNA-seq profiles for small airway region of right middle lobe (RML) lung tissue from 3 donors at different ages 
+
+**Output files**:   
+1. peak files downloaded from web portal: https://www.lungepigenome.org/
+
+### scATAC-seq data for fetal hematopoietic cells (Ronzoni2021)
+**Dataset**: scATAC-Seq and scRNA-seq profiles of human immunophenotypic blood cells from fetal liver and bone marrow
+
+**Output files**:  
+Downloaded from gitlab page: to be added  
+1. A merged normalized peak table with a union set of peaks as rows and individual cell as columns    
+2. A meta table that includes number of peaks and predicted cell type identity for each cell     
+3. A raw count table with peaks as rows and individual cell as columns   
+
+**Procedure**: I used the number of peaks for each cell from the meta table to extract its corresponding ATAC-Seq peaks from the merged peak table. The number of peaks is equivalent to the amount of non-zero peaks.
+
+## TORUS run for individual Blood annotation: 
+**Motivation**: 
+
+1. perform QC check for this dataset
+2. have a senes of which cell types are potentially relevant to AAD
+
+**Results**: 
+Overall, the magnitude of enrichment estimates are much smaller than that in figure 5b. The discrepancy can be due to different GWAS datasets and enrichment method. They used LDSC to estimate enrichment coefficients, which have a better control on the overlapping peaks between many annotations.
 ```{r echo=F}
 immune_cells<-c("Bulk B", "Naive B", "Mem B","Plasmablasts",
               "CD8pos T", "Naive CD8 T", "Central memory CD8pos T", 
@@ -40,23 +84,54 @@ for(trait in traits){
 tbl$condition<-factor(df$condition, levels=c("stimulated", "resting"))
 snp_enrichment_plot(tbl, split.data = "condition", y.order = rev(immune_cells), trait="") + facet_grid(. ~ trait)
 ```
-For Asthma, we did not see stronger enrichment of stimulated-related peaks compared with resting ones. But overall all immune cells whether or not stimulated (except for the stimulated mature NK) are significantly enriched for GWAS risk variants. 
+
+## TORUS run for individual lung annotation: 
+**Motivation**: 
+
+1. perform QC check for this dataset
+2. have a senes of which cell types in lungs are potentially relevant to AAD
+
+**Results**: 
+Data look good as the open chromatin regions of most cell types in lungs are enriched with disease risk variants. 
+```{r echo=F, fig.width=12, fig.height=8}
+tbl<-data.frame()
+for(trait in traits){
+  df<-read.table(sprintf("output/AAD/%s/Wang2020_indiv.est", trait), header=F)
+  colnames(df)<-c("raw_term", "estimate", "low", "high")
+  df["term"]<-unlist(lapply(df$raw_term, function(i){strsplit(i, "[.]")[[1]][1]}))
+  tbl<-data.frame(rbind(tbl, cbind(df, trait)))
+}
+
+snp_enrichment_plot(tbl, trait="") + facet_grid(. ~ trait)
+
+```
+## TORUS run for lung and blood immune cells (one at a time): 
+**Motivation**: 
+
+1. perform QC check for this dataset
+2. have a senes of which cell types in lungs are potentially relevant to AAD
+
+**Results**: 
+Data look good as the open chromatin regions of most cell types in lungs are enriched with disease risk variants. 
+
+```{r}
+
+```
 
 
-## Joint Enrichment analysis   
-### Immune cells grouped by lineages
-Immune cells were grouped into six main categories and merged across two conditions. The peaks in these groups can be overlapped.
+##Joint TORUS run for annotation sets
+### grouped by lineages
 
-* NK
-* B cells
-* CD4+
-* CD8+
-* Myeloids
-* Gamma delta T
+**Motivation**: Running annotation sets in a joint model enables us to idenity the relevant contribution in open chromatin regions of each immune cell type to traits. LSDC is a better tool to use as we expected many overlaps of acccessible peaks across the sub-clusters of immune cells, which can make the estimation of TORUS's joint model unstable. Here we grouped the cell types and used TORUS to get a quick run of which group of cell types have significant enrichment.   
+
+**Procedure**: 
+For Caldero2019 dataset: Immune cells were grouped into six main categories and merged across two conditions. The peaks in these groups can be overlapped.  
+For Ronzoni2021 dataset, I took a union set of peaks from all cells that were predicted to be granulocytes progenitors.
+
 ```{r echo=F}
 tbl<-data.frame()
 for(trait in traits){
-  df<-read.table(sprintf("output/AAD/%s/Caldero2019_regroup.est", trait), header=T)
+  df<-read.table(sprintf("output/AAD/%s/Caldero2019_addGPs.est", trait), header=T)
   colnames(df)<-c("raw_term", "estimate", "low", "high")
   ### remove lines of FDR values for each loci
   df["label"] = unlist(lapply(df$raw_term, function(i){length(strsplit(i[1], "[.]")[[1]])>1}))
@@ -65,10 +140,16 @@ for(trait in traits){
   tbl<-data.frame(rbind(tbl, cbind(df, trait)))
 }
 
-snp_enrichment_plot(tbl, trait="", y.label = c("B cells", "CD4_T", "CD8_T", "Gamma_delta_T", "Myeloid cells", "NK cells")) + facet_grid(. ~ trait)
+snp_enrichment_plot(tbl, trait="", y.label = c("Myeloid cells","B cells", "NK cells", "CD8_T", "CD4_T","Gamma_delta_T", "Granulocyte-progenitors")) + xlim(-3, 5) + facet_grid(. ~ trait)
 ```
-### Immune cells grouped by lineages
-Immune cells were grouped into six main categories but compared across conditions.
+**Summary**:
+
+1. Overall, we see the differences in immune cell components that contribute to these three autoimmune diseases. 
+2. GPs and CD4+ T cels are consistently significant in enrichment of risk variants for all three diseases. 
+
+### grouped by lineages and conditions
+
+**Procedure**: Immune cells were grouped first into six main categories and then separated by conditions. This set of 12 annotations were jointly tested via TORUS.
 ```{r echo=F, fig.width=10, fig.height=6}
 tbl<-data.frame()
 for(trait in traits){
@@ -87,8 +168,10 @@ tbl["term"]<-unlist(lapply(tbl$term, function(i){
             paste(words[1:(length(words)-1)], collapse = "_")}))
 snp_enrichment_plot(tbl, trait="") + facet_grid(. ~ trait)
 ```
-### disjoint groups by lineage 
-```{r echo=F}
+### disjoint peak groups across immune cell types
+**Motivation**: Using disjoint groups of peaks from immune cell types to estimate separate contributions of immune components to disease heritability. These annotations are ideal predictors for the linear model used in either LDSC or TORUS to obtain unbiased enrichment estimators.
+**Procedure**: The disjoint peaks were directly downloaded from the paper.
+```{r echo=F, fig.width=12, fig.height=8}
 tbl<-data.frame()
 for(trait in traits){
   df<-read.table(sprintf("output/AAD/%s/Caldero2019_lineage.est", trait), header=T)
@@ -100,13 +183,15 @@ for(trait in traits){
   tbl<-data.frame(rbind(tbl, cbind(df, trait)))
 }
 
-snp_enrichment_plot(tbl, y.order = rev(c("B_stimulated", "T_stimulated", "BandT_stimulated",
+snp_enrichment_plot(tbl[tbl$term!="thymo_resting",], y.order = rev(c(
+                                     "B_stimulated", "T_stimulated", "BandT_stimulated",
                                      "B_resting", "T_resting","nk_resting","myeloid_resting",
-                                     "thymo_resting","EPI_resting","progenitor_resting",
-                                     "open")), trait="") + xlim(-15,15) + facet_grid(. ~ trait)
+                                     "EPI_resting","progenitor_resting",
+                                     "open")), trait="")  + facet_grid(. ~ trait)
 
+
+snp_enrichment_plot(tbl[tbl$term!="thymo_resting",], trait="")  + facet_grid(. ~ trait)
 ```
-
 ### Other datasets Ulirsch2019
 test enrichment in other immune cell types such as granulocytes. 
 ```{r echo=F}
