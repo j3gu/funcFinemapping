@@ -370,7 +370,7 @@ div.tocify {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2021-11-04
+<strong>Last updated:</strong> 2021-11-11
 </p>
 <p>
 <strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
@@ -461,16 +461,16 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomj3gufuncFinemappingtreedd720fe0861c0b141d2684c4500183ea9f2edcc8targetblankdd720fea"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/j3gu/funcFinemapping/tree/dd720fe0861c0b141d2684c4500183ea9f2edcc8" target="_blank">dd720fe</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomj3gufuncFinemappingtree912c9b64e9cce23e7d5d524213345c1ad563d88ftargetblank912c9b6a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/j3gu/funcFinemapping/tree/912c9b64e9cce23e7d5d524213345c1ad563d88f" target="_blank">912c9b6</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomj3gufuncFinemappingtreedd720fe0861c0b141d2684c4500183ea9f2edcc8targetblankdd720fea" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomj3gufuncFinemappingtree912c9b64e9cce23e7d5d524213345c1ad563d88ftargetblank912c9b6a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/j3gu/funcFinemapping/tree/dd720fe0861c0b141d2684c4500183ea9f2edcc8" target="_blank">dd720fe</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/j3gu/funcFinemapping/tree/912c9b64e9cce23e7d5d524213345c1ad563d88f" target="_blank">912c9b6</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -587,6 +587,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/j3gu/funcFinemapping/blob/912c9b64e9cce23e7d5d524213345c1ad563d88f/analysis/asthma_prelim_results.Rmd" target="_blank">912c9b6</a>
+</td>
+<td>
+Jing Gu
+</td>
+<td>
+2021-11-11
+</td>
+<td>
+analyzed lung immune cells
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/j3gu/funcFinemapping/be4deded7c0d75d11b8304b1a05b6b719185cb55/docs/asthma_prelim_results.html" target="_blank">be4dede</a>
+</td>
+<td>
+Jing Gu
+</td>
+<td>
+2021-11-04
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -713,13 +747,53 @@ test enrichment for asthma risk variants
 </div>
 </div>
 </div>
-<div id="cell-type-resolved-annotations" class="section level2">
-<h2>cell-type resolved annotations</h2>
-<p><em>Caldero et al. 2019</em> - ATAC-Seq data for FACS-sorted cells from whole blood<br />
-I extracted ATAC-Seq peaks specific to each immune cell type from the count table that consists of a union set of peaks across cells based on the provided cutoffs.</p>
-<div id="immune-traits" class="section level3">
-<h3>immune traits</h3>
-<p>This analysis was done to replicate the enrichment results from figure 5b in the paper. Overall, the magnitude of enrichment estimates are much smaller than that in figure 5b. I could not find their resouce of GWAS dataset, but I believe that I used a different GWAS data set for RA. They claimed 20% per-SNP heritability for RA, while the dataset in 2014 I used only found 8% genome-wide heritability. They used LDSC to estimate enrichment estimates. The stimulated immune cells tend to have slightly higher enrichment estimates, but not as significant due to overlapped CIs. However, the figure in the paper demonstrates strong enrichment of stimulated-related peaks for cells such as Bulk B, naive B, CD8+ T and Th1. <img src="figure/asthma_prelim_results.Rmd/unnamed-chunk-1-1.png" width="672" style="display: block; margin: auto;" /></p>
+<div id="asthama-and-allergy-diseases" class="section level2">
+<h2>Asthama and Allergy diseases</h2>
+<p>The aim for this project is to identify causal variants, genes and cell types relevant to AAD by integrating omics data of lung samples. We hypothesize that open chromatin regions of lung-resident immune cells can explain broader heritability for AAD than those of blood immune cells. The disease associated variants annotated by these regulatory functions are more likely to contribute to disease risk, so this prior knowledge can be leveraged to prioritize risk variants in GWAS loci.</p>
+</div>
+<div id="dataset" class="section level2">
+<h2>Dataset</h2>
+<div id="atac-seq-data-for-blood-immune-cells-caldero2019" class="section level3">
+<h3>ATAC-seq data for Blood immune cells (Caldero2019)</h3>
+<p><strong>Dataset</strong>: ATAC-Seq profiles for FACS-sorted cells from the peripheral blood of up to 4 healthy donors</p>
+<p><strong>Output files</strong>:<br />
+1. An ATAC-seq count table with a union set of peaks as rows and individual cell as columns<br />
+2. A Sample QC table that includes number of peaks and cell type identity for each cell<br />
+3. Significant differentially accessible regions when compared to progenitor cells<br />
+4. Significant differentially accessible regions under stimulation</p>
+<p><strong>Procedure</strong>: I used the number of peaks after QC for each cell to extract its corresponding ATAC-Seq peaks from the count table. <details> <summary>Details of the procedure</summary> For the cells of interest, I sorted their corresponding columns of the count table and store the top N number of peaks according to the number of peaks from the QC table as cell type resolved peaks. </details></p>
+</div>
+<div id="atac-seq-data-for-hematopoietic-cells-ulirsch2019" class="section level3">
+<h3>ATAC-seq data for hematopoietic cells (Ulirsch2019)</h3>
+<p><strong>Dataset</strong>: ATAC-Seq profiles for FACS-sorted cells from human peripheral blood or bone marrow.</p>
+<p><strong>Output files</strong>:<br />
+1.peak files downloaded from: <a href="https://github.com/caleblareau/singlecell_bloodtraits/tree/master/data/bulk/ATAC/narrowpeaks" class="uri">https://github.com/caleblareau/singlecell_bloodtraits/tree/master/data/bulk/ATAC/narrowpeaks</a></p>
+</div>
+<div id="scatac-seq-data-for-lung-tissues-wang2020" class="section level3">
+<h3>scATAC-seq data for lung tissues (Wang2020)</h3>
+<p><strong>Dataset</strong>: scATAC-Seq and scRNA-seq profiles for small airway region of right middle lobe (RML) lung tissue from 3 donors at different ages</p>
+<p><strong>Output files</strong>:<br />
+1. peak files downloaded from web portal: <a href="https://www.lungepigenome.org/" class="uri">https://www.lungepigenome.org/</a></p>
+</div>
+<div id="scatac-seq-data-for-fetal-hematopoietic-cells-ronzoni2021" class="section level3">
+<h3>scATAC-seq data for fetal hematopoietic cells (Ronzoni2021)</h3>
+<p><strong>Dataset</strong>: scATAC-Seq and scRNA-seq profiles of human immunophenotypic blood cells from fetal liver and bone marrow</p>
+<p><strong>Output files</strong>:<br />
+Downloaded from gitlab page: to be added<br />
+1. A merged normalized peak table with a union set of peaks as rows and individual cell as columns<br />
+2. A meta table that includes number of peaks and predicted cell type identity for each cell<br />
+3. A raw count table with peaks as rows and individual cell as columns</p>
+<p><strong>Procedure</strong>: I used the number of peaks for each cell from the meta table to extract its corresponding ATAC-Seq peaks from the merged peak table. The number of peaks is equivalent to the amount of non-zero peaks.</p>
+</div>
+</div>
+<div id="torus-run-for-individual-blood-annotation" class="section level2">
+<h2>TORUS run for individual Blood annotation:</h2>
+<p><strong>Motivation</strong>:</p>
+<ol style="list-style-type: decimal">
+<li>perform QC check for this dataset</li>
+<li>have a senes of which cell types are potentially relevant to AAD</li>
+</ol>
+<p><strong>Results</strong>: Overall, the magnitude of enrichment estimates are much smaller than that in figure 5b. The discrepancy can be due to different GWAS datasets and enrichment method. They used LDSC to estimate enrichment coefficients, which have a better control on the overlapping peaks between many annotations. <img src="figure/asthma_prelim_results.Rmd/unnamed-chunk-1-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-1-1">
 Past versions of unnamed-chunk-1-1.png
@@ -744,6 +818,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/j3gu/funcFinemapping/blob/be4deded7c0d75d11b8304b1a05b6b719185cb55/docs/figure/asthma_prelim_results.Rmd/unnamed-chunk-1-1.png" target="_blank">be4dede</a>
+</td>
+<td>
+Jing Gu
+</td>
+<td>
+2021-11-04
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/j3gu/funcFinemapping/blob/5b65bd10f715e7c6d2f8dffdcac3cfb13feac2cf/docs/figure/asthma_prelim_results.Rmd/unnamed-chunk-1-1.png" target="_blank">5b65bd1</a>
 </td>
 <td>
@@ -757,22 +842,15 @@ Jing Gu
 </table>
 </div>
 </div>
-<p>For Asthma, we did not see stronger enrichment of stimulated-related peaks compared with resting ones. But overall all immune cells whether or not stimulated (except for the stimulated mature NK) are significantly enriched for GWAS risk variants.</p>
 </div>
-</div>
-<div id="joint-enrichment-analysis" class="section level2">
-<h2>Joint Enrichment analysis</h2>
-<div id="immune-cells-grouped-by-lineages" class="section level3">
-<h3>Immune cells grouped by lineages</h3>
-<p>Immune cells were grouped into six main categories and merged across two conditions. The peaks in these groups can be overlapped.</p>
-<ul>
-<li>NK</li>
-<li>B cells</li>
-<li>CD4+</li>
-<li>CD8+</li>
-<li>Myeloids</li>
-<li>Gamma delta T <img src="figure/asthma_prelim_results.Rmd/unnamed-chunk-2-1.png" width="672" style="display: block; margin: auto;" /></li>
-</ul>
+<div id="torus-run-for-individual-lung-annotation" class="section level2">
+<h2>TORUS run for individual lung annotation:</h2>
+<p><strong>Motivation</strong>:</p>
+<ol style="list-style-type: decimal">
+<li>perform QC check for this dataset</li>
+<li>have a senes of which cell types in lungs are potentially relevant to AAD</li>
+</ol>
+<p><strong>Results</strong>: Data look good as the open chromatin regions of most cell types in lungs are enriched with disease risk variants. <img src="figure/asthma_prelim_results.Rmd/unnamed-chunk-2-1.png" width="1152" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-2-1">
 Past versions of unnamed-chunk-2-1.png
@@ -797,6 +875,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/j3gu/funcFinemapping/blob/be4deded7c0d75d11b8304b1a05b6b719185cb55/docs/figure/asthma_prelim_results.Rmd/unnamed-chunk-2-1.png" target="_blank">be4dede</a>
+</td>
+<td>
+Jing Gu
+</td>
+<td>
+2021-11-04
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/j3gu/funcFinemapping/blob/5b65bd10f715e7c6d2f8dffdcac3cfb13feac2cf/docs/figure/asthma_prelim_results.Rmd/unnamed-chunk-2-1.png" target="_blank">5b65bd1</a>
 </td>
 <td>
@@ -811,51 +900,22 @@ Jing Gu
 </div>
 </div>
 </div>
-<div id="immune-cells-grouped-by-lineages-1" class="section level3">
-<h3>Immune cells grouped by lineages</h3>
-<p>Immune cells were grouped into six main categories but compared across conditions. <img src="figure/asthma_prelim_results.Rmd/unnamed-chunk-3-1.png" width="960" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-3-1">
-Past versions of unnamed-chunk-3-1.png
-</button>
-</p>
-<div id="fig-unnamed-chunk-3-1" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/j3gu/funcFinemapping/blob/5b65bd10f715e7c6d2f8dffdcac3cfb13feac2cf/docs/figure/asthma_prelim_results.Rmd/unnamed-chunk-3-1.png" target="_blank">5b65bd1</a>
-</td>
-<td>
-Jing Gu
-</td>
-<td>
-2021-10-26
-</td>
-</tr>
-</tbody>
-</table>
+<div id="torus-run-for-lung-and-blood-immune-cells-one-at-a-time" class="section level2">
+<h2>TORUS run for lung and blood immune cells (one at a time):</h2>
+<p><strong>Motivation</strong>:</p>
+<ol style="list-style-type: decimal">
+<li>perform QC check for this dataset</li>
+<li>have a senes of which cell types in lungs are potentially relevant to AAD</li>
+</ol>
+<p><strong>Results</strong>: Data look good as the open chromatin regions of most cell types in lungs are enriched with disease risk variants.</p>
 </div>
-</div>
-</div>
-<div id="disjoint-groups-by-lineage" class="section level3">
-<h3>disjoint groups by lineage</h3>
-<pre><code>Warning: Removed 1 rows containing missing values (geom_segment).</code></pre>
-<pre><code>Warning: Removed 2 rows containing missing values (geom_segment).</code></pre>
+<div id="joint-torus-run-for-annotation-sets" class="section level2">
+<h2>Joint TORUS run for annotation sets</h2>
+<div id="grouped-by-lineages" class="section level3">
+<h3>grouped by lineages</h3>
+<p><strong>Motivation</strong>: Running annotation sets in a joint model enables us to idenity the relevant contribution in open chromatin regions of each immune cell type to traits. LSDC is a better tool to use as we expected many overlaps of acccessible peaks across the sub-clusters of immune cells, which can make the estimation of TORUS's joint model unstable. Here we grouped the cell types and used TORUS to get a quick run of which group of cell types have significant enrichment.</p>
+<p><strong>Procedure</strong>: For Caldero2019 dataset: Immune cells were grouped into six main categories and merged across two conditions. The peaks in these groups can be overlapped.<br />
+For Ronzoni2021 dataset, I took a union set of peaks from all cells that were predicted to be granulocytes progenitors.</p>
 <p><img src="figure/asthma_prelim_results.Rmd/unnamed-chunk-4-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-4-1">
@@ -881,6 +941,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/j3gu/funcFinemapping/blob/be4deded7c0d75d11b8304b1a05b6b719185cb55/docs/figure/asthma_prelim_results.Rmd/unnamed-chunk-4-1.png" target="_blank">be4dede</a>
+</td>
+<td>
+Jing Gu
+</td>
+<td>
+2021-11-04
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/j3gu/funcFinemapping/blob/5b65bd10f715e7c6d2f8dffdcac3cfb13feac2cf/docs/figure/asthma_prelim_results.Rmd/unnamed-chunk-4-1.png" target="_blank">5b65bd1</a>
 </td>
 <td>
@@ -894,10 +965,15 @@ Jing Gu
 </table>
 </div>
 </div>
+<p><strong>Summary</strong>:</p>
+<ol style="list-style-type: decimal">
+<li>Overall, we see the differences in immune cell components that contribute to these three autoimmune diseases.</li>
+<li>GPs and CD4+ T cels are consistently significant in enrichment of risk variants for all three diseases.</li>
+</ol>
 </div>
-<div id="other-datasets-ulirsch2019" class="section level3">
-<h3>Other datasets Ulirsch2019</h3>
-<p>test enrichment in other immune cell types such as granulocytes. <img src="figure/asthma_prelim_results.Rmd/unnamed-chunk-5-1.png" width="672" style="display: block; margin: auto;" /></p>
+<div id="grouped-by-lineages-and-conditions" class="section level3">
+<h3>grouped by lineages and conditions</h3>
+<p><strong>Procedure</strong>: Immune cells were grouped first into six main categories and then separated by conditions. This set of 12 annotations were jointly tested via TORUS. <img src="figure/asthma_prelim_results.Rmd/unnamed-chunk-5-1.png" width="960" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-5-1">
 Past versions of unnamed-chunk-5-1.png
@@ -920,6 +996,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/j3gu/funcFinemapping/blob/be4deded7c0d75d11b8304b1a05b6b719185cb55/docs/figure/asthma_prelim_results.Rmd/unnamed-chunk-5-1.png" target="_blank">be4dede</a>
+</td>
+<td>
+Jing Gu
+</td>
+<td>
+2021-11-04
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/j3gu/funcFinemapping/blob/8a43e8f8e060a960ba68d1c66572cca663872233/docs/figure/asthma_prelim_results.Rmd/unnamed-chunk-5-1.png" target="_blank">8a43e8f</a>
@@ -947,6 +1034,48 @@ Jing Gu
 </div>
 </div>
 </div>
+<div id="disjoint-peak-groups-across-immune-cell-types" class="section level3">
+<h3>disjoint peak groups across immune cell types</h3>
+<p><strong>Motivation</strong>: Using disjoint groups of peaks from immune cell types to estimate separate contributions of immune components to disease heritability. These annotations are ideal predictors for the linear model used in either LDSC or TORUS to obtain unbiased enrichment estimators. <strong>Procedure</strong>: The disjoint peaks were directly downloaded from the paper. <img src="figure/asthma_prelim_results.Rmd/unnamed-chunk-6-1.png" width="1152" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-6-1">
+Past versions of unnamed-chunk-6-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-6-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/j3gu/funcFinemapping/blob/be4deded7c0d75d11b8304b1a05b6b719185cb55/docs/figure/asthma_prelim_results.Rmd/unnamed-chunk-6-1.png" target="_blank">be4dede</a>
+</td>
+<td>
+Jing Gu
+</td>
+<td>
+2021-11-04
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p><img src="figure/asthma_prelim_results.Rmd/unnamed-chunk-6-2.png" width="1152" style="display: block; margin: auto;" /> ### Other datasets Ulirsch2019 test enrichment in other immune cell types such as granulocytes. <img src="figure/asthma_prelim_results.Rmd/unnamed-chunk-7-1.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
 </div>
 <div id="annotations---differential-accessible-peaks" class="section level2">
 <h2>Annotations - Differential accessible peaks</h2>
@@ -955,7 +1084,7 @@ Jing Gu
 <li>Significant differentially accessible regions when compared to progenitor cells</li>
 <li>Significant differentially accessible regions under stimulation</li>
 </ul>
-<p><img src="figure/asthma_prelim_results.Rmd/unnamed-chunk-6-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/asthma_prelim_results.Rmd/unnamed-chunk-8-1.png" width="672" style="display: block; margin: auto;" /></p>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
