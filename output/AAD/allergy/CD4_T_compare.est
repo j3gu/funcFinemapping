@@ -1,0 +1,4 @@
+term	estimate	low	high
+Intercept	-10.005	-10.028	-9.983
+CD4_T_compare_blood.1	0.184	-0.332	0.699
+CD4_T_compare_lung.1	3.852	3.175	4.529

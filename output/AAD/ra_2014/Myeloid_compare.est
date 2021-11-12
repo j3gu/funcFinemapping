@@ -1,0 +1,4 @@
+term	estimate	low	high
+Intercept	-10.288	-10.311	-10.265
+Myeloid_compare_blood.1	1.261	0.879	1.643
+Myeloid_compare_lung.1	2.024	1.424	2.625

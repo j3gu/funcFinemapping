@@ -1,0 +1,4 @@
+term	estimate	low	high
+Intercept	-10.322	-10.346	-10.299
+CD8_T_compare_blood.1	1.604	1.21	1.998
+CD8_T_compare_lung.1	2.652	1.859	3.445

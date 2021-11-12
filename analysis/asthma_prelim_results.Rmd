@@ -10,7 +10,7 @@ library(knitr)
 source("code/make_plots.R")
 ```
 ## Asthama and Allergy diseases
-The aim for this project is to identify causal variants, genes and cell types relevant to AAD by integrating omics data of lung samples. We hypothesize that open chromatin regions of lung-resident immune cells can explain broader heritability for AAD than those of blood immune cells. The disease associated variants annotated by these regulatory functions are  more likely to contribute to disease risk, so this prior knowledge can be leveraged to prioritize risk variants in GWAS loci. 
+The main goal is to identify causal variants, genes and cell types relevant to AAD by integrating omics data of lung samples. We hypothesize that open chromatin regions of lung-resident immune cells can explain broader heritability for AAD than those of blood immune cells. The disease associated variants annotated by these regulatory functions are  more likely to contribute to disease risk, so this prior knowledge can be leveraged to prioritize risk variants in GWAS loci. 
 
 ## Dataset
 ### ATAC-seq data for Blood immune cells (Caldero2019)
@@ -105,29 +105,55 @@ for(trait in traits){
 snp_enrichment_plot(tbl, trait="") + facet_grid(. ~ trait)
 
 ```
-## TORUS run for lung and blood immune cells (one at a time): 
-**Motivation**: 
+## TORUS joint run for lung vs blood immune cells (one at a time): 
+**Motivation**:  
+Test the hypothesis that open chromatin regions of lung-resident immune cells can explain broader heritability for AAD than those of blood immune cells.
 
-1. perform QC check for this dataset
-2. have a senes of which cell types in lungs are potentially relevant to AAD
+**Procedure**:
+For each immune group (B cells, T cells, Myeloids, NK cells), I ran TORUS over pairs of annotations from lung and blood one at a time. 
+Pairs of annotations as follows:
+
+* B cells (lung) vs B cells (blood)
+* T cells (lung) vs CD4+ T (blood)
+* T cells (lung) vs CD8+ T (blood)
+* NK cells (lung) vs NK cells (blood)
+* Fibroblast cells (lung) vs Myeloids (blood)
 
 **Results**: 
-Data look good as the open chromatin regions of most cell types in lungs are enriched with disease risk variants. 
+Overall, lung-resident immune cells show significant enrichemnt conditional on blood immune cells.  
 
-```{r}
+* Myeloid cells, CD8+ T or CD4+ T cells have additional contributions to allergy and asthma genetic risk. 
+* NK cells explain additional heritability in allergy, but not others. 
+* B cells in lungs show higher enrichment than those in blood for both allergy and RA. 
+
+```{r echo=F}
+tbl<-data.frame()
+for(trait in traits){
+  df<-read.table(sprintf("output/AAD/%s/torus_immune_compare.est", trait), header=F)
+  colnames(df)<-c("raw_term", "estimate", "low", "high")
+  cols<-data.frame(t(sapply(df$raw_term, function(i){
+    strsplit(strsplit(i, "[.]")[[1]][1], "_compare_")[[1]]
+  }))) 
+  colnames(cols)<-c("term", "tissue")
+  cols$tissue<-factor(cols$tissue, levels=c("lung", "blood"))
+  tbl<-data.frame(rbind(tbl, cbind(df, cols, trait)), row.names = NULL)
+}
+
+snp_enrichment_plot(tbl, trait="", split.data="tissue") + facet_grid(. ~ trait)
 
 ```
-
 
 ##Joint TORUS run for annotation sets
 ### grouped by lineages
 
 **Motivation**: Running annotation sets in a joint model enables us to idenity the relevant contribution in open chromatin regions of each immune cell type to traits. LSDC is a better tool to use as we expected many overlaps of acccessible peaks across the sub-clusters of immune cells, which can make the estimation of TORUS's joint model unstable. Here we grouped the cell types and used TORUS to get a quick run of which group of cell types have significant enrichment.   
 
-**Procedure**: 
-For Caldero2019 dataset: Immune cells were grouped into six main categories and merged across two conditions. The peaks in these groups can be overlapped.  
+**Procedure**:     
+For Caldero2019 dataset: Immune cells were grouped into six main categories and merged across two conditions. The peaks in these groups can be overlapped.     
 For Ronzoni2021 dataset, I took a union set of peaks from all cells that were predicted to be granulocytes progenitors.
 
+**Results**:  
+Consistent with prior knowledge, we see enrichment of granulocyte progenitors with genetic risk of allergy. 
 ```{r echo=F}
 tbl<-data.frame()
 for(trait in traits){
@@ -169,7 +195,7 @@ tbl["term"]<-unlist(lapply(tbl$term, function(i){
 snp_enrichment_plot(tbl, trait="") + facet_grid(. ~ trait)
 ```
 ### disjoint peak groups across immune cell types
-**Motivation**: Using disjoint groups of peaks from immune cell types to estimate separate contributions of immune components to disease heritability. These annotations are ideal predictors for the linear model used in either LDSC or TORUS to obtain unbiased enrichment estimators.
+**Motivation**: Using disjoint groups of peaks from immune cell types to estimate separate contributions of immune components to disease heritability. These annotations are ideal predictors for the linear model used in either LDSC or TORUS to obtain unbiased enrichment estimators.     
 **Procedure**: The disjoint peaks were directly downloaded from the paper.
 ```{r echo=F, fig.width=12, fig.height=8}
 tbl<-data.frame()
@@ -188,41 +214,9 @@ snp_enrichment_plot(tbl[tbl$term!="thymo_resting",], y.order = rev(c(
                                      "B_resting", "T_resting","nk_resting","myeloid_resting",
                                      "EPI_resting","progenitor_resting",
                                      "open")), trait="")  + facet_grid(. ~ trait)
-
-
-snp_enrichment_plot(tbl[tbl$term!="thymo_resting",], trait="")  + facet_grid(. ~ trait)
-```
-### Other datasets Ulirsch2019
-test enrichment in other immune cell types such as granulocytes. 
-```{r echo=F}
-tbl<-data.frame()
-for(trait in traits){
-  df<-read.table(sprintf("output/AAD/%s/Ulirsch2019_torus_indiv.est", trait), header=F)
-  colnames(df)<-c("raw_term", "estimate", "low", "high")
-  df["term"]<-unlist(lapply(df$raw_term, function(i){strsplit(i, "[.]")[[1]][1]}))
-  tbl<-data.frame(rbind(tbl, cbind(df, trait)))
-}
-
-snp_enrichment_plot(tbl, trait="") + facet_grid(. ~ trait)
 ```
 
-## Annotations - Differential accessible peaks 
-*Caldero et al. 2019* 
 
-  - Significant differentially accessible regions when compared to progenitor cells
-  - Significant differentially accessible regions under stimulation
 
-```{r echo=F}
-df<-read.table("output/AAD/asthma_adult/stimu_adult_blood_torus.est",header = F)
-colnames(df)<-c("raw_term", "est", "low", "high")
-df["term"]<-unlist(lapply(df$raw_term, function(i){
-                          term<-strsplit(i, "_S")[[1]][1]
-                          return(paste(strsplit(term, "_")[[1]], collapse = " "))}))
-df['highlight']<-df$low >=0
-#omit cell types with very large standard deviations
-df['omit']<-df$low < -10 | df$high > 10
-plot_torus_enrichment(df[df['omit']==F,], text_angle=90, vjust=1) + ggtitle("Stimulation-specific & accessible regions in blood")
-```
-    
 
     
