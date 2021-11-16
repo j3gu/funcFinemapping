@@ -1,0 +1,4 @@
+term	estimate	low	high
+Intercept	-9.845	-9.867	-9.823
+NK_disjoint_compare_blood.1	0.758	-0.811	2.328
+NK_disjoint_compare_lung.1	3.667	2.843	4.49

@@ -1,0 +1,4 @@
+term	estimate	low	high
+Intercept	-10.021	-10.044	-9.999
+Myeloid_disjoint_compare_blood.1	0.395	-0.941	1.731
+Myeloid_disjoint_compare_lung.1	2.961	2.418	3.504

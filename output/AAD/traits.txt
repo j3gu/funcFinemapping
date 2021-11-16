@@ -1,0 +1,8 @@
+allergy
+asthma_adult
+asthma_child
+bmi
+HDL
+height
+LDL
+ra_2014

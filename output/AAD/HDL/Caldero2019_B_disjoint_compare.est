@@ -1,0 +1,4 @@
+term	estimate	low	high
+Intercept	-8.42	-8.439	-8.401
+B_disjoint_compare_blood.1	0.545	-0.795	1.884
+B_disjoint_compare_lung.1	0.766	-0.701	2.233

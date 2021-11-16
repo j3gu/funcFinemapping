@@ -1,0 +1,17 @@
+             basal_cell.1      0.646        -1.436      2.728
+                 B_cell.1      1.681         0.045      3.316
+capillary_endothelial_cell.1      0.766        -0.998      2.530
+          ciliated_cell.1      0.740        -0.751      2.231
+              club_cell.1      1.002        -0.308      2.313
+endothelial_cell_of_artery.1      1.272        -0.283      2.828
+endothelial_cell_of_lymphatic_vessel.1      0.061        -2.406      2.528
+            erythrocyte.1      2.151         0.432      3.870
+extracellular_matrix_secreting_cell.1      1.628         0.789      2.467
+             macrophage.1      1.563         0.783      2.344
+     myofibroblast_cell.1      1.019        -0.444      2.482
+    natural_killer_cell.1      1.328        -0.422      3.078
+    neuroendocrine_cell.1      1.445        -0.906      3.795
+          pericyte_cell.1      1.476         0.182      2.770
+                 T_cell.1      1.792         0.534      3.051
+     type_II_pneumocyte.1      1.587         0.702      2.471
+      type_I_pneumocyte.1      1.397         0.372      2.422
