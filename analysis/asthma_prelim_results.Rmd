@@ -121,6 +121,7 @@ Pairs of annotations as follows:
 
 **Results**: 
 Overall, we see lung-resident immune cells show significant enrichemnt conditional on blood immune cells in AAD, but not in RA. Compared with a control set of traits, there is a large difference between blood and lung enrichment estimates for Myeloid, CD4+ and CD8+ T cells in AAD. 
+
 ### Caldero2019 dataset
 ```{r echo=F}
 tbl<-data.frame()
@@ -145,9 +146,8 @@ snp_enrichment_plot(tbl[tbl$trait %in% control,], trait="", split.data="tissue",
 
 ```
 ### Ulirsch2019 dataset
-**Motivation**:
 
-* Replicate the above result in a different blood dataset.
+**Motivation**: Replicate the above result in a different blood dataset
 
 **Results**:   
 Overall, the enrichment of lung annotations dwindles in a great extent when jointly run with blood annotations. There is one exception that CD8+ T cells in lungs show significant enrichment with child-onset asthma. 
@@ -180,6 +180,7 @@ snp_enrichment_plot(tbl[tbl$trait %in% control,], trait="", split.data="tissue",
 * epithelial cells
 * endothelial cells
 * others(neuroendocrine cells, type I pneumocyte, ciliated cells)
+
 **Motivation**: determine how each cluster with similar chromatin accessibility patterns contribute to AAD heritability. 
 
 **Results**:  
@@ -203,7 +204,8 @@ snp_enrichment_plot(tbl[tbl$trait %in% traits[5:8],], trait="") +
 ### annotation sets for Caldero2019
 #### grouped by lineages
 
-**Motivation**: Running annotation sets in a joint model enables us to idenity the relevant contribution in open chromatin regions of each immune cell type to traits. LSDC is a better tool to use as we expected many overlaps of acccessible peaks across the sub-clusters of immune cells, which can make the estimation of TORUS's joint model unstable. Here we grouped the cell types and used TORUS to get a quick run of which group of cell types have significant enrichment.   
+**Motivation**: 
+Running annotation sets in a joint model enables us to idenity the relevant contribution in open chromatin regions of each immune cell type to traits. LSDC is a better tool to use as we expected many overlaps of acccessible peaks across the sub-clusters of immune cells, which can make the estimation of TORUS's joint model unstable. Here we grouped the cell types and used TORUS to get a quick run of which group of cell types have significant enrichment.   
 
 **Procedure**:     
 For Caldero2019 dataset: Immune cells were grouped into six main categories and merged across two conditions. The peaks in these groups can be overlapped.     
@@ -234,7 +236,8 @@ snp_enrichment_plot(tbl[tbl$trait %in% test,], trait="", y.label = c("Myeloid ce
 
 #### grouped by lineages and conditions
 
-**Procedure**: Immune cells were grouped first into six main categories and then separated by conditions. This set of 12 annotations were jointly tested via TORUS.
+**Procedure**: 
+Immune cells were grouped first into six main categories and then separated by conditions. This set of 12 annotations were jointly tested via TORUS.
 ```{r echo=F, fig.width=10, fig.height=6}
 tbl<-data.frame()
 for(trait in test[1:3]){
@@ -254,7 +257,10 @@ tbl["term"]<-unlist(lapply(tbl$term, function(i){
 snp_enrichment_plot(tbl, trait="", bar.width = 0) + facet_grid(. ~ trait)
 ```
 ### grouped by disjoint peaks 
-**Motivation**: Using disjoint groups of peaks from immune cell types to estimate separate contributions of immune components to disease heritability. These annotations are ideal predictors for the linear model used in either LDSC or TORUS to obtain unbiased enrichment estimators.     
+
+**Motivation**: 
+Using disjoint groups of peaks from immune cell types to estimate separate contributions of immune components to disease heritability. These annotations are ideal predictors for the linear model used in either LDSC or TORUS to obtain unbiased enrichment estimators.     
+
 **Procedure**: The disjoint peaks were directly downloaded from the paper.
 ```{r echo=F, fig.width=12, fig.height=8}
 tbl<-data.frame()
@@ -276,7 +282,8 @@ snp_enrichment_plot(tbl[tbl$term!="thymo_resting" & tbl$trait %in% test,], y.ord
 ```
 ### Disjoint immune peaks in blood vs. immune groups in lung
 
-**Motivation**: There is a large fraction of overlaps for peaks across immune groups in blood. Thus we used disjoint peaks to build blood annotations and then ran TORUS together with main immune groups in lungs to better estimate their enrichment separetly. 
+**Motivation**: 
+There is a large fraction of overlaps for peaks across immune groups in blood. Thus we used disjoint peaks to build blood annotations and then ran TORUS together with main immune groups in lungs to better estimate their enrichment separetly. 
 
 **Procedure**:  
 I merged peaks from three groups of T-cells, which are T-stimulated, T-resting and BandT_stimulated cells. Same process for B cells. Then I ran TORUS on merged T cells, B cells, NK resting cells, myeloid resting cells from Caldero2019 with main immune groups in lungs. 
