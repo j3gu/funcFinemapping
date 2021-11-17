@@ -1,0 +1,5 @@
+term	estimate	low	high
+Intercept	-10.44	-10.464	-10.416
+B_cell_blood.1	1.832	-2.836	6.5
+B_cell_lung.1	3.608	2.037	5.178
+B_cell_common.1	2.909	-1.398	7.215

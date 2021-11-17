@@ -1,0 +1,5 @@
+term	estimate	low	high
+Intercept	-8.44	-8.459	-8.421
+T_cell_blood.1	0.995	-0.58	2.57
+T_cell_lung.1	1.217	-0.01	2.443
+T_cell_common.1	-1.645	-8.664	5.373

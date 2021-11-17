@@ -7,6 +7,7 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 library(ggplot2)
 library(knitr)
+library(dplyr)
 source("code/make_plots.R")
 ```
 ## Asthama and Allergy diseases
@@ -194,10 +195,18 @@ for(trait in traits){
   tbl<-data.frame(rbind(tbl, cbind(df, trait)))
 }
 
-snp_enrichment_plot(tbl[tbl$trait %in% traits[1:4],], trait="") + 
-  facet_grid(. ~ trait)
-snp_enrichment_plot(tbl[tbl$trait %in% traits[5:8],], trait="") + 
-  facet_grid(. ~ trait)
+snp_enrichment_plot(tbl[tbl$trait %in% test,], trait="",
+                    y.order=c("neuroendocrine_cell", "type_I_pneumocyte",
+                               "ciliated_cell", "epithelial_cells",
+                               "mesenchymal_cells", "endothelial_cells",
+                               "immune_cells")
+                    ) + facet_grid(. ~ trait)
+snp_enrichment_plot(tbl[tbl$trait %in% control,], trait="", 
+                    y.order=c("neuroendocrine_cell", "type_I_pneumocyte",
+                               "ciliated_cell", "epithelial_cells",
+                               "mesenchymal_cells", "endothelial_cells",
+                               "immune_cells")                    
+                    ) + facet_grid(. ~ trait)
 
 ```
 
@@ -213,7 +222,7 @@ For Ronzoni2021 dataset, I took a union set of peaks from all cells that were pr
 
 **Results**:  
 Consistent with prior knowledge, we see enrichment of granulocyte progenitors with genetic risk of allergy. 
-```{r echo=F}
+```{r echo=F, fig.width=12}
 tbl<-data.frame()
 for(trait in traits){
   df<-read.table(sprintf("output/AAD/%s/Caldero2019_addGPs.est", trait), header=T)
@@ -256,7 +265,7 @@ tbl["term"]<-unlist(lapply(tbl$term, function(i){
             paste(words[1:(length(words)-1)], collapse = "_")}))
 snp_enrichment_plot(tbl, trait="", bar.width = 0) + facet_grid(. ~ trait)
 ```
-### grouped by disjoint peaks 
+#### grouped by disjoint peaks 
 
 **Motivation**: 
 Using disjoint groups of peaks from immune cell types to estimate separate contributions of immune components to disease heritability. These annotations are ideal predictors for the linear model used in either LDSC or TORUS to obtain unbiased enrichment estimators.     
@@ -266,50 +275,113 @@ Using disjoint groups of peaks from immune cell types to estimate separate contr
 tbl<-data.frame()
 for(trait in test){
   df<-read.table(sprintf("output/AAD/%s/Caldero2019_lineage.est", trait), header=T)
+  snpsIn<-read.table(sprintf("output/AAD/%s/Caldero2019_lineage_snps.sumstats", trait), header=T)
+  snpsIn["term"]<-unlist(lapply(rownames(snpsIn), function(i){strsplit(i, "_d")[[1]][1]}))
   colnames(df)<-c("raw_term", "estimate", "low", "high")
   ### remove lines of FDR values for each loci
   df["label"] = unlist(lapply(df$raw_term, function(i){length(strsplit(i[1], "[.]")[[1]])>1}))
   df<-df[df$label==TRUE,]
   df["term"]<-unlist(lapply(df$raw_term, function(i){strsplit(i, "[.]")[[1]][1]}))
+  
+  df<-inner_join(df, snpsIn, by="term")
   tbl<-data.frame(rbind(tbl, cbind(df, trait)))
 }
 
 cols<-rev(c("B_stimulated", "T_stimulated", "BandT_stimulated",
             "B_resting", "T_resting","nk_resting","myeloid_resting",
             "EPI_resting","progenitor_resting","open"))
+
 snp_enrichment_plot(tbl[tbl$term!="thymo_resting" & tbl$trait %in% test,], y.order = cols , trait="")  + facet_grid(. ~ trait, scales="free_x") 
 #snp_enrichment_plot(tbl[tbl$term!="thymo_resting" & tbl$trait %in% control,], y.order = cols , trait="")  + facet_grid(. ~ trait, scales="free_x") 
 ```
-### Disjoint immune peaks in blood vs. immune groups in lung
+**explained Heritability**
 
-**Motivation**: 
-There is a large fraction of overlaps for peaks across immune groups in blood. Thus we used disjoint peaks to build blood annotations and then ran TORUS together with main immune groups in lungs to better estimate their enrichment separetly. 
+```{r echo=F}
+abs_estimate<-exp(tbl$estimate)
+tbl["h2g"]<-round(abs_estimate * tbl$percent*100, 1)
+```
+### Disjoint immune peaks in blood vs. immune groups in lung
+**Motivation**:  
+We will do a joint analysis on three disjoint peak sets - only in blood, only in lung and shared. In this way, we can both estimate enrichments and compute for percent of genetic signals explained by each set.
 
 **Procedure**:  
-I merged peaks from three groups of T-cells, which are T-stimulated, T-resting and BandT_stimulated cells. Same process for B cells. Then I ran TORUS on merged T cells, B cells, NK resting cells, myeloid resting cells from Caldero2019 with main immune groups in lungs. 
+I started from the cell types defined with disjoint sets of immune peaks from Caldero2019 dataset. For each cell type, I use `bedtools intersect` to call the overlapped peaks and peaks that are unique to either side for lung and blood peaks. Then, the overlapped peaks will be merged.
 
-**Results**:    
-NK disjoint peaks in blood was not displayed due to very large standard error. We can still see there is  difference in T cells between blood and lung and the extent of difference varies across traits. Other immune cell types in blood do not show significance probably due to small number of disjoint peaks. Since the peaks in lungs are not disjoint, it is expected to see a bias towards lung. Nonetheless, compared with controls, we observe a larger difference in enrichment of risk variants in T cells for AAD. 
+```{r echo=F}
+# celltypes<-c("B_cell_compare", "T_cell_compare", "NK_compare", "Myeloid_compare")
+# summary<-c()
+# for (trait in traits){
+#   output<-c()
+#   for(cell in celltypes){
+#     f<-read.table(sprintf("~/cluster/projects/torus_enrichment/%s/Caldero2019/%s/snps_summary.txt", trait, cell), header=T)
+#     terms<-unlist(lapply(rownames(t(f[2,])), function(i){strsplit(i, "_d")[[1]][1]}))
+#     output<-rbind(output,t(f[2,]))
+#   }
+#   terms<-unlist(lapply(rownames(output), function(i){strsplit(i, "_d")[[1]][1]}))
+#   new_output<-data.frame(output, row.names = NULL)
+#   colnames(new_output)<-"percent"
+#   new_output["term"]<-terms
+#   new_output["trait"]<-trait
+#   summary<-rbind(summary,new_output)
+# }
+ ```
+
 ```{r echo=F, fig.width=12}
+snpsIn<-read.table("output/AAD/Caldero2019_disjoint_snps.sumstats", header=F, row.names = 1)
+colnames(snpsIn)<-c("counts", "percent", "term")
+snpsIn["label"]<-paste0(round(snpsIn$percent*100, 1), "%")
 tbl<-data.frame()
 for(trait in traits){
-  df<-read.table(sprintf("output/AAD/%s/Caldero2019_disjoint_compare.est", trait), header=T, skip=1)
+  df<-read.table(sprintf("output/AAD/%s/Caldero2019/Caldero2019_compare.txt", trait), header=F)
   colnames(df)<-c("raw_term", "estimate", "low", "high")
-  df["term"] = unlist(lapply(df$raw_term, function(i){strsplit(i[1], "[.]")[[1]][1]}))
+  df["tmp"] = unlist(lapply(df$raw_term, function(i){strsplit(i[1], "[.]")[[1]][1]}))
   tbl<-data.frame(rbind(tbl, cbind(df, trait)))
 }
-tbl<-tbl[tbl$term!="NK_disjoint_compare_blood",]
-snp_enrichment_plot(tbl[tbl$trait %in% test,], trait="", 
-                    y.label = c("B_cell_blood", "B_cell_lung", "Myeloid_blood",
-                                "Myeloid_lung","NK_cell_lung", "T_cell_blood", 
-                                "T_cell_lung"
-                                )) + facet_grid(. ~ trait, scale="free_x")
-snp_enrichment_plot(tbl[tbl$trait %in% control,], trait="", 
-                    y.label = c("B_cell_blood", "B_cell_lung", "Myeloid_blood",
-                                "Myeloid_lung","NK_cell_lung", "T_cell_blood", 
-                                "T_cell_lung"
-                                )) + facet_grid(. ~ trait, scale="free_x")
+tbl["term"]<-unlist(lapply(tbl$tmp, function(i){
+  return(sprintf("%s(%s)", i, snpsIn[snpsIn$term == i, "label"]))
+}))
+tbl["percent"]<-unlist(lapply(tbl$tmp, function(i){
+  return(snpsIn[snpsIn$term == i, "percent"])
+}))
+tbl_sub<-tbl[!(tbl$tmp %in% c("NK_common","Myeloid_blood", "NK_blood")),]
+snp_enrichment_plot(tbl_sub[tbl_sub$trait %in% test,], trait="") + facet_grid(. ~ trait)
 ```
+**Heritability estimation**
+```{r echo=F}
+tbl["celltype"]<-unlist(lapply(tbl$tmp, function(i){strsplit(i, "[_]")[[1]][1]}))
+tbl["annot"]<-unlist(lapply(tbl$tmp, function(i){rev(strsplit(i, "[_]")[[1]])[1]}))
+tbl["h2g"]=round(exp(tbl$estimate)*tbl$percent*100, 1)
+ggplot(tbl[tbl$trait %in% test,], aes(x=celltype, y=h2g, colour=annot)) + geom_point() + facet_grid(. ~ trait) + ylab("Heritability(%)")
+ggplot(tbl[tbl$trait %in% control,], aes(x=celltype, y=h2g, colour=annot)) + geom_point() + facet_grid(. ~ trait) + ylab("Heritability(%)")
+```
+
+<!-- ### [Archive] Disjoint immune peaks in blood vs. immune groups in lung -->
+
+<!-- **Motivation**:  -->
+<!-- There is a large fraction of overlaps in peaks across blood's immune groups. Thus we used disjoint peaks to build blood annotations and then ran TORUS together with main immune groups in lung to better estimate their enrichment separately.  -->
+
+<!-- **Procedure**:   -->
+<!-- I merged peaks from three groups of T-cells, which are T-stimulated, T-resting and BandT_stimulated cells. Same process for B cells. Then I ran TORUS on merged T cells, B cells, NK resting cells, myeloid resting cells from Caldero2019 with main immune groups in lungs.  -->
+
+<!-- **Results**:     -->
+<!-- NK disjoint peaks in blood was not displayed due to very large standard error. We can still see there is  difference in T cells between blood and lung and the extent of difference varies across traits. Other immune cell types in blood do not show significance probably due to small number of disjoint peaks. Since the peaks in lungs are not disjoint, it is expected to see a bias towards lung. Nonetheless, compared with controls, we observe a larger difference in enrichment of risk variants in T cells for AAD.  -->
+<!-- ```{r echo=F, fig.width=12} -->
+<!-- tbl<-data.frame() -->
+<!-- for(trait in traits){ -->
+<!--   df<-read.table(sprintf("output/AAD/%s/Caldero2019_disjoint_compare.est", trait), header=T, skip=1) -->
+<!--   colnames(df)<-c("raw_term", "estimate", "low", "high") -->
+<!--   df["term"] = unlist(lapply(df$raw_term, function(i){strsplit(i[1], "[.]")[[1]][1]})) -->
+<!--   tbl<-data.frame(rbind(tbl, cbind(df, trait))) -->
+<!-- } -->
+<!-- tbl<-tbl[tbl$term!="NK_disjoint_compare_blood",] -->
+<!-- snp_enrichment_plot(tbl[tbl$trait %in% test,], trait="",  -->
+<!--                     y.label = c("B_cell_blood", "B_cell_lung", "Myeloid_blood", -->
+<!--                                 "Myeloid_lung","NK_cell_lung", "T_cell_blood",  -->
+<!--                                 "T_cell_lung" -->
+<!--                                 )) + facet_grid(. ~ trait, scale="free_x") -->
+<!-- ``` -->
+
+
 
 
 
