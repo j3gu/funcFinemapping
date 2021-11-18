@@ -285,13 +285,14 @@ for(trait in test){
   tbl<-data.frame(rbind(tbl, cbind(df, trait)))
 }
 snpsIn<-read.table("output/AAD/Caldero2019_lineage_snps.sumstats", header=T)
+snpsIn["term"]<-unlist(lapply(snpsIn$term, function(i){strsplit(i, "[.]")[[1]][1]}))
 cols<-rev(c("B_stimulated", "T_stimulated", "BandT_stimulated",
             "B_resting", "T_resting","nk_resting","myeloid_resting",  "EPI_resting","progenitor_resting","open"))
+
 cols<-unlist(lapply(cols, function(i){
                     label<-snpsIn[snpsIn$term==i, "percent"]
                     return(sprintf("%s(%s)", i, label))
                     }))
-snpsIn["term"]<-unlist(lapply(snpsIn$term, function(i){strsplit(i, "[.]")[[1]][1]}))
 tbl<-inner_join(tbl, snpsIn, by="term")
 tbl["term"]<-sprintf("%s(%s)", tbl$term, tbl$percent)
 tbl["h2g"]<-round((tbl$percent_val * exp(tbl$estimate))*100, 1)
