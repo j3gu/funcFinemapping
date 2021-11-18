@@ -485,16 +485,16 @@ output/AAD/Caldero2019_lineage_snps.sumstats
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomj3gufuncFinemappingtreead7cd6ce1e5dc6c944c73f100ecbcdc6c442f658targetblankad7cd6ca"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/j3gu/funcFinemapping/tree/ad7cd6ce1e5dc6c944c73f100ecbcdc6c442f658" target="_blank">ad7cd6c</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomj3gufuncFinemappingtreeeadf25d82729ab47c3dc8b82ce4859bc3cd4359etargetblankeadf25da"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/j3gu/funcFinemapping/tree/eadf25d82729ab47c3dc8b82ce4859bc3cd4359e" target="_blank">eadf25d</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomj3gufuncFinemappingtreead7cd6ce1e5dc6c944c73f100ecbcdc6c442f658targetblankad7cd6ca" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomj3gufuncFinemappingtreeeadf25d82729ab47c3dc8b82ce4859bc3cd4359etargetblankeadf25da" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/j3gu/funcFinemapping/tree/ad7cd6ce1e5dc6c944c73f100ecbcdc6c442f658" target="_blank">ad7cd6c</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/j3gu/funcFinemapping/tree/eadf25d82729ab47c3dc8b82ce4859bc3cd4359e" target="_blank">eadf25d</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -612,6 +612,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/j3gu/funcFinemapping/blob/eadf25d82729ab47c3dc8b82ce4859bc3cd4359e/analysis/asthma_prelim_results.Rmd" target="_blank">eadf25d</a>
+</td>
+<td>
+Jing Gu
+</td>
+<td>
+2021-11-18
+</td>
+<td>
+estimate heritability
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/j3gu/funcFinemapping/1c01788be489863831eb3bb77952a051bcf1e5d8/docs/asthma_prelim_results.html" target="_blank">1c01788</a>
+</td>
+<td>
+Jing Gu
+</td>
+<td>
+2021-11-18
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -1714,6 +1748,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/j3gu/funcFinemapping/blob/1c01788be489863831eb3bb77952a051bcf1e5d8/docs/figure/asthma_prelim_results.Rmd/unnamed-chunk-8-1.png" target="_blank">1c01788</a>
+</td>
+<td>
+Jing Gu
+</td>
+<td>
+2021-11-18
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/j3gu/funcFinemapping/blob/a6ca0c73567b2d1b0a44ca905bdae63dec2ef442/docs/figure/asthma_prelim_results.Rmd/unnamed-chunk-8-1.png" target="_blank">a6ca0c7</a>
 </td>
 <td>
@@ -1778,6 +1823,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/j3gu/funcFinemapping/blob/1c01788be489863831eb3bb77952a051bcf1e5d8/docs/figure/asthma_prelim_results.Rmd/unnamed-chunk-9-1.png" target="_blank">1c01788</a>
+</td>
+<td>
+Jing Gu
+</td>
+<td>
+2021-11-18
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/j3gu/funcFinemapping/blob/f42797591f6722082157ac2c4a9f163766c6b092/docs/figure/asthma_prelim_results.Rmd/unnamed-chunk-9-1.png" target="_blank">f427975</a>
 </td>
 <td>
@@ -1810,7 +1866,45 @@ Jing Gu
 We will do a joint analysis on three disjoint peak sets - only in blood, only in lung and shared. In this way, we can both estimate enrichments and compute for percent of genetic signals explained by each set.</p>
 <p><strong>Procedure</strong>:<br />
 I started from the cell types defined with disjoint sets of immune peaks from Caldero2019 dataset. For each cell type, I use <code>bedtools intersect</code> to call the overlapped peaks and peaks that are unique to either side for lung and blood peaks. Then, the overlapped peaks will be merged.</p>
-<p><em>Enrichment of peak sets</em> <img src="figure/asthma_prelim_results.Rmd/unnamed-chunk-10-1.png" width="1152" style="display: block; margin: auto;" /> <em>Percent of causal variants in each peak set</em> <img src="figure/asthma_prelim_results.Rmd/unnamed-chunk-11-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><em>Enrichment of peak sets</em> <img src="figure/asthma_prelim_results.Rmd/unnamed-chunk-10-1.png" width="1152" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-10-1">
+Past versions of unnamed-chunk-10-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-10-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/j3gu/funcFinemapping/blob/1c01788be489863831eb3bb77952a051bcf1e5d8/docs/figure/asthma_prelim_results.Rmd/unnamed-chunk-10-1.png" target="_blank">1c01788</a>
+</td>
+<td>
+Jing Gu
+</td>
+<td>
+2021-11-18
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p><em>Percent of causal variants in each peak set</em> <img src="figure/asthma_prelim_results.Rmd/unnamed-chunk-11-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-11-1">
 Past versions of unnamed-chunk-11-1.png
@@ -1833,6 +1927,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/j3gu/funcFinemapping/blob/1c01788be489863831eb3bb77952a051bcf1e5d8/docs/figure/asthma_prelim_results.Rmd/unnamed-chunk-11-1.png" target="_blank">1c01788</a>
+</td>
+<td>
+Jing Gu
+</td>
+<td>
+2021-11-18
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/j3gu/funcFinemapping/blob/f42797591f6722082157ac2c4a9f163766c6b092/docs/figure/asthma_prelim_results.Rmd/unnamed-chunk-11-1.png" target="_blank">f427975</a>
