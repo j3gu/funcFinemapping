@@ -8,6 +8,7 @@ knitr::opts_chunk$set(echo = TRUE)
 library(ggplot2)
 library(knitr)
 library(dplyr)
+library(RColorBrewer)
 source("code/make_plots.R")
 ```
 ## Asthama and Allergy diseases
@@ -265,7 +266,8 @@ tbl["term"]<-unlist(lapply(tbl$term, function(i){
             paste(words[1:(length(words)-1)], collapse = "_")}))
 snp_enrichment_plot(tbl, trait="", bar.width = 0) + facet_grid(. ~ trait)
 ```
-#### grouped by disjoint peaks 
+#### grouped by disjoint peaks  
+*Enrichment of each disjoint set of peaks*
 
 **Motivation**: 
 Using disjoint groups of peaks from immune cell types to estimate separate contributions of immune components to disease heritability. These annotations are ideal predictors for the linear model used in either LDSC or TORUS to obtain unbiased enrichment estimators.     
@@ -275,31 +277,48 @@ Using disjoint groups of peaks from immune cell types to estimate separate contr
 tbl<-data.frame()
 for(trait in test){
   df<-read.table(sprintf("output/AAD/%s/Caldero2019_lineage.est", trait), header=T)
-  snpsIn<-read.table(sprintf("output/AAD/%s/Caldero2019_lineage_snps.sumstats", trait), header=T)
-  snpsIn["term"]<-unlist(lapply(rownames(snpsIn), function(i){strsplit(i, "_d")[[1]][1]}))
   colnames(df)<-c("raw_term", "estimate", "low", "high")
   ### remove lines of FDR values for each loci
   df["label"] = unlist(lapply(df$raw_term, function(i){length(strsplit(i[1], "[.]")[[1]])>1}))
   df<-df[df$label==TRUE,]
   df["term"]<-unlist(lapply(df$raw_term, function(i){strsplit(i, "[.]")[[1]][1]}))
-  
-  df<-inner_join(df, snpsIn, by="term")
   tbl<-data.frame(rbind(tbl, cbind(df, trait)))
 }
-
+snpsIn<-read.table("output/AAD/Caldero2019_lineage_snps.sumstats", header=T)
 cols<-rev(c("B_stimulated", "T_stimulated", "BandT_stimulated",
-            "B_resting", "T_resting","nk_resting","myeloid_resting",
-            "EPI_resting","progenitor_resting","open"))
-
-snp_enrichment_plot(tbl[tbl$term!="thymo_resting" & tbl$trait %in% test,], y.order = cols , trait="")  + facet_grid(. ~ trait, scales="free_x") 
+            "B_resting", "T_resting","nk_resting","myeloid_resting",  "EPI_resting","progenitor_resting","open"))
+cols<-unlist(lapply(cols, function(i){
+                    label<-snpsIn[snpsIn$term==i, "percent"]
+                    return(sprintf("%s(%s)", i, label))
+                    }))
+snpsIn["term"]<-unlist(lapply(snpsIn$term, function(i){strsplit(i, "[.]")[[1]][1]}))
+tbl<-inner_join(tbl, snpsIn, by="term")
+tbl["term"]<-sprintf("%s(%s)", tbl$term, tbl$percent)
+tbl["h2g"]<-round((tbl$percent_val * exp(tbl$estimate))*100, 1)
+snp_enrichment_plot(tbl[tbl$raw_term!="thymo_resting.1" & tbl$trait %in% test,], y.order = cols , trait="")  + facet_grid(. ~ trait, scales="free_x")
 #snp_enrichment_plot(tbl[tbl$term!="thymo_resting" & tbl$trait %in% control,], y.order = cols , trait="")  + facet_grid(. ~ trait, scales="free_x") 
 ```
-**explained Heritability**
 
-```{r echo=F}
-abs_estimate<-exp(tbl$estimate)
-tbl["h2g"]<-round(abs_estimate * tbl$percent*100, 1)
+*Percent of causal variants in each peak set*
+
+**Motivation**: To not only test for enrichment, but also estimate the percent of genetic signals explained by each set of peaks 
+
+**Procedure**:  
+For each disjoint set of peaks, I multiplied the percent of genome-wide SNPs that occur in each peak set with the exponentials of Torus enrichment estimates. The number in parenthesis is the percent of SNPs in peaks. 
+
+**Results**:
+```{r echo=F, fig.width=10}
+
+total_h2g<-unlist(lapply(split(tbl, tbl$trait), function(i){
+  sprintf("%s(%s)", unique(i$trait),paste0(sum(i$h2g),"%"))
+}))
+
+ggplot(tbl, aes(x=term, y=h2g, fill= trait)) + 
+    scale_fill_discrete(name="Trait (Total h2g)", labels=total_h2g, type= palette.colors(palette="Set2")) + 
+    geom_bar(stat="identity", position="dodge") + ylab("Percent of h2g")+ 
+    theme(axis.text.x=element_text(angle=45, vjust = 0.9, hjust=0.8)) 
 ```
+
 ### Disjoint immune peaks in blood vs. immune groups in lung
 **Motivation**:  
 We will do a joint analysis on three disjoint peak sets - only in blood, only in lung and shared. In this way, we can both estimate enrichments and compute for percent of genetic signals explained by each set.
@@ -307,25 +326,7 @@ We will do a joint analysis on three disjoint peak sets - only in blood, only in
 **Procedure**:  
 I started from the cell types defined with disjoint sets of immune peaks from Caldero2019 dataset. For each cell type, I use `bedtools intersect` to call the overlapped peaks and peaks that are unique to either side for lung and blood peaks. Then, the overlapped peaks will be merged.
 
-```{r echo=F}
-# celltypes<-c("B_cell_compare", "T_cell_compare", "NK_compare", "Myeloid_compare")
-# summary<-c()
-# for (trait in traits){
-#   output<-c()
-#   for(cell in celltypes){
-#     f<-read.table(sprintf("~/cluster/projects/torus_enrichment/%s/Caldero2019/%s/snps_summary.txt", trait, cell), header=T)
-#     terms<-unlist(lapply(rownames(t(f[2,])), function(i){strsplit(i, "_d")[[1]][1]}))
-#     output<-rbind(output,t(f[2,]))
-#   }
-#   terms<-unlist(lapply(rownames(output), function(i){strsplit(i, "_d")[[1]][1]}))
-#   new_output<-data.frame(output, row.names = NULL)
-#   colnames(new_output)<-"percent"
-#   new_output["term"]<-terms
-#   new_output["trait"]<-trait
-#   summary<-rbind(summary,new_output)
-# }
- ```
-
+*Enrichment of peak sets*
 ```{r echo=F, fig.width=12}
 snpsIn<-read.table("output/AAD/Caldero2019_disjoint_snps.sumstats", header=F, row.names = 1)
 colnames(snpsIn)<-c("counts", "percent", "term")
@@ -346,14 +347,20 @@ tbl["percent"]<-unlist(lapply(tbl$tmp, function(i){
 tbl_sub<-tbl[!(tbl$tmp %in% c("NK_common","Myeloid_blood", "NK_blood")),]
 snp_enrichment_plot(tbl_sub[tbl_sub$trait %in% test,], trait="") + facet_grid(. ~ trait)
 ```
-**Heritability estimation**
+*Percent of causal variants in each peak set*
 ```{r echo=F}
 tbl["celltype"]<-unlist(lapply(tbl$tmp, function(i){strsplit(i, "[_]")[[1]][1]}))
 tbl["annot"]<-unlist(lapply(tbl$tmp, function(i){rev(strsplit(i, "[_]")[[1]])[1]}))
 tbl["h2g"]=round(exp(tbl$estimate)*tbl$percent*100, 1)
-ggplot(tbl[tbl$trait %in% test,], aes(x=celltype, y=h2g, colour=annot)) + geom_point() + facet_grid(. ~ trait) + ylab("Heritability(%)")
-ggplot(tbl[tbl$trait %in% control,], aes(x=celltype, y=h2g, colour=annot)) + geom_point() + facet_grid(. ~ trait) + ylab("Heritability(%)")
+tbl$celltype<-factor(tbl$celltype, levels = c("T", "B", "Myeloid", "NK"), 
+                                    labels=c("T cells", "B cells", "Myeloid cells", "NK cells"))
+
+ggplot(tbl[tbl$trait %in%test,], aes(x=celltype, y=h2g, fill= c(annot))) + 
+    geom_bar(stat="identity") + ylab("Percent of h2g") + 
+    scale_fill_discrete(name="Annotation sets", labels=c("Blood Only", "Common", "Lung Only"), type= palette.colors(palette="Set3")[c(1,6,5)]) + 
+    theme(axis.text.x=element_text(angle=45, vjust = 0.9, hjust=0.8)) + facet_grid(.~trait)
 ```
+
 
 <!-- ### [Archive] Disjoint immune peaks in blood vs. immune groups in lung -->
 
@@ -381,6 +388,27 @@ ggplot(tbl[tbl$trait %in% control,], aes(x=celltype, y=h2g, colour=annot)) + geo
 <!--                                 )) + facet_grid(. ~ trait, scale="free_x") -->
 <!-- ``` -->
 
+```{r echo=F, eval=F}
+#### Compute for the percent of SNPs in annotations
+dataPath<-"/home/jinggu/cluster/data/features/formatted/Caldero2019/lineage"
+tbl<-c()
+#build IRange object for all QC SNPs in 1kg 
+snpRanges<-make_ranges(seqname=bigSNP$map$chromosome, 
+                       start = bigSNP$map$physical.pos,
+                       end = bigSNP$map$physical.pos)
+snpRanges<-plyranges::mutate(snpRanges, snp=bigSNP$map$marker.ID)
+for (f in list.files(dataPath, pattern = "bed")){
+  curr <- rtracklayer::import(paste(dataPath, f, sep='/'), format='bed')
+  subdf <- IRanges::subsetByOverlaps(snpRanges, curr)
+  tbl<-data.frame(rbind(tbl, c(f, length(unique(subdf$snp)), 
+                    length(unique(subdf$snp))/dim(bigSNP$map)[1])
+  ))
+}
+colnames(tbl)<-c("term", "count", "percent_val")
+tbl["percent"]<-paste0(round(as.numeric(tbl$percent_val)*100, 1), "%")
+write.table(tbl, "~/projects/funcFinemapping/output/AAD/Caldero2019_lineage_snps.sumstats",
+            sep='\t', row.names = F, quote=F)
+```
 
 
 
