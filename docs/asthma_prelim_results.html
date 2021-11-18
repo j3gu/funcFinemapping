@@ -352,7 +352,7 @@ div.tocify {
 
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-report" data-toggle="collapse" data-target="#workflowr-report">
-<span class="glyphicon glyphicon-list" aria-hidden="true"></span> workflowr <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
+<span class="glyphicon glyphicon-list" aria-hidden="true"></span> workflowr <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span>
 </button>
 </p>
 <div id="workflowr-report" class="collapse">
@@ -361,7 +361,7 @@ div.tocify {
 <a data-toggle="tab" href="#summary">Summary</a>
 </li>
 <li>
-<a data-toggle="tab" href="#checks"> Checks <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> </a>
+<a data-toggle="tab" href="#checks"> Checks <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> </a>
 </li>
 <li>
 <a data-toggle="tab" href="#versions">Past versions</a>
@@ -370,10 +370,10 @@ div.tocify {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2021-11-17
+<strong>Last updated:</strong> 2021-11-18
 </p>
 <p>
-<strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
+<strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 6 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 1
 </p>
 <p>
 <strong>Knit directory:</strong> <code>funcFinemapping/</code> <span class="glyphicon glyphicon-question-sign" aria-hidden="true" title="This is the local directory in which the code in this file was executed."> </span>
@@ -449,28 +449,52 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongFilepathsstrongrelative"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>File paths:</strong> relative </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongFilepathsstrongabsolute"> <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> <strong>File paths:</strong> absolute </a>
 </p>
 </div>
-<div id="strongFilepathsstrongrelative" class="panel-collapse collapse">
+<div id="strongFilepathsstrongabsolute" class="panel-collapse collapse">
 <div class="panel-body">
-<p>Great job! Using relative paths to the files within your workflowr project makes it easier to run your code on other machines.</p>
+<p>
+Using absolute paths to the files within your workflowr project makes it difficult for you and others to run your code on a different machine. Change the absolute path(s) below to the suggested relative path(s) to make your code more reproducible.
+</p>
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th style="text-align:left;">
+absolute
+</th>
+<th style="text-align:left;">
+relative
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+~/projects/funcFinemapping/output/AAD/Caldero2019_lineage_snps.sumstats
+</td>
+<td style="text-align:left;">
+output/AAD/Caldero2019_lineage_snps.sumstats
+</td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
 </div>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomj3gufuncFinemappingtree093135b88dccaa3255cddcc23176f3caea927f00targetblank093135ba"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/j3gu/funcFinemapping/tree/093135b88dccaa3255cddcc23176f3caea927f00" target="_blank">093135b</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomj3gufuncFinemappingtreead7cd6ce1e5dc6c944c73f100ecbcdc6c442f658targetblankad7cd6ca"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/j3gu/funcFinemapping/tree/ad7cd6ce1e5dc6c944c73f100ecbcdc6c442f658" target="_blank">ad7cd6c</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomj3gufuncFinemappingtree093135b88dccaa3255cddcc23176f3caea927f00targetblank093135ba" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomj3gufuncFinemappingtreead7cd6ce1e5dc6c944c73f100ecbcdc6c442f658targetblankad7cd6ca" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/j3gu/funcFinemapping/tree/093135b88dccaa3255cddcc23176f3caea927f00" target="_blank">093135b</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/j3gu/funcFinemapping/tree/ad7cd6ce1e5dc6c944c73f100ecbcdc6c442f658" target="_blank">ad7cd6c</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -588,6 +612,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/j3gu/funcFinemapping/blob/ad7cd6ce1e5dc6c944c73f100ecbcdc6c442f658/analysis/asthma_prelim_results.Rmd" target="_blank">ad7cd6c</a>
+</td>
+<td>
+Jing Gu
+</td>
+<td>
+2021-11-18
+</td>
+<td>
+estimate heritability
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/j3gu/funcFinemapping/f42797591f6722082157ac2c4a9f163766c6b092/docs/asthma_prelim_results.html" target="_blank">f427975</a>
+</td>
+<td>
+Jing Gu
+</td>
+<td>
+2021-11-17
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -1360,6 +1418,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/j3gu/funcFinemapping/blob/f42797591f6722082157ac2c4a9f163766c6b092/docs/figure/asthma_prelim_results.Rmd/unnamed-chunk-5-1.png" target="_blank">f427975</a>
+</td>
+<td>
+Jing Gu
+</td>
+<td>
+2021-11-17
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/j3gu/funcFinemapping/blob/a6ca0c73567b2d1b0a44ca905bdae63dec2ef442/docs/figure/asthma_prelim_results.Rmd/unnamed-chunk-5-1.png" target="_blank">a6ca0c7</a>
 </td>
 <td>
@@ -1442,6 +1511,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/j3gu/funcFinemapping/blob/f42797591f6722082157ac2c4a9f163766c6b092/docs/figure/asthma_prelim_results.Rmd/unnamed-chunk-5-2.png" target="_blank">f427975</a>
+</td>
+<td>
+Jing Gu
+</td>
+<td>
+2021-11-17
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/j3gu/funcFinemapping/blob/a6ca0c73567b2d1b0a44ca905bdae63dec2ef442/docs/figure/asthma_prelim_results.Rmd/unnamed-chunk-5-2.png" target="_blank">a6ca0c7</a>
 </td>
 <td>
@@ -1488,6 +1568,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/j3gu/funcFinemapping/blob/f42797591f6722082157ac2c4a9f163766c6b092/docs/figure/asthma_prelim_results.Rmd/unnamed-chunk-6-1.png" target="_blank">f427975</a>
+</td>
+<td>
+Jing Gu
+</td>
+<td>
+2021-11-17
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/j3gu/funcFinemapping/blob/a6ca0c73567b2d1b0a44ca905bdae63dec2ef442/docs/figure/asthma_prelim_results.Rmd/unnamed-chunk-6-1.png" target="_blank">a6ca0c7</a>
@@ -1596,6 +1687,7 @@ Jing Gu
 </div>
 <div id="grouped-by-disjoint-peaks" class="section level4">
 <h4>grouped by disjoint peaks</h4>
+<p><em>Enrichment of each disjoint set of peaks</em></p>
 <p><strong>Motivation</strong>: Using disjoint groups of peaks from immune cell types to estimate separate contributions of immune components to disease heritability. These annotations are ideal predictors for the linear model used in either LDSC or TORUS to obtain unbiased enrichment estimators.</p>
 <p><strong>Procedure</strong>: The disjoint peaks were directly downloaded from the paper. <img src="figure/asthma_prelim_results.Rmd/unnamed-chunk-8-1.png" width="1152" style="display: block; margin: auto;" /></p>
 <p>
@@ -1657,7 +1749,59 @@ Jing Gu
 </table>
 </div>
 </div>
-<p><strong>explained Heritability</strong></p>
+<p><em>Percent of causal variants in each peak set</em></p>
+<p><strong>Motivation</strong>: To not only test for enrichment, but also estimate the percent of genetic signals explained by each set of peaks</p>
+<p><strong>Procedure</strong>:<br />
+For each disjoint set of peaks, I multiplied the percent of genome-wide SNPs that occur in each peak set with the exponentials of Torus enrichment estimates. The number in parenthesis is the percent of SNPs in peaks.</p>
+<p><strong>Results</strong>: <img src="figure/asthma_prelim_results.Rmd/unnamed-chunk-9-1.png" width="960" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-9-1">
+Past versions of unnamed-chunk-9-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-9-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/j3gu/funcFinemapping/blob/f42797591f6722082157ac2c4a9f163766c6b092/docs/figure/asthma_prelim_results.Rmd/unnamed-chunk-9-1.png" target="_blank">f427975</a>
+</td>
+<td>
+Jing Gu
+</td>
+<td>
+2021-11-17
+</td>
+</tr>
+<tr>
+<td>
+<a href="https://github.com/j3gu/funcFinemapping/blob/a6ca0c73567b2d1b0a44ca905bdae63dec2ef442/docs/figure/asthma_prelim_results.Rmd/unnamed-chunk-9-1.png" target="_blank">a6ca0c7</a>
+</td>
+<td>
+Jing Gu
+</td>
+<td>
+2021-11-16
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 </div>
 <div id="disjoint-immune-peaks-in-blood-vs.-immune-groups-in-lung" class="section level3">
@@ -1666,7 +1810,44 @@ Jing Gu
 We will do a joint analysis on three disjoint peak sets - only in blood, only in lung and shared. In this way, we can both estimate enrichments and compute for percent of genetic signals explained by each set.</p>
 <p><strong>Procedure</strong>:<br />
 I started from the cell types defined with disjoint sets of immune peaks from Caldero2019 dataset. For each cell type, I use <code>bedtools intersect</code> to call the overlapped peaks and peaks that are unique to either side for lung and blood peaks. Then, the overlapped peaks will be merged.</p>
-<p><img src="figure/asthma_prelim_results.Rmd/unnamed-chunk-11-1.png" width="1152" style="display: block; margin: auto;" /> <strong>Heritability estimation</strong> <img src="figure/asthma_prelim_results.Rmd/unnamed-chunk-12-1.png" width="672" style="display: block; margin: auto;" /><img src="figure/asthma_prelim_results.Rmd/unnamed-chunk-12-2.png" width="672" style="display: block; margin: auto;" /></p>
+<p><em>Enrichment of peak sets</em> <img src="figure/asthma_prelim_results.Rmd/unnamed-chunk-10-1.png" width="1152" style="display: block; margin: auto;" /> <em>Percent of causal variants in each peak set</em> <img src="figure/asthma_prelim_results.Rmd/unnamed-chunk-11-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-11-1">
+Past versions of unnamed-chunk-11-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-11-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/j3gu/funcFinemapping/blob/f42797591f6722082157ac2c4a9f163766c6b092/docs/figure/asthma_prelim_results.Rmd/unnamed-chunk-11-1.png" target="_blank">f427975</a>
+</td>
+<td>
+Jing Gu
+</td>
+<td>
+2021-11-17
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <!-- ### [Archive] Disjoint immune peaks in blood vs. immune groups in lung -->
 <!-- **Motivation**:  -->
 <!-- There is a large fraction of overlaps in peaks across blood's immune groups. Thus we used disjoint peaks to build blood annotations and then ran TORUS together with main immune groups in lung to better estimate their enrichment separately.  -->
@@ -1716,11 +1897,12 @@ attached base packages:
 [1] stats     graphics  grDevices utils     datasets  methods   base     
 
 other attached packages:
-[1] dplyr_1.0.4     knitr_1.31      ggplot2_3.3.3   workflowr_1.6.2
+[1] RColorBrewer_1.1-2 dplyr_1.0.4        knitr_1.31         ggplot2_3.3.3     
+[5] workflowr_1.6.2   
 
 loaded via a namespace (and not attached):
- [1] Rcpp_1.0.7        highr_0.8         pillar_1.5.0      compiler_4.0.4   
- [5] bslib_0.2.4       later_1.1.0.1     jquerylib_0.1.3   git2r_0.28.0     
+ [1] Rcpp_1.0.7        pillar_1.5.0      compiler_4.0.4    bslib_0.2.4      
+ [5] later_1.1.0.1     jquerylib_0.1.3   git2r_0.28.0      highr_0.8        
  [9] tools_4.0.4       digest_0.6.27     jsonlite_1.7.2    evaluate_0.14    
 [13] lifecycle_1.0.0   tibble_3.0.6      gtable_0.3.0      pkgconfig_2.0.3  
 [17] rlang_0.4.11      DBI_1.1.1         yaml_2.2.1        xfun_0.21        
