@@ -261,7 +261,7 @@ I partitioned peaks from lung and blood into three disjoint peak sets - only fou
 
 **Summary of the number of overlapped peaks**  
 *Ulirsch2019 dataset*
-```{r}
+```{r echo=F}
 dat<-read.table("output/AAD/Ulirsch2019_peaks_overlapped.txt", header=F)
 colnames(dat)<-c("numPeaks","file")
 dat$file<-gsub("GMP_", "GMP-",dat$file)
@@ -277,7 +277,7 @@ ggplot(dat[!(dat$celltype %in% c("T", "GMP-A", "GMP-B", "GMP-C", "pDC")),], aes(
     theme(axis.text.x=element_text(angle=45, vjust = 0.9, hjust=0.8)) + 
     theme(strip.text.x = element_text(size=16))
 ```
-*Test the enrichment of disjoint peak sets*
+**Test the enrichment of disjoint peak sets**
 ```{r echo=F, fig.width=12}
 snpsIn<-read.table("output/AAD/Ulirsch2019_disjoint_snps.sumstats", header=T, row.names = 1)
 rownames(snpsIn)<-sub("GMP_", "GMP-", rownames(snpsIn))
@@ -301,7 +301,7 @@ tbl["annot"]<-unlist(lapply(tbl$tmp, function(i){rev(strsplit(i, "[_]")[[1]])[1]
 
 snp_enrichment_plot(tbl[tbl$trait%in%test & tbl$celltype %in% c("B", "CD4", "CD8", "mDC", "GMP-merge", "Mono"),], trait="") + facet_grid(. ~ trait) + theme(strip.text.x = element_text(size=14)) + xlim(-10, 15)
 ```
-*Percent of causal variants in each peak set*
+**Percent of causal variants in each peak set**
 ```{r echo=F,fig.width=10}
 tbl["h2g"]=round(exp(tbl$estimate)*tbl$percent*100, 1)
 
@@ -313,7 +313,7 @@ ggplot(tbl[tbl$trait %in% test & !(tbl$celltype %in% c("GMP-A", "GMP-B", "GMP-C"
 ```
 ## stratified-LDSC for partitioning h2g
 ### Joint run of all annotations in Wang2020
-```{r}
+```{r echo=F}
 labels<-read.table("output/AAD/Wang2020_annot.txt", header=F)
 immune<-c("macrophage","erythrocyte","B_cell", "T_cell", "natural_killer_cell")
 tbl<-c()
@@ -360,7 +360,7 @@ h2g$Category<-gsub("GMP_", "GMP-", h2g$Category)
 h2g[c("celltype", "annot")]<-t(sapply(h2g$Category, function(i){strsplit(as.character(i), "_")[[1]][1:2]}))
 ```
 
-```{r}
+```{r echo=F}
 feature<-c("B", "CD4","CD8","Ery","GMP-A", "GMP-B", "GMP-C", "mDC", "pDC","Mega","Mono")
 ylabel<-c("B", "CD4+T","CD8+T","Ery","GMP-A", "GMP-B", "GMP-C", "mDC", "pDC","Mega","Mono")
 colnames(h2g)[c(2,6,7)]<-c("term", "estimate", "sd")
@@ -387,23 +387,6 @@ ggplot(h2g, aes(x=celltype, y=Prop._h2*100, fill= annot)) +
     facet_grid(.~trait) + theme(strip.text.x = element_text(size=14))
 
 ```
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 ```{r echo=F, eval=F}
 #### Compute for the percent of SNPs in annotations
