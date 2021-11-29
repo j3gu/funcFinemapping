@@ -1,0 +1,5 @@
+term	estimate	low	high
+Intercept	-8.485	-8.504	-8.466
+Mega_blood.1	1.157	0.235	2.078
+Mega_common.1	1.759	0.433	3.085
+Mega_lung.1	1.6	-1.902	5.102

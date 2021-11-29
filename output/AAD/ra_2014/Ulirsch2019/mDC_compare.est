@@ -1,0 +1,5 @@
+term	estimate	low	high
+Intercept	-10.259	-10.282	-10.235
+mDC_blood.1	3.738	1.355	6.121
+mDC_common.1	3.225	2.476	3.973
+mDC_lung.1	1.335	-7.121	9.791

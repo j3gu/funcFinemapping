@@ -1,0 +1,5 @@
+term	estimate	low	high
+Intercept	-7.225	-7.241	-7.208
+Ery_blood.1	1.031	0.141	1.922
+Ery_common.1	1.411	0.654	2.168
+Ery_lung.1	-2.565	-8.021	2.891

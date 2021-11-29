@@ -1,0 +1,5 @@
+term	estimate	low	high
+Intercept	-9.995	-10.017	-9.972
+GMP_merge_blood.1	0.002	-2.917	2.921
+GMP_merge_common.1	2.972	2.331	3.613
+GMP_merge_lung.1	-0.799	-5.764	4.167

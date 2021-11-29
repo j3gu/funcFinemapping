@@ -1,0 +1,5 @@
+term	estimate	low	high
+Intercept	-8.805	-8.825	-8.785
+pDC_blood.1	1.584	-1.108	4.276
+pDC_common.1	1.629	0.512	2.745
+pDC_lung.1	1.889	1.147	2.631

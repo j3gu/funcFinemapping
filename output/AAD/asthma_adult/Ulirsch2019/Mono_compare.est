@@ -1,0 +1,5 @@
+term	estimate	low	high
+Intercept	-10.639	-10.663	-10.615
+Mono_blood.1	4.474	0.535	8.413
+Mono_common.1	3.321	2.232	4.41
+Mono_lung.1	1.318	-3.482	6.118

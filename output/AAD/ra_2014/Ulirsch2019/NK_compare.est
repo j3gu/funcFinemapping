@@ -1,0 +1,5 @@
+term	estimate	low	high
+Intercept	-10.137	-10.16	-10.114
+NK_blood.1	3.295	1.711	4.88
+NK_common.1	3.35	2.373	4.327
+NK_lung.1	0.001	-0.51	0.512

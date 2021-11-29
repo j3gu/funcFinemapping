@@ -1,0 +1,5 @@
+term	estimate	low	high
+Intercept	-8.471	-8.49	-8.451
+CD4_blood.1	1.524	0.105	2.942
+CD4_common.1	1.34	0.311	2.37
+CD4_lung.1	-5.538	-26.137	15.062

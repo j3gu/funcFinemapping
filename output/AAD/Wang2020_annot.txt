@@ -1,0 +1,17 @@
+basal_cell
+B_cell
+capillary_endothelial_cell
+ciliated_cell
+club_cell
+endothelial_cell_of_artery
+endothelial_cell_of_lymphatic_vessel
+erythrocyte
+extracellular_matrix_secreting_cell
+macrophage
+myofibroblast_cell
+natural_killer_cell
+neuroendocrine_cell
+pericyte_cell
+T_cell
+type_II_pneumocyte
+type_I_pneumocyte

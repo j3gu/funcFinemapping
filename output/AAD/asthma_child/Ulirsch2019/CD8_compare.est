@@ -1,0 +1,5 @@
+term	estimate	low	high
+Intercept	-9.948	-9.971	-9.926
+CD8_blood.1	2.251	-0.195	4.697
+CD8_common.1	3.149	2.342	3.955
+CD8_lung.1	3.988	1.535	6.442

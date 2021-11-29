@@ -1,0 +1,5 @@
+term	estimate	low	high
+Intercept	-7.243	-7.259	-7.226
+GMP_B_blood.1	1.608	0.846	2.37
+GMP_B_common.1	0.776	0.326	1.226
+GMP_B_lung.1	-0.388	-1.388	0.612
