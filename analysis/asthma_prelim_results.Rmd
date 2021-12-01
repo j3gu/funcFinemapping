@@ -344,11 +344,12 @@ ggplot(tbl, aes(x=term, y=Prop._h2*100)) +
 ### Ulirsch2019
 **Enrichment estimates**
 ```{r echo=F}
-feature<-c("B", "CD4","CD8","Ery","GMP_A", "GMP_B", "GMP_C", "mDC", "pDC","Mega","Mono")
+feature<-c("B", "CD4","CD8","Ery","GMP_merge","mDC", "Mega","Mono")
 h2g<-c()
 for(i in feature){
   for(trait in test[1:3]){
-    tbl<-read.table(sprintf("output/AAD/%s/Ulirsch2019/%s_%s.results", trait, trait, i), header=T)
+    tbl<-read.table(sprintf("output/AAD/%s/Ulirsch2019/%s_%s.results", 
+                            trait, trait, i), header=T)
     output<-cbind(trait, tbl[tbl$Category %in% rev(tbl$Category)[1:3],])
     output$Category<-factor(output$Category, levels = c("L2_1", "L2_2", "L2_3"), 
                       labels=paste(i, c("blood", "common", "lung"), sep="_"))
@@ -361,8 +362,8 @@ h2g[c("celltype", "annot")]<-t(sapply(h2g$Category, function(i){strsplit(as.char
 ```
 
 ```{r echo=F}
-feature<-c("B", "CD4","CD8","Ery","GMP-A", "GMP-B", "GMP-C", "mDC", "pDC","Mega","Mono")
-ylabel<-c("B", "CD4+T","CD8+T","Ery","GMP-A", "GMP-B", "GMP-C", "mDC", "pDC","Mega","Mono")
+feature<-c("B", "CD4","CD8","Ery", "GMP-merge", "mDC", "Mega","Mono")
+ylabel<-c("B", "CD4+T","CD8+T","Ery","GMP", "mDC","Mega","Mono")
 colnames(h2g)[c(2,6,7)]<-c("term", "estimate", "sd")
 h2g["high"]<-h2g$estimate + h2g$sd
 h2g["low"]<-h2g$estimate - h2g$sd
@@ -378,6 +379,7 @@ ggplot(h2g, aes(x=celltype, y=estimate, fill=annot)) +
 ```
 **h2 explained**
 ```{r echo=F, fig.width=10}
+h2g$celltype<-factor(h2g$celltype, levels=ylabel)
 ggplot(h2g, aes(x=celltype, y=Prop._h2*100, fill= annot)) + 
     geom_bar(stat="identity") + ylab("Percent of h2") + 
     scale_fill_discrete(name="Annotation sets", labels=c("Blood Only", "Common", "Lung Only"), type= palette.colors(palette="Set3")[c(1,6,5)]) + 
