@@ -276,7 +276,7 @@ $(document).ready(function () {
 
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-report" data-toggle="collapse" data-target="#workflowr-report">
-<span class="glyphicon glyphicon-list" aria-hidden="true"></span> workflowr <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
+<span class="glyphicon glyphicon-list" aria-hidden="true"></span> workflowr <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span>
 </button>
 </p>
 <div id="workflowr-report" class="collapse">
@@ -285,7 +285,7 @@ $(document).ready(function () {
 <a data-toggle="tab" href="#summary">Summary</a>
 </li>
 <li>
-<a data-toggle="tab" href="#checks"> Checks <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> </a>
+<a data-toggle="tab" href="#checks"> Checks <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> </a>
 </li>
 <li>
 <a data-toggle="tab" href="#versions">Past versions</a>
@@ -294,10 +294,10 @@ $(document).ready(function () {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2021-10-26
+<strong>Last updated:</strong> 2022-03-23
 </p>
 <p>
-<strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 2 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
+<strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 1 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 1
 </p>
 <p>
 <strong>Knit directory:</strong> <code>funcFinemapping/</code> <span class="glyphicon glyphicon-question-sign" aria-hidden="true" title="This is the local directory in which the code in this file was executed."> </span>
@@ -313,28 +313,28 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguptodate"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>R Markdown file:</strong> up-to-date </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguncommittedchanges"> <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> <strong>R Markdown file:</strong> uncommitted changes </a>
 </p>
 </div>
-<div id="strongRMarkdownfilestronguptodate" class="panel-collapse collapse">
+<div id="strongRMarkdownfilestronguncommittedchanges" class="panel-collapse collapse">
 <div class="panel-body">
-<p>Great! Since the R Markdown file has been committed to the Git repository, you know the exact version of the code that produced these results.</p>
+<p>The R Markdown file has unstaged changes. To know which version of the R Markdown file created these results, you'll want to first commit it to the Git repo. If you're still working on the analysis, you can ignore this warning. When you're finished, you can run <code>wflow_publish</code> to commit the R Markdown file and build the HTML.</p>
 </div>
 </div>
 </div>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomj3gufuncFinemappingtreedb3c6f96af3bb6ed4d4e210f7ac5585517152b8atargetblankdb3c6f9a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/j3gu/funcFinemapping/tree/db3c6f96af3bb6ed4d4e210f7ac5585517152b8a" target="_blank">db3c6f9</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomj3gufuncFinemappingtree043d4a43d44ed6a35968576894b7cfdd641cac5ctargetblank043d4a4a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/j3gu/funcFinemapping/tree/043d4a43d44ed6a35968576894b7cfdd641cac5c" target="_blank">043d4a4</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomj3gufuncFinemappingtreedb3c6f96af3bb6ed4d4e210f7ac5585517152b8atargetblankdb3c6f9a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomj3gufuncFinemappingtree043d4a43d44ed6a35968576894b7cfdd641cac5ctargetblank043d4a4a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/j3gu/funcFinemapping/tree/db3c6f96af3bb6ed4d4e210f7ac5585517152b8a" target="_blank">db3c6f9</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/j3gu/funcFinemapping/tree/043d4a43d44ed6a35968576894b7cfdd641cac5c" target="_blank">043d4a4</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -342,32 +342,46 @@ Note that you need to be careful to ensure that all relevant files for the analy
 <pre><code>
 Ignored files:
     Ignored:    .ipynb_checkpoints/
+    Ignored:    analysis/lab4_prepare.nb.html
     Ignored:    analysis/ldsc_results.nb.html
+    Ignored:    analysis/learn_archR.nb.html
+    Ignored:    analysis/mtsplice_finemapping_results.nb.html
     Ignored:    analysis/results.nb.html
     Ignored:    analysis/snp_finemapping_results.nb.html
     Ignored:    analysis/splicing.nb.html
+    Ignored:    analysis/susie_tutorial.nb.html
 
 Untracked files:
     Untracked:  SNPs_categories,png
     Untracked:  SNPs_categories.png
+    Untracked:  analysis/.ipynb_checkpoints/
+    Untracked:  analysis/asthma_bkg.Rmd
     Untracked:  analysis/asthma_prelim_results_archive.Rmd
+    Untracked:  analysis/asthma_prelim_results_cp.Rmd
     Untracked:  analysis/asthma_results_cp.Rmd
     Untracked:  analysis/enhancer_gene_feature.Rmd
     Untracked:  analysis/feedback.Rmd
     Untracked:  analysis/gene_finemapping_results.Rmd
+    Untracked:  analysis/lab4.Rmd
+    Untracked:  analysis/lab4_prepare.Rmd
+    Untracked:  analysis/learn_archR.Rmd
     Untracked:  analysis/learn_susie.Rmd
     Untracked:  analysis/mtsplice_finemapping_results.Rmd
     Untracked:  analysis/notes.Rmd
     Untracked:  analysis/snp_finemapping_results.Rmd
     Untracked:  analysis/splicing.Rmd
+    Untracked:  analysis/susie_tutorial.Rmd
+    Untracked:  bmi_locus1410.pdf
     Untracked:  code/.ipynb_checkpoints/
     Untracked:  code/ldsc_regression.sh
     Untracked:  code/make_plots.R
     Untracked:  code/run_ldsc.sh
     Untracked:  code/run_ldsc_with_bed.sh
+    Untracked:  code/run_ldsc_with_bed_v2.sh
     Untracked:  code/run_susie.R
     Untracked:  code/run_torus.sh
     Untracked:  code/split_vcf.sh
+    Untracked:  data/hg19_gtf_genomic_annots_ver2.gr.rds
     Untracked:  data/num_overlaps_finemapped_SNPs_and_ctcf.txt
     Untracked:  data/scz_2018
     Untracked:  data/torus_enrichment_novel_annot.est
@@ -378,13 +392,48 @@ Untracked files:
     Untracked:  fig2.pdf
     Untracked:  fig_panel2.pdf
     Untracked:  gene_mapping.pdf
+    Untracked:  lab4
+    Untracked:  output/AAD/GMP_merge_stats.txt
+    Untracked:  output/AAD/allergy/Ulirsch2019/GMP_merge_compare_old.est
+    Untracked:  output/AAD/asthma_adult/Ulirsch2019/CD4_compare_old.est
+    Untracked:  output/AAD/asthma_adult/Ulirsch2019/CD8_compare_old.est
+    Untracked:  output/AAD/asthma_adult/Ulirsch2019/GMP_merge_compare_old.est
+    Untracked:  output/AAD/asthma_child/Ulirsch2019/GMP_merge_compare_old.est
+    Untracked:  output/LDL_ukb_L10.gif
+    Untracked:  output/LDL_ukb_L10.pdf
     Untracked:  output/background_SNPs_annotated_percent.txt
+    Untracked:  output/locus_1452.gif
+    Untracked:  output/locus_1452.pdf
     Untracked:  panel_figure2.pdf
     Untracked:  test.txt
+    Untracked:  transfer/
 
 Unstaged changes:
+    Deleted:    .Rprofile
+    Modified:   analysis/asthma_prelim_results.Rmd
     Modified:   analysis/asthma_results.Rmd
     Modified:   analysis/enrichment_analysis.Rmd
+    Modified:   analysis/index.Rmd
+    Modified:   output/AAD/allergy/Ulirsch2019/GMP_merge_compare.est
+    Deleted:    output/AAD/asthma/Caldero2019_diffDA_annot_percent.txt
+    Deleted:    output/AAD/asthma/Caldero2019_stimuDA_annot_percent.txt
+    Deleted:    output/AAD/asthma/celltype_specific_adult_lungs_torus.est
+    Deleted:    output/AAD/asthma/diffe_adult_blood_torus.est
+    Deleted:    output/AAD/asthma/joint_blood_immune_rest_vs_stimu.est
+    Deleted:    output/AAD/asthma/joint_lung_vs_blood_immune_diff_torus.est
+    Deleted:    output/AAD/asthma/joint_lung_vs_blood_immune_stimu_torus.est
+    Deleted:    output/AAD/asthma/lung_clusters_dict.txt
+    Deleted:    output/AAD/asthma/lung_clusters_info.txt
+    Deleted:    output/AAD/asthma/stimu_adult_blood_torus.est
+    Deleted:    output/AAD/asthma/torus_enrichment_all_rest.est
+    Deleted:    output/AAD/asthma/torus_enrichment_all_stimulated.est
+    Deleted:    output/AAD/asthma/zhang2021_annot_percent.txt
+    Deleted:    output/AAD/asthma/zhang2021_cell_type_overlaps.txt
+    Deleted:    output/AAD/asthma/zhang2021_peaks_per_celltype.txt
+    Modified:   output/AAD/asthma_adult/Ulirsch2019/CD4_compare.est
+    Modified:   output/AAD/asthma_adult/Ulirsch2019/CD8_compare.est
+    Deleted:    output/AAD/asthma_adult/Ulirsch2019/GMP_merge_compare.est
+    Modified:   output/AAD/asthma_child/Ulirsch2019/GMP_merge_compare.est
     Deleted:    output/asthma/Caldero2019_diffDA_annot_percent.txt
     Deleted:    output/asthma/Caldero2019_stimuDA_annot_percent.txt
     Deleted:    output/asthma/celltype_specific_adult_lungs_torus.est
@@ -435,6 +484,23 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/j3gu/funcFinemapping/5b65bd10f715e7c6d2f8dffdcac3cfb13feac2cf/docs/index.html" target="_blank">5b65bd1</a>
+</td>
+<td>
+Jing Gu
+</td>
+<td>
+2021-10-26
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -934,7 +1000,10 @@ Start workflowr project.
 <div id="results-by-projects" class="section level2">
 <h2>Results by Projects</h2>
 <ul>
-<li><a href="asthma_prelim_results.html">Asthma Projects</a></li>
+<li><a href="asthma_prelim_results.html">Asthma Projects</a>
+<ul>
+<li><a href="identifying_TRMs_in_lungs.html">identifying TRMs</a></li>
+</ul></li>
 <li>[test project]</li>
 </ul>
 </div>
