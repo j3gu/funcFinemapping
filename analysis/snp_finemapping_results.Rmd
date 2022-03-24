@@ -1,0 +1,218 @@
+---
+title: "SNP_finemapping_results"
+output:
+  html_document:
+    df_print: paged
+---
+
+## Assess the impact of different priors on fine mapping
+```{r message=FALSE}
+library(data.table)
+library(dplyr)
+library(susieR)
+library(bigsnpr)
+library(ggplot2)
+source("code/make_plots.R")
+source("code/run_susie.R")
+```
+### SpliceAI-predicted variant effects on splicing
+**Annotations**
+* spliceAI predictions are not tissue-specific.
+* The predicted delta score of a variant can be interpreted as the probrability of the variant being splice-altering. 
+
+**Procedure**
+* Build binary annotation by denoting delta score>=0.01 as 1 and detal score < 0.01 as 0.
+* Run TORUS jointly over spliceAI-predictions, iPSC-derived neuronal accessibility, CADD top5% and  protein coding regions.
+* Use the derived prior probability for each SNP to further perform fine mapping with Susie.
+
+**Torus enrichment estimates**
+```{r}
+est<-read.table("output/splicing/torus_enrichment_joint_scz_spliceAI.est", header = F, skip = 2)
+colnames(est)<-c("term", "estimate", "low", "high")
+snp_enrichment_plot(est, y.label = c("top5% CADD", "CDS", "iPSC-derived", "spliceAI_0.01"))
+```
+```{r echo=F}
+#load data
+uniform_L1<-read.table("output/splicing/scz_unif_ukb_susieL1.txt.gz", header = T)
+uniform_L10<-read.table("output/splicing/scz_unif_ukb_susieL10.txt.gz", header = T)
+annot_L1<-read.table("output/splicing/scz_spliceAI0.01_ukb_susieL1.txt.gz", header = T)
+annot_L10<-read.table("output/splicing/scz_spliceAI0.01_ukb_susieL10.txt.gz", header = T)
+```
+
+```{r echo=F, eval=F}
+work_dir<-"~/cluster/projects/torus_enrichment/scz_2018/mtsplice/"
+gwas<-read.table("~/cluster/data/gwas/2_Filtered/scz_2018.txt.gz", header=T)
+scz_loci <- rtracklayer::import("~/cluster/data/gwas/gwas_loci/SCZ_108loci_hg19.tsv", format='bed')
+priors<-read.table(paste(work_dir, "mtsplice/torus_joint_prior_est.txt.gz", sep="/"), header=T)
+gwas<-inner_join(gwas, priors, by="snp")
+#focus on the 104 independent loci from previous paper
+LDRanges<-make_ranges(paste0('chr', LD_Blocks$X1), LD_Blocks$X2, LD_Blocks$X3)
+LDRanges <- plyranges::mutate(LDRanges, chunk=LD_Blocks$X4)
+overlaps<-IRanges::subsetByOverlaps(LDRanges, scz_loci, type="any")
+
+susie_L10<-list()
+#susie_L10.cov<-list()
+for(z in 1:length(overlaps$chunk)){
+  print(paste0('Finemapping chunks.. ',z,' of ', length(overlaps$chunk)))
+  z<-as.character(overlaps$chunk[z])
+  print(z)
+  #focus on the 108 independent loci 
+  susie_L10[[z]]<-run_susie(gwas, z, L=10)
+  #susie_L10.cov[[z]]<-run_susie(gwas, z, L=10, cs_coverage = 0.8)
+}
+joint.annot<-read.table("/home/jinggu/cluster/projects/torus_enrichment/scz_2018/joint/spliceAI/torus_annotations.txt.gz",header = T)
+joint.annot["all_d"]<-apply(joint.annot[,-1], 1, sum)
+
+uniform_L10<-data.frame(do.call(rbind, lapply(susie_L10, function(i){return(i$unif)})))
+uniform_L10<-left_join(uniform_L10, joint.annot, by="snp")
+annot_L10<-data.frame(do.call(rbind, lapply(susie_L10, function(i){return(i$prior)})))
+annot_L10<-left_join(annot_L10, joint.annot, by="snp")
+
+uniform_L1.lowcov<-data.frame(do.call(rbind, lapply(susie_L1.cov, function(i){return(i$unif)})))
+annot_L1.lowcov<-data.frame(do.call(rbind, lapply(susie_L1.cov, function(i){return(i$prior)})))
+
+
+save(susie_L1, susie_L1.cov, susie_L10, susie_L10.cov, 
+     file="~/cluster/projects/fine_mapping/scz_2018/scz_spliceAI_0.01_ukb_out.RData")
+
+
+#uniform_L1<-merge_susie_sumstats(susie_L1,gwas[gwas$locus %in% overlaps$chunk,])
+cols<-c(c("snp", "beta", "se", "pval", "zscore", "locus", "X_NUM_ID_", 
+          "torus_pip", "cs", "cs_purity","cs_size", "susie_pip"),colnames(joint.annot)[-1])
+uniform_L1<-read.table("~/cluster/projects/fine_mapping/scz_2018/scz_uniform_susieL1.txt.gz", header=T)
+#annot_L1<-merge_susie_sumstats(susie_L1,gwas[gwas$locus %in% overlaps$chunk,])
+write.table(annot_L10[,cols],"~/cluster/projects/fine_mapping/scz_2018/scz_spliceAI0.01_ukb_susieL10.txt.gz", quote=F, row.names = F, sep="\t")
+write.table(uniform_L10[,cols],"~/cluster/projects/fine_mapping/scz_2018/scz_unif_ukb_susieL10.txt.gz",quote=F, row.names = F, sep="\t")
+
+```
+
+#### Results Summary
+**Plot p-values against susie PIPs**
+```{r echo=F,fig.width=12, fig.height=6}
+par(mfrow = c(1,2))
+plot(y=uniform_L1$susie_pip, x=-log10(uniform_L1$pval), ylab="PIPs with uniform prior", xlab="-log10(pval)", main="L=1")
+plot(y=annot_L1$susie_pip, x=-log10(annot_L1$pval), ylab="PIPs with functional annotations", xlab="-log10(pval)")
+
+par(mfrow = c(1,2))
+plot(y=uniform_L10$susie_pip, x=-log10(uniform_L10$pval), ylab="PIPs with uniform prior", xlab="-log10(pval)", main="L=10")
+plot(y=annot_L10$susie_pip, x=-log10(annot_L10$pval), ylab="PIPs with functional annotations", xlab="-log10(pval)")
+```
+* For an initial QC, we did not observe SNPs with high PIPs but show no significant associations for both scenarios under the assumption of one causal variant per locus. However, at L=10 we did see a substantial fractions of SNPs with high PIPs and non-sigiciant p-values for the run with functional priors. 
+
+NOTE: The following analyses were based on L=1. 
+
+**Compare PIPs between uniform and functional priors**
+```{r echo=F}
+plot(x=uniform_L1$susie_pip, 
+     y=annot_L1$susie_pip,
+     xlab="PIPs from uniform priors", ylab="PIPs from functional priors"
+     )
+abline(a=0, b=1, col='red')
+```
+* We observed most variants have similar low PIPs with or without functional priors. However some variants show higher PIPs with functional prior while some show higher PIPs without functional priors. 
+
+**Compare the sizes of credible sets**
+
+* Uniform priors
+```{r}
+plot_cs_size(uniform_L1) 
+```
+* Functional priors 
+```{r}
+plot_cs_size(annot_L1)
+```
+* The numbers the stacked barplot represent the numbers of independent LD blocks within each range of credible sizes.
+* Overall, the credible sizes are similar between the runs with or without priors 
+
+
+### Examine the snps within credible set of size less than 20 variants
+
+**Examine a few loci**
+```{r echo=F}
+unif.top20<-uniform_L1[uniform_L1$cs>0 & uniform_L1$cs_size<20,]
+annot.top20<-annot_L1[annot_L1$cs>0 & annot_L1$cs_size<20,]
+commons<-intersect(x=unif.top20$locus, y=annot.top20$locus)
+unif.diff<-setdiff(unif.top20$locus, commons)
+annot.diff<-setdiff(annot.top20$locus, commons)
+
+annot.sub<-annot_L1[annot_L1$locus %in% annot.diff,]
+head(annot.sub[order(annot.sub$susie_pip, decreasing = T),], 10)
+```
+* Locus 251: 
+    - top snp(2:200715388:G:T:rs2949006|zscore=8.42|spliceAI=0.01|iPSC_derived=1|pip=0.93|cs_size=2)
+    - Compared with the other SNP in credible set, rs2949006 has a PIP higher than 0.9 due to being annotated with having splice-altering effects. 
+    - found in GWAS catalog
+    - not a GTEx splicing QTL
+```{r echo=F, fig.width=6, fig.height=7}
+susie_check_plot(uniform_L1, "uniform prior-locus:251")
+susie_check_plot(annot_L1, "functional prior-locus:251")
+annot.top20[annot.top20$locus==251,]
+```
+* Locus 6: 
+    - top snp(1:8423510:G:A:rs10779702|zscore=5.7|spliceAI=0.02|iPSC_derived=1|pip=0.4|cs_size=19)
+    - not found in GWAS catalog
+    - annotated as a GTEx eQTL from combined analysis
+```{r echo=F, fig.width=6, fig.height=7}
+susie_check_plot(uniform_L1, "uniform prior-locus:6")
+susie_check_plot(annot_L1, "functional prior-locus:6")
+annot.top20[annot.top20$locus==251,]
+```
+
+
+### Annotate fine-mapped results
+```{r echo=F, eval=F}
+assign_genomic_annots<-function(sumstats){
+      annot<-c()
+      finemap.gr<-make_ranges(seqname=paste0("chr", sumstats$chr), start=sumstats$pos, end=sumstats$pos)
+      snps.overlap.annots <- suppressWarnings(
+        GRangesList(lapply(genomic.annots, function(x) { 
+          overlaps<-plyranges::join_overlap_inner(y = x, x = finemap.gr) 
+  })))
+      for(c in c("exons", "promoters", "introns", "UTRs", "splice_junctions")){
+        curr <- snps.overlap.annots[[c]]%>% as_tibble()
+        curr <-plyranges::mutate(curr, category=c)
+        annot<-rbind(annot, curr[,c("seqnames", "start", "category", "gene_name")])
+      }
+      
+      colnames(annot)[2]<-"pos"
+      sumstats[,"seqnames"]<-paste0("chr", sumstats$chr)
+      output<-inner_join(sumstats, annot, by=c("seqnames", "pos"))
+      return(output)
+}
+```
+### Troubleshoot Torus's inflation esimation
+```{r echo=F, eval=F}
+wdir<-"~/cluster/projects/torus_enrichment/asthma_adult/Ulirsch2019"
+gwas<-read.table("~/cluster/data/gwas/2_Filtered/asthma_adult.txt.gz", header=T)
+est<-read.table(paste0(wdir, "/GMP_merge_compare/torus_enrichment.est"), header=F)
+priors<-read.table(paste0(wdir,"/GMP_merge_compare/torus_snp_priors.txt.gz"), header=T)
+gwas<-inner_join(gwas, priors, by="snp")
+susie_L1<-list()
+uniform_L1<-list()
+for(z in unique(gwas$locus)){
+  print(paste0('Finemapping chunks.. ',z,' of ', length(unique(gwas$locus))))
+  susie.df<-gwas[gwas$locus==z,]
+  uniform_L1[[z]]<-run.susie(susie.df, bigSNP, z, L=1, prior = FALSE)
+  #susie_L1[[z]]<-run.susie(susie.df, bigSNP, z, L=1, prior = FALSE)
+}
+uniform_L1<-merge_susie_sumstats(uniform_L1, gwas)
+#annot_L1<-merge_susie_sumstats(susie_L1, gwas)
+snpRanges<-make_ranges(seqname=gwas$chr,
+                       start = gwas$pos,
+                       end = gwas$pos)
+snpRanges<-plyranges::mutate(snpRanges, snp=gwas$snp)
+dataPath<-"/home/jinggu/cluster/data/features/formatted/Ulirsch2019/compare/"
+fnames<-c("blood", "common", "lung")
+i = 1
+for (f in list.files(dataPath, pattern = "*merge")){
+  curr <- rtracklayer::import(paste(dataPath, f, sep='/'), format='bed')
+  subdf <- IRanges::subsetByOverlaps(snpRanges, curr)
+  #gwas <- dplyr::mutate(gwas, !!fnames[i] := ifelse(snp %in% unique(subdf$snp),1,0))
+  #annot_sub<-annot_L1[annot_L1$snp %in% unique(subdf$snp),]
+  annot_sub<-uniform_L1[uniform_L1$snp %in% unique(subdf$snp),]
+  prop<-round(sum(annot_sub$susie_pip)/length(unique(annot_sub$locus))*100, 1)
+  print(sprintf("Percent of genetic signal captured by %s is %s", f, paste0(prop, "%")))
+}
+
+```
+

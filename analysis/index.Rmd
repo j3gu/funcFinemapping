@@ -28,11 +28,17 @@ This document will provide an overview of my thesis project, including the aims 
 * [feedbacks]
 * [Torus enrichment results](enrichment_analysis.html)
 * [LDSC enrichment results](ldsc_results.html)
-* [fine mapping results]
+* [fine mapping results](snp_finemapping_results.html)
 * [gene mapping results]
 
 ## Results by Projects
 * [Asthma Projects](asthma_prelim_results.html)
+    - [identifying TRMs](identifying_TRMs_in_lungs.html)
 * [test project]
+
+
+## Sample QCs by dataset
+* [Wang2020 et al.]
+
 
 ## References
