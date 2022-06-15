@@ -34,7 +34,10 @@ This document will provide an overview of my thesis project, including the aims 
 ## Results by Projects
 * [Asthma Projects](asthma_prelim_results.html)
     - [identifying TRMs](identifying_TRMs_in_lungs.html)
-* [test project]
+    - [scRNA-seq analysis](lung_Wang2020_scRNA.html)
+    - [scATAC-seq analysis](exploring_lung_scATAC_R.html)
+* [Functional annotation project]
+    - [PTR_results](ldsc_PTR_results.html)
 
 
 ## Sample QCs by dataset
