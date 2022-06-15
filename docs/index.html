@@ -276,7 +276,7 @@ $(document).ready(function () {
 
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-report" data-toggle="collapse" data-target="#workflowr-report">
-<span class="glyphicon glyphicon-list" aria-hidden="true"></span> workflowr <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span>
+<span class="glyphicon glyphicon-list" aria-hidden="true"></span> workflowr <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
 </button>
 </p>
 <div id="workflowr-report" class="collapse">
@@ -285,7 +285,7 @@ $(document).ready(function () {
 <a data-toggle="tab" href="#summary">Summary</a>
 </li>
 <li>
-<a data-toggle="tab" href="#checks"> Checks <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> </a>
+<a data-toggle="tab" href="#checks"> Checks <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> </a>
 </li>
 <li>
 <a data-toggle="tab" href="#versions">Past versions</a>
@@ -294,10 +294,10 @@ $(document).ready(function () {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2022-06-04
+<strong>Last updated:</strong> 2022-06-15
 </p>
 <p>
-<strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 1 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 1
+<strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 2 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
 </p>
 <p>
 <strong>Knit directory:</strong> <code>funcFinemapping/</code> <span class="glyphicon glyphicon-question-sign" aria-hidden="true" title="This is the local directory in which the code in this file was executed."> </span>
@@ -313,28 +313,28 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguncommittedchanges"> <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> <strong>R Markdown file:</strong> uncommitted changes </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguptodate"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>R Markdown file:</strong> up-to-date </a>
 </p>
 </div>
-<div id="strongRMarkdownfilestronguncommittedchanges" class="panel-collapse collapse">
+<div id="strongRMarkdownfilestronguptodate" class="panel-collapse collapse">
 <div class="panel-body">
-<p>The R Markdown file has unstaged changes. To know which version of the R Markdown file created these results, you'll want to first commit it to the Git repo. If you're still working on the analysis, you can ignore this warning. When you're finished, you can run <code>wflow_publish</code> to commit the R Markdown file and build the HTML.</p>
+<p>Great! Since the R Markdown file has been committed to the Git repository, you know the exact version of the code that produced these results.</p>
 </div>
 </div>
 </div>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomj3gufuncFinemappingtree893314ca4324ba30650a7e671bde0a977b2a02c3targetblank893314ca"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/j3gu/funcFinemapping/tree/893314ca4324ba30650a7e671bde0a977b2a02c3" target="_blank">893314c</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomj3gufuncFinemappingtree611b343e10b567848bb9882e1ddd2d8daecce0cftargetblank611b343a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/j3gu/funcFinemapping/tree/611b343e10b567848bb9882e1ddd2d8daecce0cf" target="_blank">611b343</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomj3gufuncFinemappingtree893314ca4324ba30650a7e671bde0a977b2a02c3targetblank893314ca" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomj3gufuncFinemappingtree611b343e10b567848bb9882e1ddd2d8daecce0cftargetblank611b343a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/j3gu/funcFinemapping/tree/893314ca4324ba30650a7e671bde0a977b2a02c3" target="_blank">893314c</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/j3gu/funcFinemapping/tree/611b343e10b567848bb9882e1ddd2d8daecce0cf" target="_blank">611b343</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -366,6 +366,7 @@ Untracked files:
     Untracked:  analysis/gene_finemapping_results.Rmd
     Untracked:  analysis/lab4.Rmd
     Untracked:  analysis/lab4_prepare.Rmd
+    Untracked:  analysis/ldsc_PTR_results.Rmd
     Untracked:  analysis/learn_archR.Rmd
     Untracked:  analysis/learn_susie.Rmd
     Untracked:  analysis/mtsplice_finemapping_results.Rmd
@@ -374,7 +375,13 @@ Untracked files:
     Untracked:  analysis/susie_tutorial.Rmd
     Untracked:  bmi_locus1410.pdf
     Untracked:  code/.ipynb_checkpoints/
+    Untracked:  code/.snakemake/
     Untracked:  code/Euro_LD_Chunks.RData
+    Untracked:  code/Snakefile
+    Untracked:  code/config.yaml
+    Untracked:  code/environment.yml
+    Untracked:  code/ldsc.log
+    Untracked:  code/ldsc.results
     Untracked:  code/ldsc_regression.sh
     Untracked:  code/make_plots.R
     Untracked:  code/run_ldsc.sh
@@ -383,11 +390,17 @@ Untracked files:
     Untracked:  code/run_susie.R
     Untracked:  code/run_torus.sh
     Untracked:  code/sctype/
+    Untracked:  code/slurm-20815237.out
+    Untracked:  code/slurm-20832976.out
+    Untracked:  code/slurm-20832977.out
+    Untracked:  code/slurm-20832978.out
+    Untracked:  code/slurm-20832979.out
+    Untracked:  code/slurm-20832980.out
     Untracked:  code/split_vcf.sh
+    Untracked:  code_backup/
     Untracked:  data/ScTypeDB_full.xlsx
     Untracked:  data/hg19_gtf_genomic_annots_ver2.gr.rds
     Untracked:  data/num_overlaps_finemapped_SNPs_and_ctcf.txt
-    Untracked:  data/scz_2018
     Untracked:  data/scz_spliceAI_0.01_ukb_out.RData
     Untracked:  data/torus_enrichment_novel_annot.est
     Untracked:  data/torus_joint_enrichment.est
@@ -466,7 +479,6 @@ Unstaged changes:
     Modified:   analysis/asthma_prelim_results.Rmd
     Modified:   analysis/asthma_results.Rmd
     Modified:   analysis/enrichment_analysis.Rmd
-    Modified:   analysis/index.Rmd
     Modified:   analysis/ldsc_results.Rmd
     Modified:   analysis/snp_finemapping_results.Rmd
     Deleted:    output/AAD/Caldero2019_disjoint_snps.sumstats
@@ -547,6 +559,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/j3gu/funcFinemapping/blob/611b343e10b567848bb9882e1ddd2d8daecce0cf/analysis/index.Rmd" target="_blank">611b343</a>
+</td>
+<td>
+Jing Gu
+</td>
+<td>
+2022-06-15
+</td>
+<td>
+wflow_publish(files = c(&quot;analysis/index.Rmd&quot;, &quot;docs/ldsc_PTR_results.html&quot;))
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/j3gu/funcFinemapping/27f0ead9addb42034091ab7c7e861c3a9ab288fe/docs/index.html" target="_blank">27f0ead</a>
+</td>
+<td>
+Jing Gu
+</td>
+<td>
+2022-06-04
+</td>
+<td>
+wflow_publish(files = c(&quot;docs/index.html&quot;, &quot;docs/exploring_lung_scATAC_R.html&quot;,
+</td>
+</tr>
 <tr>
 <td>
 html
@@ -1120,7 +1166,10 @@ Start workflowr project.
 <li><a href="lung_Wang2020_scRNA.html">scRNA-seq analysis</a></li>
 <li><a href="exploring_lung_scATAC_R.html">scATAC-seq analysis</a></li>
 </ul></li>
-<li>[test project]</li>
+<li>[Functional annotation project]
+<ul>
+<li><a href="ldsc_PTR_results.html">PTR_results</a></li>
+</ul></li>
 </ul>
 </div>
 <div id="sample-qcs-by-dataset" class="section level2">
