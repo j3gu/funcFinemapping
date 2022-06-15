@@ -1,0 +1,109 @@
+---
+title: "Asthma backgrounds"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+## What we have learned about genetics of Asthma?
+
+### GWAS 
+**Cristina et al. 2017**
+
+
+
+
+
+
+## TF footprints
+
+Protein 'footprints' are formed when DNA-protein complex prevents DNA from nucleolytic attack and then leaves 'footprints' that can be detected from various experimental approaches, such as *in vitro* assay or squencing methods for nucleic and whole cells. The *in vivo* binding of transcription factors (one type of DNA-binding proteins) to their cognate recognition sequences also protect small segments (~6-20nt) of nucleotides from dense cleavage activity such as by Tn5 transposon that usually implying active regulatory DNA (~150-300 nt).(Vierstra et al., 2016 nature review)
+
+#### **What can be studied with *in vivo* DNA footprinting?**
+
+* Structure, function, evolution of TF occupancy patterns across cell types
+* *De novo* detection of TF footprints
+* Prediction of the effects of genetic variants on TF occupancy patterns 
+* Construction and anlysis of direct TF regulatory network dynamics 
+
+#### **Some facts about TF binding**:  
+
+* Detection of a footprint reflects the ratio of that TF's affinity for a given binding site versus the relative intrinsic propensity of cleavage agent to cleave at specific sequences or structures. 
+
+#### **Methods to detect and analyze TF footprints**  
+(Bentsen et al. 2020)  
+**ATAC-Seq**: fast and cheap; examine all accesible regions; but not able to distinguish specific TF binding sites.    
+Current challenges:  
+    * Discovery of TFs 
+        - Tn5 transposases are biased towards certain sequences compositions (ref 9,10)
+    * Compare footprints between studies/conditions
+    * Lack of tools to comprehensively analyze large-scale ATAC-seq footprinting   
+
+**ChIP-Seq**: identify specific TFBS; require high input cell numbers,; one TF per assay; restricted to TFs that have antibodies specifically bind to them;
+
+## Conservations
+
+### Sequence constraints
+*Lulio et al.* (2018) used  large  sizes  of  WGS  data  and  heptamers  to  build  a  map  of sequence constraints for the human species and found constrained regions are up to 52-fold enriched for known pathogenic variants than unconstrained regions.
+
+#### **Why heptamers?** 
+
+* k-mers used to determine the prob. of variation of each nucleotide genome-wide in the context of surrounding nucleotides.(Previous findings of interdependence among nearby nucleotides)
+* 7-mers explain $>80\%$ heritability in nucleotide substitution
+* Each 7-mer characterized by the rate and freq of variation at the fourth nucleotide of each 7-mer 
+
+#### **context-dependent tolerance score (CDTS)**  
+* A metric to characterize the observed variation for a given noncoding sequence
+* Genome are divided into equally sized regions (550bp)
+* Not based on any existing annotation 
+* CDTS defined as $|obs. variation - expected variation|$
+
+#### **Main Hypothesis and findings**
+1. most constrained regulatory regions both in cis or distal coordinate with genes with essential functions   
+    - plot medians of pLI scores against CDTS for variants in each CDTS quantile bin
+    - Each genomic bin within 15kb of a gene (cis) was assigned the pLI score of the closest gene. 
+    - Each enhancer was assigned a pLI score of the paired gene based on *in situ* Hi-C or pcHi-C (distal). The distances between enhancer and gene are up to 2Mb.    
+    
+2. Noncoding pathogenic variants associated with Mendelian traits are enriched at the lowest CDTS percentile.
+
+3. CDTS ranking is a good proxy to score functionality and consequences of mutations for non-coding sequences.  
+    - benchmark different metrics for noncoding variants: perfomance on detecting Mendelian noncoding variants
+    - CDTS captures the highest proportion of variants uniquely detected by a single metric
+    - CDTS requires no prior knowledge (no overfitting issue)
+    
+### Other conservation related annotations
+CADD - Combined Annotation Dependent Depletion https://cadd-staging.kircherlab.bihealth.org
+GERP - https://genome.ucsc.edu/cgi-bin/hgTrackUi?db=hg19&g=allHg19RS_BW
+LINSIGHT
+    
+    
+
+## Transcription regulation
+### **RNA modification - methylation at N6-adenosine**
+Intro:
+m6A is the most aboundant form of RNA modifications and 25-60% of mRNA transcripts found to have this type of modification. More evidence have shown that genes involve in m6A regulation and recognization have been implicated in human diseases. Previous work has provided evidence for the role of m6A variation in the genetics of immune traits. m6A-QTLs identified from 60 LCLs are largely independent of eQTLs (less than 50%) or sQTLs (same level). Additionally, genetic variants that affect m6A levels show cell-type specific effects. m6A is also found to be present in chromatin-associated RNAs, which may implicate its regulatory functions on caRNAs.  
+
+Main Hypothesis:
+1. Genetic variations that disrupt m6A modification may explain a significant fraction of human disease associations. 
+2. The effects of genetic variation of m6A may vary across cell types and conditions.
+
+*m6A modification dynamics*
+
+* Recognized by Reader Protein: YTH family
+* Methyl group added to N6-adnoesin by writer complex: METTL3/METTL14
+* Methyl group removed by eraser proteins: FTO and ALKBH5
+
+
+
+pre-mRNA splicing, RNA degradation, translation and alternative polyadenylation
+*Lulio et al.*
+
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r cars}
+summary(cars)
+```

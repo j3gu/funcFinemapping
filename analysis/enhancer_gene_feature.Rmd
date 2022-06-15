@@ -1,0 +1,29 @@
+---
+title: "link_enhancers_to_genes"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Gene mapping strategy
+
+### co-accessibility analysis
+
+A method developed to identify enhancer-targeted genes
+Inputs for Cicero:
+
+1. A is a m by n input matrix of binary accessibility values, where $A_{mn}$ is zero if no read overlapping peak m in cell n and one otherwise. 
+2. The Coordinates of the cells in t-SNP map or a pseudotemporal ordering of the cells along a developmental trajectory (Monocle 2)
+
+Algorithms:
+![graphic overview of the algorithm](assets/Cicero_algorithm.png)
+
+1. Group cells with high similarity and then aggregate binary profiles into integer counts
+2. Adjust counts for technical factors
+3. Compute raw covariances between each pair of sites within overlapping windows. Within each window, Cicero estimates a regularized correlation matrix using the graphical LASSO. The goal is to penalize pairs of distant sites more than proximal sites.
+4. Overlapping covariance matrices are processed to produce a single estimate of the co-accessibility across groups of cells. 
+
+
+

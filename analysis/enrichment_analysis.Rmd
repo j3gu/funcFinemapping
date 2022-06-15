@@ -654,7 +654,7 @@ ggplot(df, aes(x=variable, y=value, fill=factor(cutoff))) + xlab("") +
   ylab("Number of variants in Annotations") 
 ```
 **Enrichment of SCZ risk variants in brain-specific annotations**
-Though the tissue-indenpendent predictions of variants effects on splicing show no significant enrichment with risk variants, we see different levels of enrichments on the combined predictions across multiple brain tissues as well as whole blood. 
+The brain-specific annotations were binary that it was set to be 1 if $|\Delta\text{logit}(\Psi)|$ >=0.6 or zero otherwise. Though the tissue-indenpendent predictions of variants effects on splicing show no significant enrichment with risk variants, we see different levels of enrichments on the combined predictions across multiple brain tissues as well as whole blood. 
 ```{r echo=F}
 df<-read.table("output/splicing/torus_enrichment_scz_mtsplice_brain.est", header=F)
 colnames(df)<-c("raw_term", "estimate", "low", "high")

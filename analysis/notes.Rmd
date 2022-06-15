@@ -1,0 +1,30 @@
+---
+title: "daily notes"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## TO DO
+1. Examine peak length distribution
+iN_Dopa iN_GABA iN_Glut    iPSC     NPC 
+  0.002%   0.008%   0.000%  0.005%   0.001% 
+  
+  
+```{r cars}
+f<-fread("~/cluster/data/features/formatted/asoc_science2020/CDTS_5per_overlap_0.2_full.txt")
+#check for the proportion of CDTS bins that overlap with OCR peaks with overly large lengths
+unlist(lapply(split(f[f$diff>5000,], f[f$diff>5000,]$V5), function(i){length(unique(i$V1))/counts_5per}))
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.

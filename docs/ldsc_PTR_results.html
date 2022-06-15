@@ -11,7 +11,7 @@
 
 
 
-<title>LDSC_enrichment</title>
+<title>Post-transcriptional regulation</title>
 
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -345,7 +345,7 @@ div.tocify {
 
 
 
-<h1 class="title toc-ignore">LDSC_enrichment</h1>
+<h1 class="title toc-ignore">Post-transcriptional regulation</h1>
 
 </div>
 
@@ -461,16 +461,16 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomj3gufuncFinemappingtree8b55ec119f429a028ff17ead063203ba00fb41batargetblank8b55ec1a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/j3gu/funcFinemapping/tree/8b55ec119f429a028ff17ead063203ba00fb41ba" target="_blank">8b55ec1</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomj3gufuncFinemappingtree8c82e64f0adb7bc792923eebf141e885482e7f69targetblank8c82e64a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/j3gu/funcFinemapping/tree/8c82e64f0adb7bc792923eebf141e885482e7f69" target="_blank">8c82e64</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomj3gufuncFinemappingtree8b55ec119f429a028ff17ead063203ba00fb41batargetblank8b55ec1a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomj3gufuncFinemappingtree8c82e64f0adb7bc792923eebf141e885482e7f69targetblank8c82e64a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/j3gu/funcFinemapping/tree/8b55ec119f429a028ff17ead063203ba00fb41ba" target="_blank">8b55ec1</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/j3gu/funcFinemapping/tree/8c82e64f0adb7bc792923eebf141e885482e7f69" target="_blank">8c82e64</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -537,7 +537,6 @@ Untracked files:
     Untracked:  data/ScTypeDB_full.xlsx
     Untracked:  data/hg19_gtf_genomic_annots_ver2.gr.rds
     Untracked:  data/num_overlaps_finemapped_SNPs_and_ctcf.txt
-    Untracked:  data/scz_spliceAI_0.01_ukb_out.RData
     Untracked:  data/torus_enrichment_novel_annot.est
     Untracked:  data/torus_joint_enrichment.est
     Untracked:  data/torus_joint_refined_enrichment.est
@@ -605,6 +604,12 @@ Untracked files:
     Untracked:  output/background_SNPs_annotated_percent.txt
     Untracked:  output/locus_1452.gif
     Untracked:  output/locus_1452.pdf
+    Untracked:  output/splicing/PTR_across_traits_annotations.results
+    Untracked:  output/splicing/scz_PTR_annotations.results
+    Untracked:  output/splicing/scz_neuOCR_m6a_DMR.results
+    Untracked:  output/splicing/scz_spliceAI0.03_hist.png
+    Untracked:  output/splicing/scz_spliceAI0.03_scatterplot.png
+    Untracked:  output/splicing/scz_spliceai_binary0.03.results
     Untracked:  output/splicing/torus_enrichment_joint_scz_mtsplice0.6_hypothalamus-brain.est
     Untracked:  output/splicing/torus_enrichment_joint_scz_spliceAI.est
     Untracked:  panel_figure2.pdf
@@ -615,7 +620,6 @@ Unstaged changes:
     Modified:   analysis/asthma_prelim_results.Rmd
     Modified:   analysis/asthma_results.Rmd
     Modified:   analysis/enrichment_analysis.Rmd
-    Modified:   analysis/index.Rmd
     Modified:   analysis/ldsc_results.Rmd
     Modified:   analysis/snp_finemapping_results.Rmd
     Deleted:    output/AAD/Caldero2019_disjoint_snps.sumstats
@@ -670,9 +674,52 @@ Note that any generated files, e.g. HTML, png, CSS, etc., are not included in th
 <hr>
 </div>
 <div id="versions" class="tab-pane fade">
+
 <p>
-There are no past versions. Publish this analysis with <code>wflow_publish()</code> to start tracking its development.
+These are the previous versions of the repository in which changes were made to the R Markdown (<code>analysis/ldsc_PTR_results.Rmd</code>) and HTML (<code>docs/ldsc_PTR_results.html</code>) files. If you've configured a remote Git repository (see <code>?wflow_git_remote</code>), click on the hyperlinks in the table below to view the files as they were in that past version.
 </p>
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+File
+</th>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+<th>
+Message
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/j3gu/funcFinemapping/611b343e10b567848bb9882e1ddd2d8daecce0cf/docs/ldsc_PTR_results.html" target="_blank">611b343</a>
+</td>
+<td>
+Jing Gu
+</td>
+<td>
+2022-06-15
+</td>
+<td>
+wflow_publish(files = c(&quot;analysis/index.Rmd&quot;, &quot;docs/ldsc_PTR_results.html&quot;))
+</td>
+</tr>
+</tbody>
+</table>
+</div>
 <hr>
 </div>
 </div>
@@ -705,7 +752,7 @@ There are no past versions. Publish this analysis with <code>wflow_publish()</co
 <div id="outputs" class="section level3">
 <h3>Outputs</h3>
 <p>The third column corresponds to the proportion of heritability explained.</p>
-<pre><code>                annot  Prop._SNPs     Prop._h2 Prop._h2_std_error Enrichment
+<pre><code>             Category  Prop._SNPs     Prop._h2 Prop._h2_std_error Enrichment
 1                 m6a 0.006208692  0.052966389        0.010838776  8.5310061
 2              neuOCR 0.093030734  0.275791186        0.037290677  2.9645169
 3                 DMR 0.049493563  0.324376410        0.035765978  6.5539110
@@ -725,36 +772,39 @@ There are no past versions. Publish this analysis with <code>wflow_publish()</co
 <li>x-axis - annotations</li>
 <li>y-axis - fold of enrichment</li>
 <li>label on the plot - percent of narrow-sense heritability</li>
-<li>dashed line - no enrichment <img src="figure/ldsc_PTR_results.Rmd/unnamed-chunk-4-1.png" width="672" style="display: block; margin: auto;" /></li>
+<li>dashed line - no enrichment</li>
 </ul>
+<p><img src="figure/ldsc_PTR_results.Rmd/unnamed-chunk-5-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p><strong>Examine baseline annotations</strong></p>
 <p>A list of annotations with &gt;1.5 fold of enrichment were listed. GERP.NS is suspicious as both proportion of SNPs in category and heritability exceeds one. Besides that, we see heritability is mainly explained by conservation and transcriptional regulation.</p>
 <p>test annotation:spliceai score &gt;=0.03</p>
-<pre class="r"><code>f&lt;-read.table(sprintf(&quot;%s/%s/baselineLD_v1.1/%s.results&quot;, 
-                      ldsc.dir, &quot;scz&quot;, &quot;spliceai_binary0.03&quot;), header = T)
+<pre class="r"><code>f&lt;-read.table(&quot;output/splicing/scz_spliceai_binary0.03.results&quot;, header = T)
 plot_ldsc_enrichment(f[f$Enrichment&gt;=1.5 &amp; f$Enrichment&lt;10  , ], tolabel = TRUE) </code></pre>
-<p><img src="figure/ldsc_PTR_results.Rmd/unnamed-chunk-5-1.png" width="1152" style="display: block; margin: auto;" /></p>
+<p><img src="figure/ldsc_PTR_results.Rmd/unnamed-chunk-6-1.png" width="1152" style="display: block; margin: auto;" /></p>
 <p><strong>Across multiple traits</strong></p>
 <p>baseline model: baselineLD-v1.1<br />
-spidex annotations were not included. <img src="figure/ldsc_PTR_results.Rmd/unnamed-chunk-6-1.png" width="672" style="display: block; margin: auto;" /><img src="figure/ldsc_PTR_results.Rmd/unnamed-chunk-6-2.png" width="672" style="display: block; margin: auto;" /></p>
+spidex annotations were not included.</p>
+<p><img src="figure/ldsc_PTR_results.Rmd/unnamed-chunk-8-1.png" width="672" style="display: block; margin: auto;" /><img src="figure/ldsc_PTR_results.Rmd/unnamed-chunk-8-2.png" width="672" style="display: block; margin: auto;" /></p>
 </div>
 <div id="test-annotations-jointly" class="section level3">
 <h3>test annotations jointly</h3>
-<p><img src="figure/ldsc_PTR_results.Rmd/unnamed-chunk-7-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/ldsc_PTR_results.Rmd/unnamed-chunk-9-1.png" width="672" style="display: block; margin: auto;" /></p>
 </div>
 <div id="splicing-predictions-diagnosis" class="section level3">
 <h3>splicing predictions diagnosis</h3>
 <div id="scz" class="section level4">
 <h4>SCZ</h4>
-<p>A left-skewed p-value distribution for SNPs with spliceAI &gt;=0.03 <img src="figure/ldsc_PTR_results.Rmd/unnamed-chunk-8-1.png" width="672" style="display: block; margin: auto;" /><img src="figure/ldsc_PTR_results.Rmd/unnamed-chunk-8-2.png" width="672" style="display: block; margin: auto;" /> Note: Very few SNPs with high spliceAI scores also have significant p-values.</p>
-<p><strong>QQ plot</strong><br />
-Observed p-values for SNPs with spliceAI score &gt;=0.03 <img src="figure/ldsc_PTR_results.Rmd/unnamed-chunk-9-1.png" width="1152" style="display: block; margin: auto;" /><img src="figure/ldsc_PTR_results.Rmd/unnamed-chunk-9-2.png" width="1152" style="display: block; margin: auto;" /> Note: There is not much signal in SNPs that have spliceAI scores above threshold.</p>
+<p>A left-skewed p-value distribution for SNPs with spliceAI &gt;=0.03</p>
+<p><a href="assets/splicing/scz_spliceAI0.03_hist.png">p-value distributions for SNPs with spliceAI&gt;=0.03</a> <a href="assets/splicing/scz_spliceAI0.03_scatterplot.png">p-values against spliceAI scores</a></p>
+<p>Note: Very few SNPs with high spliceAI scores also have significant p-values.</p>
+<p><strong>QQ plot</strong></p>
+<p><a href="assets/splicing/scz_spliceAI0.03_QQplot.png">QQ plots for SCZ GWAS SNPs with spliceAI&gt;=0.03</a></p>
+<p>Note: There is not much signal in SNPs that have spliceAI scores above threshold.</p>
 </div>
 <div id="afib" class="section level4">
 <h4>AFib</h4>
-<p>Observed p-values for SNPs with spliceAI score &gt;=0.03</p>
 <p><strong>QQ plot </strong></p>
-<p><img src="figure/ldsc_PTR_results.Rmd/unnamed-chunk-11-1.png" width="1152" style="display: block; margin: auto;" /><img src="figure/ldsc_PTR_results.Rmd/unnamed-chunk-11-2.png" width="1152" style="display: block; margin: auto;" /></p>
+<p><a href="assets/splicing/aFib_spliceAI0.03_QQplot.png">QQ plots for aFib GWAS SNPs with spliceAI&gt;=0.03</a></p>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
@@ -787,18 +837,18 @@ other attached packages:
 loaded via a namespace (and not attached):
  [1] Rcpp_1.0.8        highr_0.8         pillar_1.5.0      compiler_4.0.4   
  [5] bslib_0.2.4       later_1.1.0.1     jquerylib_0.1.3   git2r_0.28.0     
- [9] workflowr_1.6.2   tools_4.0.4       digest_0.6.27     jsonlite_1.7.2   
-[13] evaluate_0.14     lifecycle_1.0.0   tibble_3.0.6      gtable_0.3.0     
+ [9] workflowr_1.6.2   tools_4.0.4       digest_0.6.27     gtable_0.3.0     
+[13] jsonlite_1.7.2    evaluate_0.14     lifecycle_1.0.0   tibble_3.0.6     
 [17] pkgconfig_2.0.3   rlang_1.0.1       DBI_1.1.1         cli_3.2.0        
 [21] rstudioapi_0.13   yaml_2.2.1        xfun_0.21         withr_2.4.3      
 [25] dplyr_1.0.4       stringr_1.4.0     knitr_1.31        generics_0.1.0   
 [29] fs_1.5.0          vctrs_0.3.8       sass_0.3.1        tidyselect_1.1.1 
 [33] rprojroot_2.0.2   grid_4.0.4        glue_1.6.1        R6_2.5.1         
 [37] fansi_1.0.2       rmarkdown_2.7     farver_2.1.0      purrr_0.3.4      
-[41] magrittr_2.0.1    scales_1.1.1      promises_1.2.0.1  ellipsis_0.3.2   
-[45] htmltools_0.5.1.1 assertthat_0.2.1  colorspace_2.0-2  httpuv_1.5.5     
-[49] labeling_0.4.2    utf8_1.2.2        stringi_1.5.3     munsell_0.5.0    
-[53] crayon_1.4.1     </code></pre>
+[41] magrittr_2.0.1    whisker_0.4       scales_1.1.1      promises_1.2.0.1 
+[45] ellipsis_0.3.2    htmltools_0.5.1.1 assertthat_0.2.1  colorspace_2.0-2 
+[49] httpuv_1.5.5      labeling_0.4.2    utf8_1.2.2        stringi_1.5.3    
+[53] munsell_0.5.0     crayon_1.4.1     </code></pre>
 </div>
 </div>
 </div>

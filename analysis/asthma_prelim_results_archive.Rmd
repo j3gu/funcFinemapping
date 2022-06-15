@@ -1,0 +1,279 @@
+---
+title: "asthma_prelim_results"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(ggplot2)
+library(knitr)
+getwd()
+source("code/make_plots.R")
+```
+## Enrichment estimates for individual annotation
+### Annotations
+* *Caldero et al. 2019* - ATAC-Seq data for FACS-sorted cells from whole blood
+I extracted ATAC-Seq peaks specific to each immune cell type from the count table that consists of a union set of peaks across cells based on the provided cutoffs.
+    - Significant differentially accessible regions when compared to progenitor cells
+    - Significant differentially accessible regions under stimulation
+    
+### Rheumatoid arthritis 
+
+This analysis was done to replicate the enrichment results in the paper.
+```{r echo=F}
+rest<-read.table("output/ra_2014/torus_enrichment_all_rest.est", header=F)
+stimu<-read.table("output/ra_2014/torus_enrichment_all_stimulated.est", header=F)
+colnames(rest)<-c("raw_term", "estimate", "low", "high")
+colnames(stimu)<-c("raw_term", "estimate", "low", "high")
+rest["term"]<-unlist(lapply(rest$raw_term, function(i){paste(strsplit(strsplit(i, "[.]")[[1]][1], "_")[[1]], collapse = " ")}))
+rest["condition"]<-"resting"
+stimu["condition"]<-"stimulated"
+stimu["term"]<-unlist(lapply(stimu$raw_term, function(i){paste(strsplit(strsplit(i, "[.]")[[1]][1], "_")[[1]], collapse = " ")}))
+df<-rbind(rest, stimu)
+df$condition<-factor(df$condition, levels=c("stimulated", "resting"))
+snp_enrichment_plot(df, split.data = "condition", y.order = rev(immune_cells), trait="Rheumatoid arthritis")
+```
+### Adult-Onset Asthma
+```{r}
+rest<-read.table("output/asthma/torus_enrichment_all_rest.est", header=F)
+stimu<-read.table("output/asthma/torus_enrichment_all_stimulated.est", header=F)
+colnames(rest)<-c("raw_term", "estimate", "low", "high")
+colnames(stimu)<-c("raw_term", "estimate", "low", "high")
+rest["term"]<-unlist(lapply(rest$raw_term, function(i){paste(strsplit(strsplit(i, "[.]")[[1]][1], "_")[[1]], collapse = " ")}))
+rest["condition"]<-"resting"
+stimu["condition"]<-"stimulated"
+stimu["term"]<-unlist(lapply(stimu$raw_term, function(i){paste(strsplit(strsplit(i, "[.]")[[1]][1], "_")[[1]], collapse = " ")}))
+df<-rbind(rest, stimu)
+df$condition<-factor(df$condition, levels=c("stimulated", "resting"))
+snp_enrichment_plot(df, split.data = "condition", y.order = rev(immune_cells), trait="Adult-onset Asthma")
+```
+    
+    
+    
+```{r echo=F}
+df<-read.table("output/asthma/diffe_adult_blood_torus.est", header = F)
+colnames(df)<-c("term", "est", "low", "high")
+df['highlight']<-df$low >=0
+bg_percent<-read.table("output/asthma/Caldero2019_diffDA_annot_percent.txt", header = F)
+df["cell_type"]<-unlist(lapply(df$term, function(i){strsplit(i, "_U")[[1]][1]}))
+                                  
+#omit cell types with very large standard deviations
+df['omit']<-df$low < -10 | df$high > 10
+plot_torus_enrichment(df[df['omit']==F,], text_angle=90, vjust=0) + ggtitle("Differentiation-specific & accessible regions in blood")
+```
+
+* Not sure why much fewer cell types show differentially accessiblity during differentiation. 
+
+```{r echo=F}
+df<-read.table("output/asthma/stimu_adult_blood_torus.est",header = F)
+colnames(df)<-c("term", "est", "low", "high")
+bg_percent<-read.table("output/asthma/Caldero2019_stimuDA_annot_percent.txt", header = F)
+df["cell_type"]<-unlist(lapply(df$term, function(i){strsplit(i, "_S")[[1]][1]}))
+df['highlight']<-df$low >=0
+#omit cell types with very large standard deviations
+df['omit']<-df$low < -10 | df$high > 10
+plot_torus_enrichment(df[df['omit']==F,], text_angle=90, vjust=1) + ggtitle("Stimulation-specific & accessible regions in blood")
+
+```
+Upon stimulation, the enrichment signals prevail across a broader range of immune cells. There are more diverse stimulated cell types that show differential accessibility against the unstimulated ones. 
+
+## Joint enrichment estimates across annotations 
+
+### immune cells in lungs vs. immune cells in blood
+
+```{r echo=F}
+df<-read.table("output/asthma/joint_lung_vs_blood_immune_diff_torus.est",header = F)
+colnames(df)<-c("term", "est", "low", "high")
+df<-df[-1,]
+df["cell_type_raw"]<-unlist(lapply(df$term, function(i){strsplit(i, "_atac")[[1]][1]}))
+df["cell_type"]<-unlist(lapply(df$cell_type_raw, function(i){
+  if(i %in% cell_dict$X1){
+    return(cell_dict[cell_dict$X1==i,]$X2)
+  }else{
+    return(i)
+  }
+}))
+df['highlight']<-df$low >=0
+#omit cell types with very large standard deviations
+df['omit']<-df$low < -15 | df$high > 10
+plot_torus_enrichment(df[df['omit']==F,], text_angle=90, vjust=1) + ggtitle("Blood differentiation-specific & accessible regions")
+```
+Both clusters of cell-type specific accessible regions from T lymphocytes in lungs are significantly enriched with risk variants conditional on differentiation-specific regions identified from blood. 
+
+```{r echo=F}
+df<-read.table("output/asthma/joint_lung_vs_blood_immune_stimu_torus.est",header = F)
+colnames(df)<-c("term", "est", "low", "high")
+df<-df[-1,]
+df["cell_type_raw"]<-unlist(lapply(df$term, function(i){strsplit(i, "_atac")[[1]][1]}))
+df["cell_type"]<-unlist(lapply(df$cell_type_raw, function(i){
+  if(i %in% cell_dict$X1){
+    return(cell_dict[cell_dict$X1==i,]$X2)
+  }else{
+    return(i)
+  }
+}))
+df['highlight']<-df$low >=0
+#omit cell types with very large standard deviations
+df['omit']<-df$low < -15 | df$high > 10
+plot_torus_enrichment(df[df['omit']==F,], text_angle=90, vjust=1) + ggtitle("Stimulation-specific & accessible regions in blood")
+```
+The enrichment signal of T lymphocytes remains after conditional on stimulated immune cell types in blood. The additional enrichment signals come from stimulated memoryCD8+ T-cells, T_helpler cells, mast cells, Th1 precursors, and Th2 precursors. 
+
+
+### Disjoint immune peaks in blood vs. immune groups in lung
+
+**Motivation**:
+There is a large fraction of overlaps in peaks across blood's immune groups. Thus we used disjoint peaks to build blood annotations and then ran TORUS together with main immune groups in lung to better estimate their enrichment separately.
+
+**Procedure**:
+I merged peaks from three groups of T-cells, which are T-stimulated, T-resting and BandT_stimulated cells. Same process for B cells. Then I ran TORUS on merged T cells, B cells, NK resting cells, myeloid resting cells from Caldero2019 with main immune groups in lungs.
+
+**Results**:
+NK disjoint peaks in blood was not displayed due to very large standard error. We can still see there is  difference in T cells between blood and lung and the extent of difference varies across traits. Other immune cell types in blood do not show significance probably due to small number of disjoint peaks. Since the peaks in lungs are not disjoint, it is expected to see a bias towards lung. Nonetheless, compared with controls, we observe a larger difference in enrichment of risk variants in T cells for AAD.
+```{r echo=F, fig.width=12}
+tbl<-data.frame()
+for(trait in traits){
+  df<-read.table(sprintf("output/AAD/%s/Caldero2019_disjoint_compare.est", trait), header=T, skip=1)
+  colnames(df)<-c("raw_term", "estimate", "low", "high")
+  df["term"] = unlist(lapply(df$raw_term, function(i){strsplit(i[1], "[.]")[[1]][1]}))
+  tbl<-data.frame(rbind(tbl, cbind(df, trait)))
+}
+tbl<-tbl[tbl$term!="NK_disjoint_compare_blood",]
+snp_enrichment_plot(tbl[tbl$trait %in% test,], trait="",
+                    y.label = c("B_cell_blood", "B_cell_lung", "Myeloid_blood",
+                                "Myeloid_lung","NK_cell_lung", "T_cell_blood",
+                                "T_cell_lung"
+                                )) + facet_grid(. ~ trait, scale="free_x")
+```
+
+#### grouped by lineages and conditions
+
+**Procedure**: 
+Immune cells were grouped first into six main categories and then separated by conditions. This set of 12 annotations were jointly tested via TORUS.
+```{r echo=F, fig.width=10, fig.height=6}
+tbl<-data.frame()
+for(trait in test[1:3]){
+  df<-read.table(sprintf("output/AAD/%s/Caldero2019_condition.est", trait), header=T)
+  colnames(df)<-c("raw_term", "estimate", "low", "high")
+  ### remove lines of FDR values for each loci
+  df["label"]<-unlist(lapply(df$raw_term, function(i){length(strsplit(i[1], "[.]")[[1]])>1}))
+  df<-df[df$label==TRUE,]
+  df["term"]<-unlist(lapply(df$raw_term, function(i){strsplit(i[1], "[.]")[[1]][1]}))
+  tbl<-data.frame(rbind(tbl, cbind(df, trait)))
+}
+tbl["condition"]<-unlist(lapply(tbl$term, function(i){rev(strsplit(i[1], "_")[[1]])[1]}))
+tbl$condition<-factor(tbl$condition, levels = c("S", "U"), labels=c("stimulated","resting"))
+tbl["term"]<-unlist(lapply(tbl$term, function(i){
+            words<-strsplit(i[1], "_")[[1]]
+            paste(words[1:(length(words)-1)], collapse = "_")}))
+snp_enrichment_plot(tbl, trait="", bar.width = 0) + facet_grid(. ~ trait)
+```
+
+*Enrichment of peak sets*
+```{r echo=F, fig.width=12}
+snpsIn<-read.table("output/AAD/Caldero2019_disjoint_snps.sumstats", header=F, row.names = 1)
+colnames(snpsIn)<-c("counts", "label", "term")
+tbl<-data.frame()
+for(trait in traits){
+  df<-read.table(sprintf("output/AAD/%s/Caldero2019/Caldero2019_compare.txt", trait), header=F)
+  colnames(df)<-c("raw_term", "estimate", "low", "high")
+  df["tmp"] = unlist(lapply(df$raw_term, function(i){strsplit(i[1], "[.]")[[1]][1]}))
+  tbl<-data.frame(rbind(tbl, cbind(df, trait)))
+}
+tbl["term"]<-unlist(lapply(tbl$tmp, function(i){
+  return(sprintf("%s(%s)", i, snpsIn[snpsIn$term == i, "label"]))
+}))
+tbl["percent"]<-unlist(lapply(tbl$tmp, function(i){
+  return(snpsIn[snpsIn$term == i, "percent"])
+}))
+tbl_sub<-tbl[!(tbl$tmp %in% c("NK_common","Myeloid_blood", "NK_blood")),]
+snp_enrichment_plot(tbl_sub[tbl_sub$trait %in% test,], trait="") + facet_grid(. ~ trait)
+```
+
+## TORUS joint run for lung vs blood immune cells
+**Motivation**:  
+Test the hypothesis that open chromatin regions of lung-resident immune cells can explain broader heritability for AAD than those of blood immune cells.
+
+**Procedure**:
+For each immune group (B cells, T cells, Myeloids, NK cells), I ran TORUS over pairs of annotations from lung and blood one at a time. 
+Pairs of annotations as follows:
+
+* B cells (lung) vs B cells (blood)
+* T cells (lung) vs CD4+ T (blood)
+* T cells (lung) vs CD8+ T (blood)
+* NK cells (lung) vs NK cells (blood)
+* Fibroblast cells (lung) vs Myeloids (blood)
+
+**Results**: 
+Overall, we see lung-resident immune cells show significant enrichemnt conditional on blood immune cells in AAD, but not in RA. Compared with a control set of traits, there is a large difference between blood and lung enrichment estimates for Myeloid, CD4+ and CD8+ T cells in AAD. 
+
+### Caldero2019 dataset
+```{r echo=F}
+tbl<-data.frame()
+traits<-c("allergy","asthma_adult","asthma_child","bmi","HDL","height","LDL")
+test<-traits[1:3]
+control<-traits[5:8]
+for(trait in traits){
+  df<-read.table(sprintf("output/AAD/%s/Caldero2019_compare.est", trait), header=F)
+  colnames(df)<-c("raw_term", "estimate", "low", "high")
+  cols<-data.frame(t(sapply(df$raw_term, function(i){
+    strsplit(strsplit(i, "[.]")[[1]][1], "_compare_")[[1]]
+  }))) 
+  colnames(cols)<-c("term", "tissue")
+  cols$tissue<-factor(cols$tissue, levels=c("lung", "blood"))
+  tbl<-data.frame(rbind(tbl, cbind(df, cols, trait)), row.names = NULL)
+}
+
+snp_enrichment_plot(tbl[tbl$trait %in% test,], trait="", split.data="tissue",
+                    bar.width=0) + facet_grid(. ~ trait) + theme(strip.text.x = element_text(size=16))
+snp_enrichment_plot(tbl[tbl$trait %in% control,], trait="", split.data="tissue",
+                    bar.width=0) + facet_grid(. ~ trait)
+
+```
+### Ulirsch2019 dataset
+
+**Motivation**: Replicate the above result in a different blood dataset
+
+**Results**:   
+Overall, the enrichment of lung annotations dwindles in a great extent when jointly run with blood annotations. There is one exception that CD8+ T cells in lungs show significant enrichment with child-onset asthma. 
+
+```{r echo=F}
+tbl<-data.frame()
+for(trait in traits){
+  df<-read.table(sprintf("output/AAD/%s/Ulirsch2019_compare.est", trait), header=F)
+  colnames(df)<-c("raw_term", "estimate", "low", "high")
+  cols<-data.frame(t(sapply(df$raw_term, function(i){
+    words=strsplit(strsplit(i, "[.]")[[1]][1], "_")[[1]]
+    return(c(paste(words[1:(length(words)-1)], collapse = "_"), words[length(words)]))
+  }))) 
+  colnames(cols)<-c("term", "tissue")
+  cols$tissue<-factor(cols$tissue, levels=c("lung", "blood"))
+  tbl<-data.frame(rbind(tbl, cbind(df, cols, trait)), row.names = NULL)
+}
+
+snp_enrichment_plot(tbl[tbl$trait %in% test,], trait="", split.data="tissue",
+                    bar.width=0) + facet_grid(. ~ trait) + theme(strip.text.x = element_text(size=16))
+snp_enrichment_plot(tbl[tbl$trait %in% control,], trait="", split.data="tissue",
+                    bar.width=0) + facet_grid(. ~ trait)
+```
+
+### Disjoint immune peaks in blood vs. immune groups in lung
+**Motivation**:  
+We will do a joint analysis on three disjoint peak sets - only in blood, only in lung and shared. In this way, both estimate enrichments and compute for percent of genetic signals explained by each set.
+
+**Procedure**:  
+I started from the cell types defined with disjoint sets of immune peaks from Caldero2019 dataset. For each cell type, I use `bedtools intersect` to call the overlapped peaks and peaks that are unique to either side for lung and blood peaks. Then, the overlapped peaks will be merged.
+
+*Percent of causal variants in each peak set*
+```{r echo=F}
+tbl["celltype"]<-unlist(lapply(tbl$tmp, function(i){strsplit(i, "[_]")[[1]][1]}))
+tbl["annot"]<-unlist(lapply(tbl$tmp, function(i){rev(strsplit(i, "[_]")[[1]])[1]}))
+tbl["h2g"]=round(exp(tbl$estimate)*tbl$percent*100, 1)
+tbl$celltype<-factor(tbl$celltype, levels = c("T", "B", "Myeloid", "NK"), 
+                                    labels=c("T cells", "B cells", "Myeloid cells", "NK cells"))
+
+ggplot(tbl[tbl$trait %in%test,], aes(x=celltype, y=h2g, fill= c(annot))) + 
+    geom_bar(stat="identity") + ylab("Percent of h2g") + 
+    scale_fill_discrete(name="Annotation sets", labels=c("Blood Only", "Common", "Lung Only"), type= palette.colors(palette="Set3")[c(1,6,5)]) + 
+    theme(axis.text.x=element_text(angle=45, vjust = 0.9, hjust=0.8)) + facet_grid(.~trait)
+```

@@ -1,0 +1,92 @@
+---
+title: "Feedback"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+##Feedbacks for QUAL 
+
+### Ideas for Methods   
+* Run all annotations once with S-LDSC to know which ones have significant enrichment estimates?
+* Understand the effects of not including enrough confounding factors in running Torus.
+* Test how Torus performed with jointly running many annotations at once
+
+### Ideas for testing annotations
+
+#### DMR
+
+New dataset to explore[GSE140493]: Luo et al.2019 on single nucleus multi-omics including sn-methylCytosine, chromatin accessibility and transcriptome sequencing (snmC2T-seq). The dataset can be visualized at ![http://neomorph.salk.edu/human_frontal_cortex_ensemble.php].
+
+**Highlights**
+In Figure 6,the analysis of finding TF motifs in DMR lineages can inform us TFs related to the specific lineage. ???
+
+
+In Figure 7, the author partitioned heritability of complex diseases using cell-type specific DMR and ATAC-seq peaks. Strikingly, he found the cell-types enriched for SCZ are very different between DMR and ATAC-Seq peaks. DMRs identified enrichment in Fetal FC and four adult cell types, but ATAC-Seq peaks identify only found enrichment in L1-3 CUX2 cells and the fetal brain. By separating DMRs by whether containing ATAC-seq peaks, the author found **DMRs without open chromatin are more strongly enriched in heritability for SCZ**, except for fetal cortex. They speculate these specific DMRs contain vestigial enhancers, that are active during embryonic development but become dormant in adult tissues. 
+
+
+**Inspiration**
+We can check whether GWAS variants enriched in DMR but not brain OCR might be overlapped with enhancers only found in the enbryonic but not the adult brains. 
+
+### Ideas for traits 
+Genetic correlations between Asthma and Obesity, Asthma and depression/mental disorder.
+
+### Learn existing methods for gene mapping:
+https://fuma.ctglab.nl/tutorial
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+## Overall
+04/28
+Our results show that CDTS can be an independent annotation for fine mapping causal variants. Currently,the CDTS bins at top one or five precentile have an unexpectly higher overlap with OCR in brains. This looks suspicous, so include some negative controls such as CDTS bins at 50 percentile. Get some examples of CDTS bins and check if their overlapping with OCR makes sense.
+
+On the other hand, open chromatin regions called from ATAC-peak files may need more scrutiny. A few metrics to have a quality control on these annotations: 
+
+* Peak length: less than 5kb
+* FDR cutoff: 1-10%
+* Number of peaks called: a few percent of genome
+
+05/03
+
+
+## TO-DO List
+- Run other GWAS traits: lipid level; immune disorders   
+*Hypothesis*:  
+Causal variants for lipid level trait or immune disorders should be less constrained than those for psychartric diseases. 
+
+- Run joint Torus for m6A + exons + promoters      
+*Idea*:     
+Genetic variants that affect m6A levels can also fall into exon or promoter regions. To quantify the effects specific to m6A on traits, we will run a joint model using TORUS and see if there is still signal of enrichment in m6A.    
+*Hypothesis*:    
+Disease associated variants that regulate m6A levels and meanwhile annotated as silent mutations  will provide a direct relationship between m6A and traits. 
+
+- Run MetaChrom and Akita      
+*Idea*:     
+Variants in OCR are more likely to be functional, so they are expected to be enriched in the variants predicted to affect TF binding or 3D chromatin structure.
+

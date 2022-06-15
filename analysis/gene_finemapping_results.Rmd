@@ -1,0 +1,122 @@
+---
+title: "Gene-finemapping results.Rmd"
+output:
+  html_document: default
+  pdf_document: default
+  word_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(results = "hold", fig.align = "center")
+suppressMessages(library(data.table))
+suppressMessages(library(tidyverse))
+suppressMessages(library(GenomicRanges))
+library(ggplot2)
+library(ggrepel)
+library(dplyr)
+source("~/github/github/gene-finemapping-pipeline/code/plots.R")
+```
+## Results
+```{r echo=F}
+#Query of all categories into which a unique SNP-gene pair matches
+match_categories<-function(entry){
+  categories<-lapply(snp.gene.weights, function(i){
+    i[i$snp==entry[1] & i$gene_name==entry[2],]
+  })
+  return(paste(unique(data.frame(do.call(rbind, categories))$category), collapse = ";"))
+}
+
+```
+Summarize gene fine-mapping results
+
+1. Most of the SNP-gene links are supported by the category of distance and then introns. 
+2. 146 out of 260 genes with PIP > 0.5 have the assigned SNPs with evidence from pcHiC 
+```{r echo=F}
+#Filtered by gene PIPs > 0.5
+gene.finemapping.res<-readRDS("~/tmp/gene_finemapping_res.rds")
+full.res<-new.gene.mapping$full
+gene.pip.res<-new.gene.mapping$genes
+causal.genes<-gene.pip.res[gene.pip.res$gene_pip > 0.5,]$gene_name
+causal.res<-full.res[full.res$gene_name %in% causal.genes,]
+causal.res<-causal.res[order(causal.res$pip, decreasing=T),]
+table(causal.res$category)
+#Ranked by SNP PIPs and focused on SNPs in pcHiC category
+subset.res<-causal.res[causal.res$category =="pcHiC",]
+subset.res<-subset.res[order(subset.res$pip, decreasing=T),]
+print("Overall distribution for the size of credible sets of SNPs in pcHiC category")
+table(subset.res$cs)
+print("Top 10 SNPs based on PIPs values")
+head(subset.res, 10)
+highlighted.genes<-unique(subset.res[subset.res$pip > 0.5,]$gene_name)
+```
+Manhattan plot of gene PIP
+
+* The highlighted genes have at least one putative causal SNPs (pip > 0.5) assigned to it based on pcHiC evidence. 
+```{r gene-manhattan-plot, fig.width=10, fig.height=5}
+# Manhattan plot of gene PIP
+# dashed line represent gene PIP = 0.5
+# add labels for genes with gene PIP > 1
+gene_manhattan_plot(gene.pip.res, chr="chr", pos="pos", gene="gene_name", pip="gene_pip", 
+                    sig.pip = 0.5, annotate.pip = 1, highlight.genes = highlighted.genes,
+                    title = "Gene level fine-mapping", max.overlaps = 20)
+
+cat(sum(gene.pip.res$gene_pip > 0.5), "genes have gene PIP > 0.5 \n")
+
+```
+### Compare Fine-mapped genes with postive control genes for T2D
+
+**GO enrichment analysis**
+
+Target list: postive control genes for T2D   
+Reference list: Fine-mapped genes (Gene PIP > 0.5)
+
+Significant GO terms: chemical homeostasis, reponse to carbohydrate, lipid homeostasis, regulation of peptide secretion, carbohydrate homeostasis, glucose homeostasis, regulation of hormone levels, response to monosaccharide... response to glucose, response to hermone...
+[copy paste the link in browser for GO results](http://cbl-gorilla.cs.technion.ac.il/GOrilla/fybwpvj8/GOResults.html)
+```{r echo=F}
+pos.genes<-c("LEP, LEPR,POMC, PCSK1, MC4R, SIM1, BDNF, NTRK2, ALMS1, COH1, ENPP1, CNR1, FTO,MC4R,NPC1,MAF, PTER,TMEM18,SDCCAG8,TNKS,MSRA,GNPDA2, NEGR1,INSIG2, KCTD15, SH2B1, TBC1D1,GPR151, GIPR, GPR75, CALCR, GPR151, UBR2,UHMK1,ANO4, ROBO1,KIAA1109,SPARC,PDE3B,KIAA0586,DPP9,ANKRD27")
+pos.genes<-unlist(lapply(strsplit(pos.genes, ",")[[1]], function(i){trimws(i)}))
+sprintf("%d percent of postive control genes are included in fine-mapped genes", round(100*length(intersect(pos.genes, causal.genes))/length(pos.genes)))
+```
+Target list: Fine-mapped genes (Gene PIP > 0.5)
+Reference list: all genes 
+Fine mapped genes for BMI trait are significantly enriched in neuron related GO terms and other metabolic process GO terms. 
+```{r, style="max-height: 100px;"}
+goresults<-read.table("~/tmp/result/GO_for_finemapped_genes.txt", skip=6, fill=T, sep="\t", header=T)
+colnames(goresults)[c(1,2,3,6,8)]<-c("GO.BP.terms", "#Ref genes", "#Target genes", "Enrichment fold", "FDR")
+goresults[, c(1, 2, 3, 6, 8)][1:15,]
+```
+### specific cases 
+**FTO gene**
+
+SNP rs1421085 within the first credible set contributes 26% of gene PIPs. This SNP is nearby the enhancer peaks of both FTO and RPGR1P1L. However,there are no pcHI-C interactions for this SNP with any of its linked genes. Similar as Marcelo's paper, We did observe long-range interactions between BMI-associated locus and IRX3/IRX5. But those SNPs do not have high PIPs to support them being causal. 
+![Genomic tracks for rs1421085-FTO](assets/FTO.png)
+```{r style="max-height: 100px;"}
+fto<-causal.res[causal.res$gene_name=="FTO",]
+fto<-fto[order(fto$pip, decreasing =T),]
+print(fto)
+### SNP rs1421085 (one of the four functionally validated variants-fig3 marcelo's paper)
+full.res[full.res$snp=="rs1421085",]
+### linked genes (IRX3, IRX5)
+rbind(full.res[full.res$gene_name=="IRX3",],full.res[full.res$gene_name=="IRX5",])
+### SNP rs11642015 (one of the four functionally validated variants-fig3 marcelo's paper)
+full.res[full.res$snp=="rs11642015",][1:10,]
+```
+**NRXN3**
+
+The output matrix is ranked by `frational_pip`. We can see majority of contributions of PIPs are from SNPs in the introns category. Few SNPs that are assigned to NRXN3 through enhancers or chromatin interactions only contribute to gene PIPs by less than 5%. 
+```{r}
+test<-full.res[full.res$gene_name=="NRXN3",]
+test[order(test$fractional_pip, decreasing=T),][1:10,]
+```
+**PAX2 gene** 
+
+![Genomic tracks for rs41310284-PAX2](assets/PAX2.png)
+```{r}
+subset.res[subset.res$gene_name=="PAX2",][1:4,] #contributions from other SNPs too small
+```
+**OLA1 gene**
+
+![Genomic tracks for rs12992995-OLA1](assets/OLA1.png)
+```{r}
+subset.res[subset.res$gene_name=="OLA1",][1:3,] #contributions from other SNPs too small
+```

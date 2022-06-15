@@ -1,0 +1,9 @@
+---
+title: "Testrun for archR"
+output: html_notebook
+---
+
+```{r}
+library(ArchR)
+```
+

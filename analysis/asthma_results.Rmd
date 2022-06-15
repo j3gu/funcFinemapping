@@ -13,6 +13,23 @@ source("code/make_plots.R")
 ```
 ## Enrichment estimates for individual annotation
 ### Adult-onset asthma
+* *Caldero et al. 2019* - ATAC-Seq data for FACS-sorted cells from whole blood
+I extracted ATAC-Seq peaks specific to each immune cell type from the count table that consists of a union set of peaks across cells based on the provided cutoffs.
+    - Significant differentially accessible regions when compared to progenitor cells
+    - Significant differentially accessible regions under stimulation
+    
+```{r echo=F}
+rest<-read.table("output/asthma/torus_enrichment_all_rest.est", header=F)
+stimu<-read.table("output/asthma/torus_enrichment_all_stimulated.est", header=F)
+colnames(rest)<-c("term", "estimate", "low", "high")
+colnames(stimu)<-c("term", "estimate", "low", "high")
+
+```
+
+
+
+## Enrichment estimates for individual annotation
+### Adult-onset asthma
 * GWAS: *Zhu et al. 2019* (case N=22296, control N=347481)  
 * Annotations: *Zhang et al.2021* - single-cell ATAC-Seq data for adult lungs
     + A union set of cCRE accessibility across cell types was provided in the following format:
@@ -110,3 +127,22 @@ Log2 scaled enrichment estimates for each cell type, which was individually run 
 # df['highlight']<-df$low >=0
 # plot_torus_enrichment(df[df$cell_type %in% lung_cells,], text_angle=45, vjust=0)
 ```
+
+## Annotations - Differential accessible peaks 
+*Caldero et al. 2019* 
+
+  - Significant differentially accessible regions when compared to progenitor cells
+  - Significant differentially accessible regions under stimulation
+
+```{r echo=F}
+df<-read.table("output/AAD/asthma_adult/stimu_adult_blood_torus.est",header = F)
+colnames(df)<-c("raw_term", "est", "low", "high")
+df["term"]<-unlist(lapply(df$raw_term, function(i){
+                          term<-strsplit(i, "_S")[[1]][1]
+                          return(paste(strsplit(term, "_")[[1]], collapse = " "))}))
+df['highlight']<-df$low >=0
+#omit cell types with very large standard deviations
+df['omit']<-df$low < -10 | df$high > 10
+plot_torus_enrichment(df[df['omit']==F,], text_angle=90, vjust=1) + ggtitle("Stimulation-specific & accessible regions in blood")
+```
+    

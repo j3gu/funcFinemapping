@@ -1,0 +1,61 @@
+---
+title: "Splicing feature"
+output:
+  html_document:
+    df_print: paged
+---
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+```{r echo=F}
+library(data.table)
+```
+
+## Splicing
+
+### Background
+  Splicing is a process that removes introns from transcribed pre-mRNAs. Different ways of removing introns, known as alternative splicing, make diverse protein isoforms. Splicing efficiency is determined by cis-regulating elements including consensus 5’ or 3’ splice sites and branch site. Genetic variation that affect these cis-acting splicing elements can potentially cause differences in phenotypes. For instance, cryptic splice variants that disrupt the normal pattern of mRNA splicing outside the essential GT and AG splice dinucleotides play a significant role in rare genetic diseases (Cooper et al., 2009). Additionally, dysregulation of alternative splicing is associated with disease processes (Irimia et al., 2014;Wang et al., 2008). In a study on 60 LCLs, Li et al. claim RNA splicing is the primary link between genotypes and pheotypes. Splicing-QTLs seem to have equivalent or even greater effects as eQTLs on phenotypic traits.
+
+### Deep learning methods for predicting splicing sites
+**SpliceAI**   
+
+SpliceAI provides a general prediction of splicing with precision from an arbitrary pre-mRNA sequence.For each nucleotide in the pre-mRNA transcript, SpliceAI examines 5kb away from it to predict the probability of this nucleotide being acceptor, donor or neither. 
+
+**Training dataset**
+
+1. GENCODE
+
+    * Protein coding genes from GENCODE V24lift37 
+    * Filtered by having splice junctions and multiple isoforms
+    * Genes from chrom 2, 4, 6, 8, 10-22, X and Y
+    * 13,384 genes and 130,796 donor-acceptor pairs
+    
+2. GTEx
+
+    * novel splice junctions identified in the GTEx cohort on the same set of chromosomes 
+    * 67,012 splice donors and 62,911 splice acceptors
+
+**Test dataset**
+
+* Genes from chromosomes 1,3,5,7,9
+* 1,652 genes, 14,289 donor-acceptor pairs
+* No any gene paralogs (ref:http://grch37.ensembl.org/biomart/martview)
+
+**Architecture**
+
+ResNet models trained for 10 epochs with 0.001 learning rate for the first 6 epochs and reduced by a factor of 2 in every subsequent epoch
+![Architecture of spliceAI](assets/spliceAI_architecture.png)
+
+**Model evaluations**
+
+* Evaluated on all lincRNA transcripts
+
+**Score of a single nucleotide variant**   
+
+* Use the ref/alt nucleotide to calculate the acceptor and donor scores for 101 positions around the variant(50 positions on each side)
+* Compute four quantities DS_AG, DS_AL, DS_DG, DS_DL 
+For instance: 
+$$\text{DS_AG}=max(a_{alt} - a_{ref})$$
+* The delta score for each SNV is the maximum of the four quantities.
+
+

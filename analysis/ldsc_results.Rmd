@@ -36,16 +36,169 @@ Coding, Conserved, CTCF, DGF
 FANTOM5-Enhancer, Enhancer, Fetal_DHS, H3K27ac    
 Intron, PromoterFlanking, Promoter, Repressed, Super-enhancer, TFBS, Transcribed TSS    
 3-prime UTR, 5-prime UTR, Weak Enhancer    
-
-### Schizophrenia  
-**NeuronalATAC+SpliceAI+baselineLD**
-```{r echo=F}
-outDIR<-"/home/jinggu/cluster/projects/ldsc_enrichment"
-traits<-c("scz")
-df<-read.table(sprintf("%s/%s/scz_spliceai_cutoff0.1.results", outDIR, traits[1]), header=T)
-test<-c("test_neuronal_atac", "test_spliceAI")
-plot_ldsc_enrichment(df,test)
+```{r}
+plot_ldsc_enrichment<-function(df, tolabel=TRUE, tohighlight=NULL){
+  if(is.null(tohighlight)){
+    tohighlight=waiver()
+    df["fill"]="TRUE"
+  }else{
+    #df$Category[(dim(df)[1]-length(tohighlight)+1):dim(df)[1]]<-tohighlight
+    df["fill"]<-df$Category %in% tohighlight
+  }
+  # if tolabel=TRUE, label the plot with percent of heritability explained.
+  if(tolabel){
+    df["h2g"]<-paste0(round(df$Prop._h2*100,1), "%")
+    p1<-ggplot(df, aes(x=Category, y=Enrichment, color=Category, label=h2g))
+    p1<-p1 + geom_text(hjust=0, nudge_x=0.05) 
+    }else{
+      p1<-ggplot(df, aes(x=Category, y=Enrichment, color=Category))
+      }
+  p1<- p1 + geom_point() + 
+            geom_errorbar(aes(ymin=Enrichment-Enrichment_std_error,
+                              ymax=Enrichment+Enrichment_std_error,
+                              width=.1)) + 
+            theme(axis.text.x=element_text(angle=90), legend.position = "none") +
+                      geom_hline(yintercept = 1, linetype="dashed")
+                #scale_fill_manual(values=c("FALSE"="grey", "TRUE"="orange"), guide=F) 
+  return(p1)
+}
 ```
+### SCZ
+**Post-transcriptional regulaiton**
+Individual Test
+
+```{r}
+ldsc.dir<-"~/cluster/projects/ldsc_enrichment"
+spidex.dir<-"/project2/xinhe/cdu/ldsc/results/splicing/Schizophrenia/baselineLDv1.1"
+traits<-c("scz", "LDL", "HDL", "bmi", "height", "aFib", "allergy", "asthma_adult")
+annotations<-c("m6a", "neuOCR", "DMR","spliceai_binary0.01", 
+               "spliceai_binary0.03","spliceai_binary0.05",
+               "spliceai_binary0.07","spliceai_binary0.1",
+               "spliceaibin1", "spliceaibin2")
+tbl<-c()
+for(annot in annotations){
+    f<-read.table(sprintf("%s/%s/baselineLD_v1.1/%s.results", ldsc.dir, traits[1], annot), header=T)
+    tbl<-rbind(tbl, cbind(annot, f[dim(f)[1],-1]))
+}
+
+annotations2<-c("top10/Schizophrenia_hg19_spidex_0.10_baselineLDv1.1",
+                "top2/Schizophrenia_hg19_spidex_0.02_baselineLDv1.1",
+                "top5/Schizophrenia_hg19_spidex_0.05_baselineLDv1.1")
+for(annot in annotations2){
+    f<-read.table(sprintf("%s/%s.results", spidex.dir, annot), header = T)
+    annot<-paste0("spidex_", strsplit(annot, "/")[[1]][1])
+    tbl<-rbind(tbl, cbind(annot, f[dim(f)[1],-1]))
+}
+
+colnames(tbl)[1]<-"Category"
+
+plot_ldsc_enrichment(tbl) 
+
+
+```
+
+```{r}
+ldsc.dir<-"~/cluster/projects/ldsc_enrichment"
+spidex.dir<-"/project2/xinhe/cdu/ldsc/results/splicing/Schizophrenia/baselineLDv1.1"
+traits<-c("scz", "LDL", "HDL", "bmi", "height", "aFib", "allergy", "asthma_adult")
+annotations<-c("m6a", "neuOCR", "DMR","spliceai_binary0.01", 
+               "spliceai_binary0.03","spliceai_binary0.05",
+               "spliceai_binary0.07","spliceai_binary0.1",
+               "spliceaibin1", "spliceaibin2")
+tbl<-c()
+for(annot in annotations){
+  for(trait in traits){
+    f<-read.table(sprintf("%s/%s/baselineLD_v1.1/%s.results", ldsc.dir, trait, annot), header=T)
+    tbl<-rbind(tbl, cbind(trait, annot, f[dim(f)[1],-1]))
+  }
+  
+}
+colnames(tbl)[2]<-"Category"
+
+plot_ldsc_enrichment(tbl, tolabel = FALSE) + facet_grid(. ~ trait)
+
+```
+```{r}
+annot<-"spliceai_binary0.01"
+ldsc.dir<-"/home/jinggu/cluster/projects/ldsc_enrichment"
+traits<-c("scz", "LDL", "HDL", "bmi", "height", "aFib", "allergy", "asthma_adult")
+enrichment<-c()
+for(trait in traits){
+  f<-read.table(sprintf("%s/%s/baselineLD_v1.1/%s.results", ldsc.dir, trait, annot), header = T)
+  enrichment<-rbind(enrichment, f[dim(f)[1],])
+}
+enrichment$Category<-traits
+plot_ldsc_enrichment(enrichment) + ggtitle(annot)
+```
+Joint test
+```{r}
+annot<-"neuOCR_m6a_DMR"
+f<-read.table(sprintf("%s/%s/%s.results", ldsc.dir, trait, annot), header=T)
+Category<-strsplit(annot, "_")[[1]]
+f.out<-f[(dim(f)[1]-2):dim(f)[1], -1]
+f.out<-cbind(Category, f.out)
+plot_ldsc_enrichment(f.out) + ggtitle("SCZ_joint_analysis")
+```
+## splicing predictions diagnosis
+```{r}
+gwas<-read.table("~/cluster/data/gwas/2_Filtered/scz_2018.txt.gz", header = T)
+colnames(gwas)[1:2]<-c("CHR", "BP")
+spliceai<-c()
+for(i in 1:22){
+  f<-read.table(sprintf("/home/jinggu/cluster/data/ldsc/spliceAI/spliceAI_varPred.%s.annot.gz", i), header=T)
+  spliceai<-rbind(spliceai, f)
+}
+
+gwas<-left_join(gwas, spliceai, by=c("CHR", "BP"))
+pred.splicing<-gwas$spliceAI_varPred>=0.01
+
+#histogram for pvals of SNPs with spliceAI scores above threshold
+hist(gwas[which(pred.splicing==TRUE),]$pval)
+
+#QQ plot against the distribution of log p-values for randomly sampled SNPs
+qqplot(y=-log10(gwas[which(pred.splicing==TRUE), ]$pval), 
+        x=-log10(gwas[sample(1:dim(gwas)[1], sum(pred.splicing, na.rm=TRUE), replace=FALSE),]$pval),
+        xlab="-log10(p-values for randomly sampled SNPs)", ylab="Observed p-values")
+abline(a=0, b=1, col="red")
+
+#QQ plot against uniform distribution
+qqplot(y=-log10(gwas[which(pred.splicing==TRUE), ]$pval), 
+        x=-log10((1:sum(pred.splicing, na.rm=TRUE))/sum(pred.splicing, na.rm=TRUE)),
+        xlab="-log10(Expected p-values under uniform distribution)", ylab="Observed p-values")
+abline(a=0, b=1, col="red")
+```
+
+
+
+## AAD  
+**Tissue-resident T cells**
+```{r echo=F}
+traits<-c("asthma_adult", "asthma_child")
+df.child<-read.table(sprintf("output/AAD/%s/Wang2020_joint_tissueResT.results", traits[2]), header=T)  
+df.adult<-read.table(sprintf("output/AAD/%s/Wang2020_joint_tissueResT.results", traits[1]), header=T)
+
+#test<-c("test_neuronal_atac", "test_spliceAI")
+plot_ldsc_enrichment(df.child, tohighlight = "tissueResT_cellL2_1") + ggtitle("Child-Onset sthma")
+```
+```{r}
+plot_ldsc_enrichment(df.adult, tohighlight = "tissueResT_cellL2_1") + ggtitle("Adult-Onset sthma")
+```
+**Pseudobulk T cells**
+```{r echo=F}
+
+traits<-c("asthma_adult", "asthma_child")
+df.child<-read.table(sprintf("output/AAD/%s/Wang2020_joint_T.results", traits[2]), header=T)  
+df.adult<-read.table(sprintf("output/AAD/%s/Wang2020_joint_T.results", traits[1]), header=T)
+
+#test<-c("test_neuronal_atac", "test_spliceAI")
+plot_ldsc_enrichment(df.adult, tohighlight = "T_cellL2_1") + ggtitle("Adult-Onset asthma")
+```
+
+```{r}
+plot_ldsc_enrichment(df.child, tohighlight = "T_cellL2_1") + ggtitle("Child-Onset sthma")
+
+```
+
 
 ### Across traits 
 

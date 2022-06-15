@@ -4,13 +4,19 @@ output: html_document
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
-library(ggplot2)
-library(knitr)
-library(dplyr)
-library(RColorBrewer)
-source("code/make_plots.R")
+knitr::opts_chunk$set(echo = FALSE)
+## setting working directory (not functioning)
+knitr::opts_knit$set(root.dir = "/home/jinggu/projects/funcFinemapping")
 ```
+
+```{r}
+library(data.table)
+library(dplyr)
+library(ggplot2)
+source("code/make_plots.R")
+source("code/run_susie.R")
+```
+
 ## Overview
 The main goal is to identify causal variants, genes and cell types relevant to AAD by integrating omics data of lung samples. We hypothesize that open chromatin regions of lung-resident immune cells can explain broader heritability for AAD than those of blood immune cells. The disease associated variants annotated by these regulatory functions are  more likely to contribute to disease risk, so this prior knowledge can be leveraged to prioritize risk variants in GWAS loci. 
 
@@ -90,11 +96,11 @@ immune_cells<-c("Bulk B", "Naive B", "Mem B","Plasmablasts",
               "Th1 precursors", "Th2 precursors", "Th17 precursors",
              "Follicular T Helper","Immature NK", "Mature NK", "Memory NK",
              "Monocytes", "pDCs", "Myeloid DCs")
-traits<-c("allergy", "asthma_adult", "asthma_child", "ra_2014", "bmi", "height", "LDL", "HDL")
-test<-traits[1:4]
+traits<-c("allergy", "asthma_adult", "asthma_child", "bmi", "height", "LDL", "HDL")
+test<-traits[1:3]
 control<-traits[5:8]
 tbl<-data.frame()
-for(trait in test[c(1,2,4)]){
+for(trait in test[1:2]){
   rest<-read.table(sprintf("output/AAD/%s/torus_enrichment_all_rest.est", trait), header=F)
   stimu<-read.table(sprintf("output/AAD/%s/torus_enrichment_all_stimulated.est", trait), header=F)
   # name the terms in a simpler form (todo)
@@ -127,10 +133,9 @@ for(trait in test){
   tbl<-data.frame(rbind(tbl, cbind(df, trait)))
 }
 
-snp_enrichment_plot(tbl, trait="") + facet_grid(. ~ trait)
+snp_enrichment_plot(tbl, trait="", y.order = c()) + facet_grid(. ~ trait)
 
 ```
-
 ##Joint TORUS run for annotation sets
 
 ### major clusters in lung dataset 
@@ -288,59 +293,80 @@ for(trait in traits){
   colnames(df)<-c("raw_term", "estimate", "low", "high")
   df["tmp"] = unlist(lapply(df$raw_term, function(i){strsplit(i[1], "[.]")[[1]][1]}))
   df["tmp"]<-sub("GMP_", "GMP-", df$tmp)
+  df["term"]<-unlist(lapply(df$tmp, function(i){
+    return(sprintf("%s(%s)", i, snpsIn[snpsIn$term == i, "percent"]))
+    }))
+  df["percent"]<-unlist(lapply(df$tmp, function(i){
+    return(snpsIn[snpsIn$term == i, "percent_val"])
+  }))
+  df["celltype"]<-unlist(lapply(df$tmp, function(i){strsplit(i, "[_]")[[1]][1]}))
+  df["annot"]<-unlist(lapply(df$tmp, function(i){rev(strsplit(i, "[_]")[[1]])[1]}))
+  df["h2g"]<-round(exp(df$estimate)*df$percent*100, 1)
   tbl<-data.frame(rbind(tbl, cbind(df, trait)))
 }
-tbl["term"]<-unlist(lapply(tbl$tmp, function(i){
-  return(sprintf("%s(%s)", i, snpsIn[snpsIn$term == i, "percent"]))
-}))
-tbl["percent"]<-unlist(lapply(tbl$tmp, function(i){
-  return(snpsIn[snpsIn$term == i, "percent_val"])
-}))
-tbl["celltype"]<-unlist(lapply(tbl$tmp, function(i){strsplit(i, "[_]")[[1]][1]}))
-tbl["annot"]<-unlist(lapply(tbl$tmp, function(i){rev(strsplit(i, "[_]")[[1]])[1]}))
 
 snp_enrichment_plot(tbl[tbl$trait%in%test & tbl$celltype %in% c("B", "CD4", "CD8", "mDC", "GMP-merge", "Mono"),], trait="") + facet_grid(. ~ trait) + theme(strip.text.x = element_text(size=14)) + xlim(-10, 15)
 ```
-**Percent of causal variants in each peak set**
+**Percent of genetic signal**
 ```{r echo=F,fig.width=10}
-tbl["h2g"]=round(exp(tbl$estimate)*tbl$percent*100, 1)
-
-ggplot(tbl[tbl$trait %in% test & !(tbl$celltype %in% c("GMP-A", "GMP-B", "GMP-C", "pDC")),], aes(x=celltype, y=h2g, fill= c(annot))) + 
-    geom_bar(stat="identity") + ylab("Percent of h2g") + 
+ggplot(tbl[tbl$trait %in% c(test[2:3], "bmi","height") & !(tbl$celltype %in% c("GMP-A", "GMP-B", "GMP-C", "pDC")),], aes(x=celltype, y=h2g, fill= c(annot))) + 
+    geom_bar(stat="identity") + ylab("Percent of genetic signal") + 
     scale_fill_discrete(name="Annotation sets", labels=c("Blood Only", "Common", "Lung Only"), type= palette.colors(palette="Set3")[c(1,6,5)]) + 
     theme(axis.text.x=element_text(angle=45, vjust = 0.9, hjust=0.8)) + 
     facet_grid(.~trait) + theme(strip.text.x = element_text(size=14))
+
+ggplot(tbl[tbl$trait %in% c("bmi","height") & !(tbl$celltype %in% c("GMP-A", "GMP-B", "GMP-C", "pDC")),], aes(x=celltype, y=h2g, fill= c(annot))) + 
+    geom_bar(stat="identity") + ylab("Percent of genetic signal") + 
+    scale_fill_discrete(name="Annotation sets", labels=c("Blood Only", "Common", "Lung Only"), type= palette.colors(palette="Set3")[c(1,6,5)]) + 
+    theme(axis.text.x=element_text(angle=45, vjust = 0.9, hjust=0.8)) + 
+    facet_grid(.~trait) + theme(strip.text.x = element_text(size=14))
+
 ```
+**troubleshoot for >100% genetic signal in GMP-merge annotation**
+```{r echo=f}
+df<-read.table("output/AAD/GMP_merge_stats.txt", header=T)
+df
+tbl<-read.table("/home/jinggu/cluster/projects/torus_enrichment/asthma_adult/Ulirsch2019/GMP_merge_compare/torus_joint_enrichment.est", header=F, skip=5)
+
+```
+
 ## stratified-LDSC for partitioning h2g
 ### Joint run of all annotations in Wang2020
+In LDSC tutorial for cell type specific analysis, it is recommended to include a “control” set of genes or chromatin accessibility peaks in our case for estimating heritability. The point is to use the specifically accessible peaks to each cell type. Just to let you know I have not done that in this run of analysis.
 ```{r echo=F}
 labels<-read.table("output/AAD/Wang2020_annot.txt", header=F)
-immune<-c("macrophage","erythrocyte","B_cell", "T_cell", "natural_killer_cell")
 tbl<-c()
 for(trait in test[1:3]){
   f<-read.table(sprintf("output/AAD/%s/Wang2020_joint.results", trait), header=T)
-  new.f<-cbind(trait, f[f$Category %in% rev(f$Category)[1:17],])
-  new.f$Category<-factor(new.f$Category, levels=new.f$Category, labels=labels$V1)
-  new.f$Category<-factor(new.f$Category, levels=c("B_cell","T_cell","natural_killer_cell",
-                                                  "erythrocyte","macrophage", "type_II_pneumocyte",
-                                                  "club_cell","basal_cell","ciliated_cell",
-                                                  "neuroendocrine_cell","type_I_pneumocyte",
-                                                  "capillary_endothelial_cell", "endothelial_cell_of_artery",
-                                                  "endothelial_cell_of_lymphatic_vessel",
-                                                  "extracellular_matrix_secreting_cell","pericyte_cell"
-                                                  ))
+  new.f<-cbind(trait, f[f$Category %in% rev(f$Category)[1:length(labels$V1)],])
+  new.f["term"]<-unlist(lapply(new.f$Category, function(i){
+    return(labels$V1[as.numeric(strsplit(i, "_")[[1]][2])])
+  }))
   tbl<-data.frame(rbind(tbl, new.f))
 }
-colnames(tbl)[c(2,6,7)]<-c("term", "estimate", "sd")
-tbl["high"]<-tbl$Prop._h2 + tbl$Prop._h2_std_error
-tbl["low"]<-tbl$Prop._h2 - tbl$Prop._h2_std_error
+orders<-rev(c("B_cell","T_cell","natural_killer_cell",
+                                  "macrophage", "erythrocyte",
+                                  "club_cell","basal_cell","ciliated_cell", 
+                                  "neuroendocrine_cell","type_II_pneumocyte","type_I_pneumocyte",
+                                  "capillary_endothelial_cell", "endothelial_cell_of_artery",
+                                  "endothelial_cell_of_lymphatic_vessel",
+                                  "extracellular_matrix_secreting_cell","myofibroblast_cell","pericyte_cell"
+                                  ))
+colnames(tbl)[c(6,7)]<-c("estimate", "sd")
+tbl["high"]<-tbl$estimate + tbl$sd
+tbl["low"]<-tbl$estimate - tbl$sd
 
-ggplot(tbl, aes(x=term, y=Prop._h2*100)) + 
-    geom_bar(stat="identity") + geom_errorbar(aes(ymin=low*100, ymax=high*100), width=0.2) + 
-    ylab("Percent of h2g") + xlab("") + ylab("Percent of h2") + 
-    theme(axis.text.x=element_text(angle=45, vjust = 0.9, hjust=0.8)) + coord_flip() + 
-    facet_wrap(.~trait, nrow=1) + theme(strip.text.x = element_text(size=18)) + theme_bw()
+snp_enrichment_plot(tbl,
+                    log.based = F,
+                    text.size = 10,
+                    y.order = orders,
+                    trait = "")  +
+                    facet_grid(. ~ trait, scales = "free_x") +
+                    theme(strip.text.x = element_text(size = 12))
+
+
 ```
+This figure is based on the joint analysis using S-LDSC. The x-axis is in absolute scale. The y-axis contains proportion of SNPs that fall into the open chromatin peaks in each cell type. Major immune cell types show significant enrichment except for erythrocytes, of which the enrichment patterns greatly differ between child and adult-onset asthma. Macrophage cells explain twice amount of heritability in child-onset asthma than the adult-onset asthma. Overal, each immune cell types contribute about 8-10% of heritability to adult-onset asthma. 
 ### Ulirsch2019
 **Enrichment estimates**
 ```{r echo=F}

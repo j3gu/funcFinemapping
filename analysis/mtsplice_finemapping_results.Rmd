@@ -1,0 +1,164 @@
+---
+title: "finemapping_results_MTSplice_predictions"
+output: html_notebook
+---
+
+## Run fine-mapping over SCZ GWAS with different priors
+
+### MTSplice
+```{r}
+library(data.table)
+library("susieR")
+library("dplyr")
+source("code/run_susie.R")
+```
+
+```{r}
+gwas.bychr<-split(gwas, gwas$chr)
+for(i in 1:22){
+  f<-fread(sprintf("~/cluster/data/features/processed/mtsplice/1kg_mtsplice_pred.EUR.%s.txt.gz", i))
+  f.sub<-f[,c(1:6, grep("Brain", colnames(f))), with=FALSE]
+  f.bysnp<-split(f.sub, f.sub$ID)
+  f.summary<-lapply(f.bysnp, function(i){
+                      apply(i, 2, function(j){max(abs(j))})
+  })
+
+  }
+```
+
+
+```{r}
+work_dir<-"~/cluster/projects/torus_enrichment/scz_2018/joint"
+gwas<-read.table("~/cluster/data/gwas/2_Filtered/scz_2018.txt.gz", header=T)
+scz_loci <- rtracklayer::import("~/cluster/data/gwas/gwas_loci/SCZ_108loci_hg19.tsv", format='bed')
+priors<-read.table(paste(work_dir, "mtsplice/torus_joint_prior_est.txt.gz", sep="/"), header=T)
+est<-read.table(paste(work_dir, "mtsplice/torus_joint_enrichment.est", sep="/"), header=T)
+torus_fdr<-est[-5:-1, -1]
+colnames(torus_fdr)<-c("chunk", "PIPs", "Rejections")
+#filter chunks by allowing 10% FDR
+chunks<-torus_fdr[torus_fdr$Rejections==1, "chunk"]
+gwas<-inner_join(gwas, priors, by="snp")
+gwas<-gwas[gwas$locus %in% chunks,]
+#focus on the 108 independent loci from previous paper
+LDRanges<-make_ranges(paste0('chr', LD_Blocks$X1), LD_Blocks$X2, LD_Blocks$X3)
+LDRanges <- plyranges::mutate(LDRanges, chunk=LD_Blocks$X4)
+overlaps<-IRanges::subsetByOverlaps(LDRanges, scz_loci, type="any")
+
+susie_L1<-list()
+for(z in overlaps$chunk){
+  print(paste0('Finemapping chunks.. ',z,' of ', length(chunks)))
+  #focus on the 108 independent loci 
+  susie.df<-gwas[gwas$locus==z,]
+  susie_L1[[z]]<-run.susie(susie.df, bigSNP, z, L=1, prior = FALSE)
+}
+
+uniform_L1<-merge_susie_sumstats(susie_L1,gwas[gwas$locus %in% overlaps$chunk,])
+
+
+susie_L1<-list()
+for(z in overlaps$chunk){
+  print(paste0('Finemapping chunks.. ',z,' of ', length(chunks)))
+  #focus on the 108 independent loci 
+  susie.df<-gwas[gwas$locus==z,]
+  susie_L1[[z]]<-run.susie(susie.df, bigSNP, z, L=1, prior = TRUE)
+}
+annot_L1<-merge_susie_sumstats(susie_L1,gwas[gwas$locus %in% overlaps$chunk,])
+
+```
+
+## Results Summary
+### Plot p-values against susie PIPs 
+```{r echo=F,fig.width=12, fig.height=6}
+par(mfrow = c(1,2))
+plot(y=uniform_L1$susie_pip, x=-log10(uniform_L1$pval), ylab="PIPs with uniform prior", xlab="-log10(pval)")
+plot(y=annot_L1$susie_pip, x=-log10(annot_L1$pval), ylab="PIPs with functional annotations", xlab="-log10(pval)")
+
+```
+### Examine a few loci
+```{r echo=F}
+annot_tbl<-annot_L1[annot_L1$susie_pip>0.7,]
+annot_tbl[order(annot_tbl$susie_pip, decreasing=T),]
+
+unif_tbl<-uniform_L1[uniform_L1$susie_pip>0.7,]
+unif_tbl[order(unif_tbl$susie_pip, decreasing=T),]
+```
+
+```{r echo=F}
+
+```
+
+```{r}
+plot_cs_size<-function(tbl){
+  sizes <- tbl$cs_size
+  pips <- tbl$susie_pip
+  sizes_breaks <- cut(sizes, breaks = c(-1, 0, 1, 5, 10, 20, 50, 200))
+  sizes_breaks <-
+    factor(
+      sizes_breaks,
+      levels = c(
+        "(0,1]",
+        "(1,5]",
+        "(5,10]",
+        "(10,20]",
+        "(20,50]",
+        "(50,200]",
+        "(-1,0]"
+      )
+    )
+  loci <- unlist(lapply(names(table(sizes_breaks)), function(i) {
+    return(length(unique(tbl[which(sizes_breaks == i), "locus"])))
+  }))
+  
+  loci[length(loci)] <-
+    length(unique(tbl$locus)) - sum(loci[1:(length(loci) - 1)])
+  
+  gginput <- data.frame(table(sizes_breaks), loci)
+  
+  p<-ggplot(data = gginput, aes(x = factor(1), y = loci, fill = sizes_breaks)) +
+    geom_bar(position = position_stack(reverse = T),
+             stat = "identity",
+             width = 0.2) + coord_flip() +
+    scale_fill_brewer(
+      palette = 2,
+      direction = -1,
+      name = "",
+      labels = c("1", "2-5", "6-10", "11-20", "21-50", "50+", "not resolved")
+    )  +
+    geom_text(aes(label = loci), position = position_stack(vjust = 0.5, reverse =T)) +
+    xlab("") + ylab("") + ggtitle("Number of variants in each signal") +
+    theme(
+      panel.background = element_blank(),
+      plot.background = element_blank(),
+      axis.text = element_blank(),
+      axis.ticks = element_blank(),
+      legend.title = element_text(size = 10)
+    ) 
+  return(p)
+}
+
+```
+### Credible size distribution for PIPs with uniform prior
+```{r}
+plot_cs_size(uniform_L1)
+```
+### Credible size distribution for PIPs with annotation
+```{r}
+plot_cs_size(annot_L1)
+```
+```{r}
+annot_L1[order(annot_L1$susie_pip, decreasing=T), ]
+```
+
+
+
+**Comparing PIPs with uniform priors against ones with functional priors**
+```{r}
+plot(uniform_L1$susie_pip,annot_L1$susie_pip, xlab="PIPs with uniform prior", ylab="PIPs with functional annotation", main="SpliceAI")
+abline(a=0, b=1, col="red")
+```
+
+```{r}
+geom_label_repel( data=subset(gene.pip, is_annotate=="yes"), aes(label=gene), size=4, max.overlaps = max.overlaps) +
+
+```
+

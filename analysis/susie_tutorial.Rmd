@@ -1,0 +1,247 @@
+---
+title: "A tutorial for SuSiE"
+output:
+  pdf_document: default
+  html_document:
+    df_print: paged
+---
+
+## Testrun for SuSiE 
+### compare reference panels
+* 1kg reference genome vs. 10% UK biobank samples
+* BMI GWAS summary statistics from a meta-analysis on Locke et al. and UKBiobank
+
+```{r echo=F, message=FALSE}
+source("code/run_susie.R")
+library(susieR)
+library(ggplot2)
+library(bigsnpr)
+library(data.table)
+library(dplyr)
+load("~/scripts/R/Euro_LD_Chunks.RData")
+```
+
+```{r echo=F, eval=FALSE}
+#Using 1kg LD reference panel
+gwas<-readRDS("~/cluster/data/gwas/2_Filtered/bmi.rds")
+lead.loci<-read.table("/home/jinggu/cluster/data/amelia_obesity_project/lead_loci.txt")
+snpRange<-make_ranges(seqname=lead.loci[,1], start=lead.loci[,2], end=lead.loci[,2])
+ldRange<-make_ranges(seqname= LD_Blocks$X1, start=LD_Blocks$X2, end=LD_Blocks$X3)
+ldRange <- plyranges::mutate(ldRange, locus=LD_Blocks$X4)
+test.loci<-plyranges::join_overlap_inner(snpRange, ldRange)
+bad.loci<-c("1458", "134")
+LDL.bad.loci<-c("169", "1172")
+test.loci<-setdiff(bmi.loci$locus, bad.loci)
+
+#Using ukbiobank panel
+gwas.ukb.L1<-list()
+gwas.ukb.L10<-list()
+for(z in as.character(setdiff(test.loci$locus, LDL.bad.loci))){
+  gwas.ukb.L1[[z]]<-run_susie(gwas, LDchunk = z, L=1, prior = F)
+  gwas.ukb.L10[[z]]<-run_susie(gwas, LDchunk = z, L=10, prior = F)
+}
+
+#using 1kg
+gwas.1kg.L1<-list()
+gwas.1kg.L10<-list()
+for(z in as.character(setdiff(test.loci$locus, LDL.bad.loci)[-9:-1])){
+  gwas.1kg.L1[[z]]<-run.susie.old(gwas, bigSNP, LDchunk = z, L=1, prior = F)
+  gwas.1kg.L10[[z]]<-run.susie.old(gwas, bigSNP, LDchunk = z, L=10, prior = F)
+}
+
+saveRDS(gwas.ukb.L1, "~/cluster/projects/fine_mapping/ldl_ukb_susie.L1.RDS")
+saveRDS(gwas.ukb.L10, "~/cluster/projects/fine_mapping/ldl_ukb_susie.L10.RDS")
+```
+Compare 1kg with ukbb at L=10
+```{r echo=F}
+#load susie outputs
+gwas.1kg.L1<-readRDS("~/cluster/projects/fine_mapping/bmi_1kg_susie.L1.RDS")
+gwas.ukb.L1<-readRDS("~/cluster/projects/fine_mapping/bmi_ukb_susie.L1.RDS")
+
+gwas.1kg.L10<-readRDS("~/cluster/projects/fine_mapping/bmi_1kg_susie.L10.RDS")
+gwas.ukb.L10<-readRDS("~/cluster/projects/fine_mapping/bmi_ukb_susie.L10.RDS")
+bmi.loci<-names(gwas.1kg.L10)
+tbl<-matrix(nrow=length(bmi.loci), ncol=2)
+for(i in 1:length(as.character(bmi.loci))){
+  tbl[i,1]=length(gwas.1kg.L10[[bmi.loci[i]]]$susie.out$sets$cs)
+  tbl[i,2]=length(gwas.ukb.L10[[bmi.loci[i]]]$susie.out$sets$cs)
+}
+print(sprintf("The total number of cases when the ukb LD panel identifies more credible sets: %s", sum(tbl[,1]<tbl[,2])))
+print(sprintf("The total number of cases when the 1kg LD panel identifies more credible sets: %s", sum(tbl[,1]>tbl[,2])))
+
+```
+
+```{r echo=F}
+### Compare LD panels
+compare_LD_plots<-function(locus, legend.pos=NULL){
+  par(mfrow=c(2,1))
+  susie_plot(gwas.1kg.L10[[locus]]$susie.out, y="z", main=paste("BMI|1kg|locus",locus), add_legend=legend.pos)
+  susie_plot(gwas.1kg.L10[[locus]]$susie.out, y="PIP", main="", add_legend = legend.pos)
+
+  susie_plot(gwas.ukb.L10[[locus]]$susie.out, y="z", main=paste("BMI|ukb|locus",locus), add_legend=legend.pos)
+  susie_plot(gwas.ukb.L10[[locus]]$susie.out, y="PIP", main="", add_legend = legend.pos)
+}
+
+### Visualize LD patterns 
+
+LD_plots<-function(target.df, locus, ref.snp, LD_panel="ukb"){
+  color = c("dodgerblue2", "green4", "#6A3D9A", "#FF7F00", 
+          "gold1", "skyblue2", "#FB9A99", "palegreen2", "#CAB2D6", 
+          "#FDBF6F", "gray70", "khaki2", "maroon", "orchid1", "deeppink1", 
+          "blue1", "steelblue4", "darkturquoise", "green1", "yellow4", 
+          "yellow3", "darkorange4", "brown")
+  df<-target.df[[locus]]$sumstats
+  LD.mat<-target.df[[locus]]$LD.coef
+  target<-which(df$snp==ref.snp)
+
+  p<-ggplot(df, aes(x=pos,y=-log10(pval), color=LD.mat[target,])) + 
+                geom_point() + scale_color_gradient(low = alpha("yellow", 0.2), high ="red") + 
+                labs(color="LD coefficient", title=LD_panel) + 
+                ylab("-log10(p-val)") +  xlab("variable") 
+  LD.list<-list()
+  for(i in levels(factor(df$cs))[-1]){
+    p <- p + geom_point(data=df %>% filter(cs ==i),
+                       pch=21,
+                       size=3,
+                       colour=color[as.numeric(i)])
+
+    # out <- data.frame(df[df$cs==i,]$snp, LD.mat[target, which(df$cs==i)])
+    # colnames(out)<-c("snp", "LD")
+    # LD.list[[i]]<-out
+  }
+  #print(LD.list)
+  return(p)
+}
+
+check_LD_coeff<-function(target.df, ref.df, locus){
+  rank.cs<-split(ref.df[[locus]]$sumstats,ref.df[[locus]]$sumstats$cs)
+  select.snps<-unlist(lapply(rank.cs[-1], function(i){i[order(i$susie_pip, decreasing=T)[1],]$snp}))
+  index<-which(target.df[[locus]]$sumstats$snp %in% select.snps)
+  ld.table<-target.df[[locus]]$LD.coef[index,index]
+  ld.table<-data.frame(round(ld.table,2))
+  row.names(ld.table)<-select.snps
+  colnames(ld.table)<-select.snps
+  print(ld.table)
+}
+```
+
+```{r}
+gwas.1kg.sumstats<-c()
+for(i in names(gwas.1kg.L10)){
+  gwas.1kg.sumstats<-rbind(gwas.1kg.sumstats, gwas.1kg.L10[[i]]$sumstats)
+}
+
+gwas.ukb.sumstats<-c()
+for(i in names(gwas.ukb.L10)){
+  gwas.ukb.sumstats<-rbind(gwas.ukb.sumstats, gwas.ukb.L10[[i]]$sumstats)
+}
+```
+
+```{r, fig.width = 10, fig.height=8}
+par(mfrow = c(1,2))
+plot(y = gwas.1kg.sumstats$susie_pip, x = -log10(gwas.1kg.sumstats$pval),
+     ylab = "PIP", xlab = "-log10(p-value)", main="1kg")
+
+plot(y = gwas.ukb.sumstats$susie_pip, x = -log10(gwas.ukb.sumstats$pval),
+     ylab = "PIP", xlab = "-log10(p-value)", main="ukb")
+```
+
+
+
+
+### Case 1: locus 1452
+It shows the use of UKB LD panel in Susie fails to identify potential causal variants
+```{r fig.height=9, fig.width=8}
+locus="704"
+compare_LD_plots(locus, "topleft")
+```
+**LD plots relative to the top SNP in the missing credible set** 
+```{r}
+LD_plots(gwas.1kg.L10,locus, "rs12204742", "1kg")
+LD_plots(gwas.ukb.L10,locus, "rs12204742", "ukb")
+
+#LD_plots(gwas.ukb.L10,locus, "rs9939450")
+```
+**Check LD coefficients**   
+The output table lists out the LD coefficients between the top SNPs from each credible set. SNPs are ranked by PIPs.
+
+* 1KG LD matrix
+```{r echo=F}
+check_LD_coeff(gwas.1kg.L10, gwas.1kg.L10, locus="704")
+```
+* UKB LD matrix
+```{r echo=F}
+check_LD_coeff(gwas.ukb.L10, gwas.1kg.L10, locus="704")
+```
+
+### Case 2: locus 218
+It shows the use of UKB LD panel in Susie identifies additional credible set.
+```{r echo=F, fig.height=10, fig.width=9}
+locus="1210"
+compare_LD_plots(locus, "topleft")
+```
+```{r echo=F}
+ref.snp<-gwas.ukb.L10[[locus]]$sumstats%>%filter(cs==1)%>%select(snp)
+ref.snp<-"rs16847247"
+LD_plots(gwas.1kg.L10,locus, ref.snp$snp, "1kg")
+LD_plots(gwas.ukb.L10,locus, ref.snp$snp)
+LD_plots(gwas.1kg.L10,locus, ref.snp, "1kg")
+LD_plots(gwas.ukb.L10,locus, ref.snp)
+```
+**Check LD coefficients**   
+* 1KG LD matrix
+```{r echo=F}
+check_LD_coeff(gwas.1kg.L10, gwas.ukb.L10, locus="1210")
+```
+* ukb LD matrix
+```{r echo=F}
+check_LD_coeff(gwas.ukb.L10, gwas.ukb.L10,locus="1210")
+```
+###case 3: locus 1488
+The use of UKB LD panel in Susie removes two credible sets previously identified using 1kg. 
+```{r echo=F, fig.height=10, fig.width=9}
+locus="1609"
+compare_LD_plots(locus, legend.pos = "topleft")
+```
+```{r echo=F}
+locus<-"1609"
+ref.snp<-gwas.ukb.L10[[locus]]$sumstats%>%filter(cs==1)%>%select(snp)
+LD_plots(gwas.1kg.L10,locus, "rs6857", "1kg")
+LD_plots(gwas.ukb.L10,locus, "rs6857")
+```
+**Check LD coefficients**   
+* 1KG LD matrix
+```{r echo=F}
+check_LD_coeff(gwas.1kg.L10, gwas.1kg.L10, locus="1609")
+```
+* UKB LD matris
+```{r echo = F}
+check_LD_coeff(gwas.ukb.L10, gwas.1kg.L10, locus="1609")
+```
+```{r echo=F, eval=FALSE}
+LD_path<-"/project2/mstephens/wcrouse/UKB_LDR_0.1_b37"
+loci<-c("704", "1452")
+raw.gwas<-readRDS("~/cluster/data/gwas/2_Filtered/bmi.rds")
+gwas<-data.frame(raw.gwas[raw.gwas$locus %in% loci, c(1:9, 12)])
+fnames<-apply(LD_Blocks[LD_Blocks$X4 %in% loci,], 1, function(i){
+                    sprintf("ukb_b37_0.1_chr%s.R_snp.%s", i[1], paste(i[2:3], collapse='_'))})
+
+bigSNP<-list()
+for(i in 1:length(loci)){
+  f<-read.table(sprintf("%s/%s.Rvar", LD_path, fnames[i]), header = T)
+  colnames(f)<-c("chr", "id", "pos", "a1", "a0")
+  bigSNP[[loci[i]]][["map"]]<-f
+  bigSNP[[loci[i]]][["LD_matrix"]]<-readRDS(sprintf("%s/%s.RDS", LD_path, fnames[i]))
+}
+```
+
+```{r}
+susie.1kg.L10<-list()
+for(i in c("218","1410", "1452","1488")){
+  susie.1kg.L10[[i]]<-gwas.1kg.L10[[i]]
+}
+susie.1kg.L10[["1488"]]<-gwas.1kg.L10$`1488`
+```
+
+
+
