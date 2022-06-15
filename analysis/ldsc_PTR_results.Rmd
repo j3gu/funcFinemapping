@@ -171,34 +171,25 @@ plot_ldsc_enrichment(f.out) + ggtitle("SCZ joint analysis")
 #### SCZ
 A left-skewed p-value distribution for SNPs with spliceAI >=0.03 
 
-[p-value distributions for SNPs with spliceAI>=0.03](assets/splicing/scz_spliceAI0.03_hist.png)
-[p-values against spliceAI scores](assets/splicing/scz_spliceAI0.03_scatterplot.png)
-
-```{r echo=F, eval=F}
+```{r echo=F}
 gwas<-readRDS("~/cluster/data/gwas/gwas_ldsc/scz_gwas_spliceai.rds")
 pred.splicing<-gwas$spliceAI_varPred>=0.03
 
 #histogram for pvals of SNPs with spliceAI scores above threshold
-png("docs/assets/scz_spliceAI0.03_hist.png")
 hist(gwas[which(pred.splicing==TRUE),]$pval, 
      main="SCZ",
      xlab="p-values for SNPs with SpliceAI score >=0.03")
-dev.off()
-png("docs/assets/scz_spliceAI0.03_scatterplot.png")
+
 #Scatter plot for comparing p-vals agasint spliceai scores
 common<-gwas[gwas$spliceAI_varPred>0,]
 plot(y=-log10(common$pval), x=common$spliceAI_varPred, 
      ylab="-log10(p-values)", xlab="spliceAI scores")
-dev.off()
 ```
 Note: Very few SNPs with high spliceAI scores also have significant p-values.
 
 **QQ plot**   
 
-[QQ plots for SCZ GWAS SNPs with spliceAI>=0.03](assets/splicing/scz_spliceAI0.03_QQplot.png)
-
-```{r echo=F, eval=F}
-png("docs/assets/splicing/scz_spliceAI0.03_QQplot.png", width=600, height =480)
+```{r echo=F, fig.width=12, fig.height=10}
 par(mfrow = c(1,2))
 #QQ plot against uniform distribution
 qqplot(y=-log10(gwas[which(pred.splicing==TRUE), ]$pval), 
@@ -212,7 +203,6 @@ qqplot(y=-log10(gwas[which(pred.splicing==FALSE), ]$pval),
         x=-log10(gwas[sample(1:dim(gwas)[1], sum(pred.splicing, na.rm=TRUE), replace=FALSE),]$pval),
         xlab="-log10(p-values for randomly sampled SNPs)", ylab="-log10(Observed p-values)")
 abline(a=0, b=1, col="red")
-dev.off()
 ```
 Note: There is not much signal in SNPs that have spliceAI scores above threshold. 
 
@@ -220,7 +210,7 @@ Note: There is not much signal in SNPs that have spliceAI scores above threshold
 
 **QQ plot **
 
-[QQ plots for aFib GWAS SNPs with spliceAI>=0.03](assets/splicing/aFib_spliceAI0.03_QQplot.png)
+[QQ plots for aFib GWAS SNPs with spliceAI>=0.03](splicing/aFib_spliceAI0.03_QQplot.png)
 
 ```{r echo=F, eval=F}
 # gwas<-fread("~/cluster/data/gwas/0_gwas/nielsen-thorolfsdottir-willer-NG2018-AFib-gwas-summary-statistics_posGRCh37.tbl")
@@ -229,7 +219,7 @@ Note: There is not much signal in SNPs that have spliceAI scores above threshold
 # gwas<-left_join(gwas, spliceai, by=c("CHR", "BP"))
 # saveRDS(gwas, "~/cluster/data/gwas/gwas_ldsc/aFib_gwas_spliceai.rds")
 ```
-```{r echo=F, eval=F}
+```{r echo=F, fig.width=12, fig.height=10}
 trait<-readRDS("~/cluster/data/gwas/gwas_ldsc/afib_gwas_spliceai.rds")
 trait$pval<-as.numeric(trait$pval)
 pred.splicing<-trait$spliceAI_varPred>=0.03
@@ -239,7 +229,6 @@ common<-trait[trait$spliceAI_varPred>=0.03,]
 plot(y=-log10(common$pval), x=common$spliceAI_varPred, 
      ylab="-log10(p-values)", xlab="spliceAI scores")
 
-png("docs/assets/splicing/aFib_spliceAI0.03_QQplot.png",width=600, height = 480)
 par(mfrow = c(1,2))
 
 #QQ plot against uniform distribution
@@ -254,5 +243,4 @@ qqplot(y=-log10(trait[which(pred.splicing==FALSE), ]$pval),
        x=-log10(trait[sample(1:dim(gwas)[1], sum(pred.splicing, na.rm=TRUE), replace=FALSE),]$pval),
        xlab="-log10(p-values for randomly sampled SNPs)", ylab="-log10(Observed p-values)")
 abline(a=0, b=1, col="red")
-dev.off()
 ```
