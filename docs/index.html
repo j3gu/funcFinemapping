@@ -276,7 +276,7 @@ $(document).ready(function () {
 
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-report" data-toggle="collapse" data-target="#workflowr-report">
-<span class="glyphicon glyphicon-list" aria-hidden="true"></span> workflowr <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
+<span class="glyphicon glyphicon-list" aria-hidden="true"></span> workflowr <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span>
 </button>
 </p>
 <div id="workflowr-report" class="collapse">
@@ -285,7 +285,7 @@ $(document).ready(function () {
 <a data-toggle="tab" href="#summary">Summary</a>
 </li>
 <li>
-<a data-toggle="tab" href="#checks"> Checks <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> </a>
+<a data-toggle="tab" href="#checks"> Checks <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> </a>
 </li>
 <li>
 <a data-toggle="tab" href="#versions">Past versions</a>
@@ -294,10 +294,10 @@ $(document).ready(function () {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2022-06-15
+<strong>Last updated:</strong> 2022-07-02
 </p>
 <p>
-<strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 2 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
+<strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 1 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 1
 </p>
 <p>
 <strong>Knit directory:</strong> <code>funcFinemapping/</code> <span class="glyphicon glyphicon-question-sign" aria-hidden="true" title="This is the local directory in which the code in this file was executed."> </span>
@@ -313,28 +313,28 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguptodate"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>R Markdown file:</strong> up-to-date </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguncommittedchanges"> <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> <strong>R Markdown file:</strong> uncommitted changes </a>
 </p>
 </div>
-<div id="strongRMarkdownfilestronguptodate" class="panel-collapse collapse">
+<div id="strongRMarkdownfilestronguncommittedchanges" class="panel-collapse collapse">
 <div class="panel-body">
-<p>Great! Since the R Markdown file has been committed to the Git repository, you know the exact version of the code that produced these results.</p>
+<p>The R Markdown file has unstaged changes. To know which version of the R Markdown file created these results, you'll want to first commit it to the Git repo. If you're still working on the analysis, you can ignore this warning. When you're finished, you can run <code>wflow_publish</code> to commit the R Markdown file and build the HTML.</p>
 </div>
 </div>
 </div>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomj3gufuncFinemappingtree65822a7b724cb7ba2651151b6342e2d00e261431targetblank65822a7a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/j3gu/funcFinemapping/tree/65822a7b724cb7ba2651151b6342e2d00e261431" target="_blank">65822a7</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomj3gufuncFinemappingtree1da45e4498f93d511e9048cef7818ad3525c8890targetblank1da45e4a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/j3gu/funcFinemapping/tree/1da45e4498f93d511e9048cef7818ad3525c8890" target="_blank">1da45e4</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomj3gufuncFinemappingtree65822a7b724cb7ba2651151b6342e2d00e261431targetblank65822a7a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomj3gufuncFinemappingtree1da45e4498f93d511e9048cef7818ad3525c8890targetblank1da45e4a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/j3gu/funcFinemapping/tree/65822a7b724cb7ba2651151b6342e2d00e261431" target="_blank">65822a7</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/j3gu/funcFinemapping/tree/1da45e4498f93d511e9048cef7818ad3525c8890" target="_blank">1da45e4</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -356,6 +356,7 @@ Untracked files:
     Untracked:  SNPs_categories,png
     Untracked:  SNPs_categories.png
     Untracked:  analysis/.ipynb_checkpoints/
+    Untracked:  analysis/annotations_PTR.Rmd
     Untracked:  bmi_locus1410.pdf
     Untracked:  code/.ipynb_checkpoints/
     Untracked:  code/.snakemake/
@@ -379,11 +380,155 @@ Untracked files:
     Untracked:  code/slurm-20832978.out
     Untracked:  code/slurm-20832979.out
     Untracked:  code/slurm-20832980.out
+    Untracked:  code/slurm-21213166.out
+    Untracked:  code/slurm-21213167.out
+    Untracked:  code/slurm-21213168.out
+    Untracked:  code/slurm-21213169.out
+    Untracked:  code/slurm-21213170.out
+    Untracked:  code/slurm-21213181.out
+    Untracked:  code/slurm-21213183.out
+    Untracked:  code/slurm-21213184.out
+    Untracked:  code/slurm-21213188.out
+    Untracked:  code/slurm-21213195.out
+    Untracked:  code/slurm-21213200.out
+    Untracked:  code/slurm-21213204.out
+    Untracked:  code/slurm-21213207.out
+    Untracked:  code/slurm-21213212.out
+    Untracked:  code/slurm-21213217.out
+    Untracked:  code/slurm-21213224.out
+    Untracked:  code/slurm-21213230.out
+    Untracked:  code/slurm-21213231.out
+    Untracked:  code/slurm-21213236.out
+    Untracked:  code/slurm-21213240.out
+    Untracked:  code/slurm-21213244.out
+    Untracked:  code/slurm-21213246.out
+    Untracked:  code/slurm-21213601.out
+    Untracked:  code/slurm-21213602.out
+    Untracked:  code/slurm-21213603.out
+    Untracked:  code/slurm-21213604.out
+    Untracked:  code/slurm-21214302.out
+    Untracked:  code/slurm-21214303.out
+    Untracked:  code/slurm-21214359.out
+    Untracked:  code/slurm-21216841.out
+    Untracked:  code/slurm-21216842.out
+    Untracked:  code/slurm-21216843.out
+    Untracked:  code/slurm-21216844.out
+    Untracked:  code/slurm-21216845.out
+    Untracked:  code/slurm-21217091.out
+    Untracked:  code/slurm-21217092.out
+    Untracked:  code/slurm-21217093.out
+    Untracked:  code/slurm-21217094.out
+    Untracked:  code/slurm-21217095.out
+    Untracked:  code/slurm-21217137.out
+    Untracked:  code/slurm-21217138.out
+    Untracked:  code/slurm-21217139.out
+    Untracked:  code/slurm-21217140.out
+    Untracked:  code/slurm-21217141.out
+    Untracked:  code/slurm-21217343.out
+    Untracked:  code/slurm-21217344.out
+    Untracked:  code/slurm-21217345.out
+    Untracked:  code/slurm-21217346.out
+    Untracked:  code/slurm-21217347.out
+    Untracked:  code/slurm-21217382.out
+    Untracked:  code/slurm-21217383.out
+    Untracked:  code/slurm-21217384.out
+    Untracked:  code/slurm-21217385.out
+    Untracked:  code/slurm-21217386.out
+    Untracked:  code/slurm-21217411.out
+    Untracked:  code/slurm-21217412.out
+    Untracked:  code/slurm-21217413.out
+    Untracked:  code/slurm-21217414.out
+    Untracked:  code/slurm-21217416.out
+    Untracked:  code/slurm-21217455.out
+    Untracked:  code/slurm-21217456.out
+    Untracked:  code/slurm-21217457.out
+    Untracked:  code/slurm-21217458.out
+    Untracked:  code/slurm-21217459.out
+    Untracked:  code/slurm-21217482.out
+    Untracked:  code/slurm-21217489.out
+    Untracked:  code/slurm-21217490.out
+    Untracked:  code/slurm-21217491.out
+    Untracked:  code/slurm-21217492.out
+    Untracked:  code/slurm-21217531.out
+    Untracked:  code/slurm-21217532.out
+    Untracked:  code/slurm-21217533.out
+    Untracked:  code/slurm-21217534.out
+    Untracked:  code/slurm-21217536.out
+    Untracked:  code/slurm-21217574.out
+    Untracked:  code/slurm-21217575.out
+    Untracked:  code/slurm-21217576.out
+    Untracked:  code/slurm-21217577.out
+    Untracked:  code/slurm-21217578.out
+    Untracked:  code/slurm-21217601.out
+    Untracked:  code/slurm-21217602.out
+    Untracked:  code/slurm-21217603.out
+    Untracked:  code/slurm-21217604.out
+    Untracked:  code/slurm-21217607.out
+    Untracked:  code/slurm-21217627.out
+    Untracked:  code/slurm-21217628.out
+    Untracked:  code/slurm-21217629.out
+    Untracked:  code/slurm-21217630.out
+    Untracked:  code/slurm-21217633.out
+    Untracked:  code/slurm-21217669.out
+    Untracked:  code/slurm-21217671.out
+    Untracked:  code/slurm-21217672.out
+    Untracked:  code/slurm-21217673.out
+    Untracked:  code/slurm-21217674.out
+    Untracked:  code/slurm-21217700.out
+    Untracked:  code/slurm-21217701.out
+    Untracked:  code/slurm-21217702.out
+    Untracked:  code/slurm-21217703.out
+    Untracked:  code/slurm-21217707.out
+    Untracked:  code/slurm-21217747.out
+    Untracked:  code/slurm-21217748.out
+    Untracked:  code/slurm-21217749.out
+    Untracked:  code/slurm-21217750.out
+    Untracked:  code/slurm-21217751.out
+    Untracked:  code/slurm-21217773.out
+    Untracked:  code/slurm-21217783.out
+    Untracked:  code/slurm-21217784.out
+    Untracked:  code/slurm-21217785.out
+    Untracked:  code/slurm-21217786.out
+    Untracked:  code/slurm-21217975.out
+    Untracked:  code/slurm-21217976.out
+    Untracked:  code/slurm-21217977.out
+    Untracked:  code/slurm-21217979.out
+    Untracked:  code/slurm-21217980.out
+    Untracked:  code/slurm-21218015.out
+    Untracked:  code/slurm-21218016.out
+    Untracked:  code/slurm-21218017.out
+    Untracked:  code/slurm-21218018.out
+    Untracked:  code/slurm-21218019.out
+    Untracked:  code/slurm-21218038.out
+    Untracked:  code/slurm-21218039.out
+    Untracked:  code/slurm-21218040.out
+    Untracked:  code/slurm-21218046.out
+    Untracked:  code/slurm-21218047.out
+    Untracked:  code/slurm-21218071.out
+    Untracked:  code/slurm-21218072.out
+    Untracked:  code/slurm-21218073.out
+    Untracked:  code/slurm-21218076.out
+    Untracked:  code/slurm-21218077.out
+    Untracked:  code/slurm-21218081.out
+    Untracked:  code/slurm-21218082.out
+    Untracked:  code/slurm-21218083.out
+    Untracked:  code/slurm-21218084.out
+    Untracked:  code/slurm-21218085.out
+    Untracked:  code/slurm-21218117.out
+    Untracked:  code/slurm-21218118.out
+    Untracked:  code/slurm-21218119.out
+    Untracked:  code/slurm-21218120.out
+    Untracked:  code/slurm-21218125.out
+    Untracked:  code/slurm-21218129.out
     Untracked:  code/split_vcf.sh
     Untracked:  code_backup/
     Untracked:  data/ScTypeDB_full.xlsx
     Untracked:  data/hg19_gtf_genomic_annots_ver2.gr.rds
     Untracked:  data/num_overlaps_finemapped_SNPs_and_ctcf.txt
+    Untracked:  data/qqplot_SNPs_high_spliceAI.png
+    Untracked:  data/qqplot_SNPs_high_spliceAI_scores_SCZ.png
+    Untracked:  data/qqplot_SNPs_high_spliceAI_scores_aFib.png
+    Untracked:  data/qqplot_SNPs_high_spliceAI_scores_allergy.png
     Untracked:  data/torus_enrichment_novel_annot.est
     Untracked:  data/torus_joint_enrichment.est
     Untracked:  data/torus_joint_refined_enrichment.est
@@ -449,21 +594,41 @@ Untracked files:
     Untracked:  output/LDL_ukb_L10.gif
     Untracked:  output/LDL_ukb_L10.pdf
     Untracked:  output/background_SNPs_annotated_percent.txt
+    Untracked:  output/ldsc
     Untracked:  output/locus_1452.gif
     Untracked:  output/locus_1452.pdf
     Untracked:  output/splicing/PTR_across_traits_annotations.results
+    Untracked:  output/splicing/header.txt
+    Untracked:  output/splicing/prior/
     Untracked:  output/splicing/scz_PTR_annotations.results
     Untracked:  output/splicing/scz_neuOCR_m6a_DMR.results
     Untracked:  output/splicing/scz_spliceAI0.03_hist.png
     Untracked:  output/splicing/scz_spliceAI0.03_scatterplot.png
     Untracked:  output/splicing/scz_spliceai_binary0.03.results
+    Untracked:  output/splicing/torus_afib_spliceai.est
+    Untracked:  output/splicing/torus_annotations_spliceai0.01.txt.gz
+    Untracked:  output/splicing/torus_annotations_spliceai0.03.txt.gz
+    Untracked:  output/splicing/torus_annotations_spliceai0.05.txt.gz
+    Untracked:  output/splicing/torus_annotations_spliceai0.07.txt.gz
+    Untracked:  output/splicing/torus_annotations_spliceai0.1.txt.gz
+    Untracked:  output/splicing/torus_annotations_spliceai0.2.txt.gz
+    Untracked:  output/splicing/torus_annotations_spliceai9.txt.gz
     Untracked:  output/splicing/torus_enrichment_joint_scz_mtsplice0.6_hypothalamus-brain.est
     Untracked:  output/splicing/torus_enrichment_joint_scz_spliceAI.est
+    Untracked:  output/splicing/torus_spliceai0.01.enrichment
+    Untracked:  output/splicing/torus_spliceai0.03.enrichment
+    Untracked:  output/splicing/torus_spliceai0.05.enrichment
+    Untracked:  output/splicing/torus_spliceai0.07.enrichment
+    Untracked:  output/splicing/torus_spliceai0.1.enrichment
+    Untracked:  output/splicing/torus_spliceai0.2.enrichment
+    Untracked:  output/splicing/torus_zscores.txt.gz
+    Untracked:  output/torus
     Untracked:  panel_figure2.pdf
     Untracked:  test.txt
 
 Unstaged changes:
     Deleted:    .Rprofile
+    Modified:   analysis/index.Rmd
     Modified:   analysis/ldsc_PTR_results.Rmd
     Deleted:    output/AAD/Caldero2019_disjoint_snps.sumstats
     Modified:   output/AAD/allergy/Caldero2019_disjoint_snps.sumstats
@@ -543,6 +708,23 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/j3gu/funcFinemapping/d96f416503f721035dc5859438ed502212b24fe1/docs/index.html" target="_blank">d96f416</a>
+</td>
+<td>
+Jing Gu
+</td>
+<td>
+2022-06-15
+</td>
+<td>
+estimate_h2g
+</td>
+</tr>
 <tr>
 <td>
 html
@@ -1186,7 +1368,7 @@ Start workflowr project.
 </ul></li>
 <li>[Functional annotation project]
 <ul>
-<li><a href="ldsc_PTR_results.html">PTR_results</a></li>
+<li><a href="annotations_PTR.html">PTR_results</a></li>
 </ul></li>
 </ul>
 </div>
