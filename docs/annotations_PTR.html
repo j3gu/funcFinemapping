@@ -370,7 +370,7 @@ div.tocify {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2022-07-02
+<strong>Last updated:</strong> 2022-07-03
 </p>
 <p>
 <strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 5 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 2
@@ -493,16 +493,16 @@ data/qqplot_SNPs_high_spliceAI.png
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomj3gufuncFinemappingtreed96f416503f721035dc5859438ed502212b24fe1targetblankd96f416a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/j3gu/funcFinemapping/tree/d96f416503f721035dc5859438ed502212b24fe1" target="_blank">d96f416</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomj3gufuncFinemappingtree467bc60b6b35a97dec8a67306cf326a5fa678d23targetblank467bc60a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/j3gu/funcFinemapping/tree/467bc60b6b35a97dec8a67306cf326a5fa678d23" target="_blank">467bc60</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomj3gufuncFinemappingtreed96f416503f721035dc5859438ed502212b24fe1targetblankd96f416a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomj3gufuncFinemappingtree467bc60b6b35a97dec8a67306cf326a5fa678d23targetblank467bc60a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/j3gu/funcFinemapping/tree/d96f416503f721035dc5859438ed502212b24fe1" target="_blank">d96f416</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/j3gu/funcFinemapping/tree/467bc60b6b35a97dec8a67306cf326a5fa678d23" target="_blank">467bc60</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -796,6 +796,7 @@ Untracked files:
 
 Unstaged changes:
     Deleted:    .Rprofile
+    Modified:   analysis/index.Rmd
     Modified:   analysis/ldsc_PTR_results.Rmd
     Deleted:    output/AAD/Caldero2019_disjoint_snps.sumstats
     Modified:   output/AAD/allergy/Caldero2019_disjoint_snps.sumstats
@@ -849,9 +850,52 @@ Note that any generated files, e.g. HTML, png, CSS, etc., are not included in th
 <hr>
 </div>
 <div id="versions" class="tab-pane fade">
+
 <p>
-There are no past versions. Publish this analysis with <code>wflow_publish()</code> to start tracking its development.
+These are the previous versions of the repository in which changes were made to the R Markdown (<code>analysis/annotations_PTR.Rmd</code>) and HTML (<code>docs/annotations_PTR.html</code>) files. If you've configured a remote Git repository (see <code>?wflow_git_remote</code>), click on the hyperlinks in the table below to view the files as they were in that past version.
 </p>
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+File
+</th>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+<th>
+Message
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/j3gu/funcFinemapping/1da45e4498f93d511e9048cef7818ad3525c8890/docs/annotations_PTR.html" target="_blank">1da45e4</a>
+</td>
+<td>
+Jing Gu
+</td>
+<td>
+2022-07-02
+</td>
+<td>
+add PTR annotation
+</td>
+</tr>
+</tbody>
+</table>
+</div>
 <hr>
 </div>
 </div>
@@ -889,22 +933,213 @@ We first tested annotations one at a time using both TORUS and S-LDSC.Then we jo
 </ul>
 <p><strong>S-LDSC</strong></p>
 <p>modified baselineLD model： genic features (introns excluded), LD, MAF, background selection, nucleotide diversity, promoter, recombination rate. annotations: spidex, spliceai, fetal brain m6a, neuronal OCR, differentially methylated regions in brains (DMR)</p>
-<p><img src="figure/annotations_PTR.Rmd/unnamed-chunk-4-1.png" width="672" style="display: block; margin: auto;" /> <strong>Examine baseline annotations</strong></p>
+<p><img src="figure/annotations_PTR.Rmd/unnamed-chunk-4-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-4-1">
+Past versions of unnamed-chunk-4-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-4-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/j3gu/funcFinemapping/blob/467bc60b6b35a97dec8a67306cf326a5fa678d23/docs/figure/annotations_PTR.Rmd/unnamed-chunk-4-1.png" target="_blank">467bc60</a>
+</td>
+<td>
+Jing Gu
+</td>
+<td>
+2022-07-03
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p><strong>Examine baseline annotations</strong></p>
 <ul>
 <li>baseline annotations from m6A paper: baseline_gene_MAF_LD</li>
 <li>test annotation:spliceai score &gt;=0.05</li>
 </ul>
 <p>The intron region annotations explain ~50% of SNP heritability. To not interfere with our testing of splicing effects, I removed intron related annotations from baselines.</p>
-<p><img src="figure/annotations_PTR.Rmd/unnamed-chunk-5-1.png" width="1152" style="display: block; margin: auto;" /> <strong>Torus</strong> <img src="figure/annotations_PTR.Rmd/unnamed-chunk-6-1.png" width="672" style="display: block; margin: auto;" /><img src="figure/annotations_PTR.Rmd/unnamed-chunk-6-2.png" width="672" style="display: block; margin: auto;" /> With the same set of test SNPs, the enrichment estimates are similarly low between torus and LDSC. The enrichment signals seen in the previous runs for torus were gone, likely due to the background difference.</p>
+<p><img src="figure/annotations_PTR.Rmd/unnamed-chunk-5-1.png" width="1152" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-5-1">
+Past versions of unnamed-chunk-5-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-5-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/j3gu/funcFinemapping/blob/467bc60b6b35a97dec8a67306cf326a5fa678d23/docs/figure/annotations_PTR.Rmd/unnamed-chunk-5-1.png" target="_blank">467bc60</a>
+</td>
+<td>
+Jing Gu
+</td>
+<td>
+2022-07-03
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p><strong>Torus</strong> <img src="figure/annotations_PTR.Rmd/unnamed-chunk-6-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-6-1">
+Past versions of unnamed-chunk-6-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-6-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/j3gu/funcFinemapping/blob/467bc60b6b35a97dec8a67306cf326a5fa678d23/docs/figure/annotations_PTR.Rmd/unnamed-chunk-6-1.png" target="_blank">467bc60</a>
+</td>
+<td>
+Jing Gu
+</td>
+<td>
+2022-07-03
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p><img src="figure/annotations_PTR.Rmd/unnamed-chunk-6-2.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-6-2">
+Past versions of unnamed-chunk-6-2.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-6-2" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/j3gu/funcFinemapping/blob/467bc60b6b35a97dec8a67306cf326a5fa678d23/docs/figure/annotations_PTR.Rmd/unnamed-chunk-6-2.png" target="_blank">467bc60</a>
+</td>
+<td>
+Jing Gu
+</td>
+<td>
+2022-07-03
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>With the same set of test SNPs, the enrichment estimates are similarly low between torus and LDSC. The enrichment signals seen in the previous runs for torus were gone, likely due to the background difference.</p>
 </div>
 <div id="other-traits---afib" class="section level3">
 <h3>Other traits - AFib</h3>
-<p><img src="figure/annotations_PTR.Rmd/unnamed-chunk-8-1.png" width="672" style="display: block; margin: auto;" /> For aFib, we see significant enrichment of variants with spliceAI scores &gt;=0.05. Approximately, they contribute to 2.4% of SNP heritability based on taking a product of percent of variants within annotation and enrichment estimate. However, we did not see such enrichment in S-LDSC results. The possible reason might be the signal was drown in the baseline annotations.</p>
+<p><img src="figure/annotations_PTR.Rmd/unnamed-chunk-8-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-8-1">
+Past versions of unnamed-chunk-8-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-8-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/j3gu/funcFinemapping/blob/467bc60b6b35a97dec8a67306cf326a5fa678d23/docs/figure/annotations_PTR.Rmd/unnamed-chunk-8-1.png" target="_blank">467bc60</a>
+</td>
+<td>
+Jing Gu
+</td>
+<td>
+2022-07-03
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>For aFib, we see significant enrichment of variants with spliceAI scores &gt;=0.05. Approximately, they contribute to 2.4% of SNP heritability based on taking a product of percent of variants within annotation and enrichment estimate. However, we did not see such enrichment in S-LDSC results. The possible reason might be the signal was drowned out in the baseline annotations.</p>
 </div>
 <div id="qq-plots-for-comparing-p-values" class="section level3">
 <h3>QQ plots for comparing p-values</h3>
-<p>Comparing p-values of SNPs with high spliceAI scores against 1M genome-wide SNPs</p>
-<p>black: 1M genome-wide SNPs with spliceAI scores &gt;=0 blue: GWAS SNPs with spliceAI scores &gt;=0.05</p>
+<p>Comparing p-values of SNPs with high spliceAI scores against genome-wide SNPs with spliceAI scores &gt;=0.</p>
+<p>black: 1M genome-wide SNPs with spliceAI scores &gt;=0<br />
+blue: GWAS SNPs with spliceAI scores &gt;=0.05</p>
 <p><strong>Schizophrenia</strong></p>
 <div class="figure">
 <img src="assets/qqplot_SNPs_high_spliceAI_scores_SCZ.png" alt="QQ plots" />
@@ -921,12 +1156,124 @@ We first tested annotations one at a time using both TORUS and S-LDSC.Then we jo
 <p class="caption">QQ plots</p>
 </div>
 <ul>
-<li><p>For SCZ, the p-values of GWAS SNPs with spliceiAI scores above the threshold deviate from the null in a similar way as compared to genome-wide SNPs with predicted spliceAI scores.</p></li>
-<li><p>For AFib and allergy, we observed that p-values of SNPs with high spliceAI scores deviated more from the null compared to the genome-wide SNPs. However, this enrichemnt signal was gone after adjusting for baseline annotations by LDSC.</p></li>
+<li><p>For SCZ, the p-values of GWAS SNPs with spliceiAI scores above the threshold deviate from the null in a similar way as compared to genome-wide SNPs.</p></li>
+<li><p>For AFib and allergy, we observed that p-values of SNPs with high spliceAI scores deviated more from the null compared to the genome-wide SNPs. However, this enrichemnt signal was gone after adjusting for baseline annotations with LDSC.</p></li>
 </ul>
 <p><strong>Across multiple traits</strong></p>
-<p><img src="figure/annotations_PTR.Rmd/unnamed-chunk-11-1.png" width="672" style="display: block; margin: auto;" /><img src="figure/annotations_PTR.Rmd/unnamed-chunk-11-2.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/annotations_PTR.Rmd/unnamed-chunk-11-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-11-1">
+Past versions of unnamed-chunk-11-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-11-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/j3gu/funcFinemapping/blob/467bc60b6b35a97dec8a67306cf326a5fa678d23/docs/figure/annotations_PTR.Rmd/unnamed-chunk-11-1.png" target="_blank">467bc60</a>
+</td>
+<td>
+Jing Gu
+</td>
+<td>
+2022-07-03
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p><img src="figure/annotations_PTR.Rmd/unnamed-chunk-11-2.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-11-2">
+Past versions of unnamed-chunk-11-2.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-11-2" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/j3gu/funcFinemapping/blob/467bc60b6b35a97dec8a67306cf326a5fa678d23/docs/figure/annotations_PTR.Rmd/unnamed-chunk-11-2.png" target="_blank">467bc60</a>
+</td>
+<td>
+Jing Gu
+</td>
+<td>
+2022-07-03
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p><strong>test annotations jointly</strong> <img src="figure/annotations_PTR.Rmd/unnamed-chunk-12-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-12-1">
+Past versions of unnamed-chunk-12-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-12-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/j3gu/funcFinemapping/blob/467bc60b6b35a97dec8a67306cf326a5fa678d23/docs/figure/annotations_PTR.Rmd/unnamed-chunk-12-1.png" target="_blank">467bc60</a>
+</td>
+<td>
+Jing Gu
+</td>
+<td>
+2022-07-03
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
@@ -959,18 +1306,18 @@ other attached packages:
 loaded via a namespace (and not attached):
  [1] Rcpp_1.0.8        pillar_1.5.0      compiler_4.0.4    bslib_0.2.4      
  [5] later_1.1.0.1     jquerylib_0.1.3   git2r_0.28.0      highr_0.8        
- [9] workflowr_1.6.2   tools_4.0.4       digest_0.6.27     jsonlite_1.7.2   
-[13] evaluate_0.14     lifecycle_1.0.0   tibble_3.0.6      gtable_0.3.0     
+ [9] workflowr_1.6.2   tools_4.0.4       digest_0.6.27     gtable_0.3.0     
+[13] jsonlite_1.7.2    evaluate_0.14     lifecycle_1.0.0   tibble_3.0.6     
 [17] pkgconfig_2.0.3   rlang_1.0.1       DBI_1.1.1         cli_3.2.0        
 [21] rstudioapi_0.13   yaml_2.2.1        xfun_0.21         withr_2.4.3      
 [25] dplyr_1.0.4       stringr_1.4.0     knitr_1.31        generics_0.1.0   
 [29] fs_1.5.0          vctrs_0.3.8       sass_0.3.1        tidyselect_1.1.1 
 [33] rprojroot_2.0.2   grid_4.0.4        glue_1.6.1        R6_2.5.1         
 [37] fansi_1.0.2       rmarkdown_2.7     farver_2.1.0      purrr_0.3.4      
-[41] magrittr_2.0.1    scales_1.1.1      promises_1.2.0.1  ellipsis_0.3.2   
-[45] htmltools_0.5.1.1 assertthat_0.2.1  colorspace_2.0-2  httpuv_1.5.5     
-[49] labeling_0.4.2    utf8_1.2.2        stringi_1.5.3     munsell_0.5.0    
-[53] crayon_1.4.1     </code></pre>
+[41] magrittr_2.0.1    whisker_0.4       scales_1.1.1      promises_1.2.0.1 
+[45] ellipsis_0.3.2    htmltools_0.5.1.1 assertthat_0.2.1  colorspace_2.0-2 
+[49] httpuv_1.5.5      labeling_0.4.2    utf8_1.2.2        stringi_1.5.3    
+[53] munsell_0.5.0     crayon_1.4.1     </code></pre>
 </div>
 </div>
 </div>
