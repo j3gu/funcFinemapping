@@ -1,0 +1,1064 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>Post-transcriptional regulation</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+
+<link rel="icon" href="https://github.com/workflowr/workflowr-assets/raw/master/img/reproducible.png">
+<!-- Add a small amount of space between sections. -->
+<style type="text/css">
+div.section {
+  padding-top: 12px;
+}
+</style>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.tab('show');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-sm-12 col-md-4 col-lg-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-sm-12 col-md-8 col-lg-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">funcFinemapping</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="about.html">About</a>
+</li>
+<li>
+  <a href="license.html">License</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">Post-transcriptional regulation</h1>
+
+</div>
+
+
+<p>
+<button type="button" class="btn btn-default btn-workflowr btn-workflowr-report" data-toggle="collapse" data-target="#workflowr-report">
+<span class="glyphicon glyphicon-list" aria-hidden="true"></span> workflowr <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span>
+</button>
+</p>
+<div id="workflowr-report" class="collapse">
+<ul class="nav nav-tabs">
+<li class="active">
+<a data-toggle="tab" href="#summary">Summary</a>
+</li>
+<li>
+<a data-toggle="tab" href="#checks"> Checks <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> </a>
+</li>
+<li>
+<a data-toggle="tab" href="#versions">Past versions</a>
+</li>
+</ul>
+<div class="tab-content">
+<div id="summary" class="tab-pane fade in active">
+<p>
+<strong>Last updated:</strong> 2022-07-02
+</p>
+<p>
+<strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 5 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 2
+</p>
+<p>
+<strong>Knit directory:</strong> <code>funcFinemapping/</code> <span class="glyphicon glyphicon-question-sign" aria-hidden="true" title="This is the local directory in which the code in this file was executed."> </span>
+</p>
+<p>
+This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis was created with <a
+  href="https://github.com/jdblischak/workflowr">workflowr</a> (version 1.6.2). The <em>Checks</em> tab describes the reproducibility checks that were applied when the results were created. The <em>Past versions</em> tab lists the development history.
+</p>
+<hr>
+</div>
+<div id="checks" class="tab-pane fade">
+<div id="workflowr-checks" class="panel-group">
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguncommittedchanges"> <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> <strong>R Markdown file:</strong> uncommitted changes </a>
+</p>
+</div>
+<div id="strongRMarkdownfilestronguncommittedchanges" class="panel-collapse collapse">
+<div class="panel-body">
+<p>The R Markdown is untracked by Git. To know which version of the R Markdown file created these results, you'll want to first commit it to the Git repo. If you're still working on the analysis, you can ignore this warning. When you're finished, you can run <code>wflow_publish</code> to commit the R Markdown file and build the HTML.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongEnvironmentstrongempty"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Environment:</strong> empty </a>
+</p>
+</div>
+<div id="strongEnvironmentstrongempty" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! The global environment was empty. Objects defined in the global environment can affect the analysis in your R Markdown file in unknown ways. For reproduciblity it's best to always run the code in an empty environment.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSeedstrongcodesetseed20210404code"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Seed:</strong> <code>set.seed(20210404)</code> </a>
+</p>
+</div>
+<div id="strongSeedstrongcodesetseed20210404code" class="panel-collapse collapse">
+<div class="panel-body">
+<p>The command <code>set.seed(20210404)</code> was run prior to running the code in the R Markdown file. Setting a seed ensures that any results that rely on randomness, e.g. subsampling or permutations, are reproducible.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSessioninformationstrongrecorded"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Session information:</strong> recorded </a>
+</p>
+</div>
+<div id="strongSessioninformationstrongrecorded" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! Recording the operating system, R version, and package versions is critical for reproducibility.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongCachestrongnone"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Cache:</strong> none </a>
+</p>
+</div>
+<div id="strongCachestrongnone" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Nice! There were no cached chunks for this analysis, so you can be confident that you successfully produced the results during this run.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongFilepathsstrongabsolute"> <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> <strong>File paths:</strong> absolute </a>
+</p>
+</div>
+<div id="strongFilepathsstrongabsolute" class="panel-collapse collapse">
+<div class="panel-body">
+<p>
+Using absolute paths to the files within your workflowr project makes it difficult for you and others to run your code on a different machine. Change the absolute path(s) below to the suggested relative path(s) to make your code more reproducible.
+</p>
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th style="text-align:left;">
+absolute
+</th>
+<th style="text-align:left;">
+relative
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+~/projects/funcFinemapping/data/qqplot_SNPs_high_spliceAI_scores_allergy.png
+</td>
+<td style="text-align:left;">
+data/qqplot_SNPs_high_spliceAI_scores_allergy.png
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+~/projects/funcFinemapping/data/qqplot_SNPs_high_spliceAI.png
+</td>
+<td style="text-align:left;">
+data/qqplot_SNPs_high_spliceAI.png
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomj3gufuncFinemappingtreed96f416503f721035dc5859438ed502212b24fe1targetblankd96f416a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/j3gu/funcFinemapping/tree/d96f416503f721035dc5859438ed502212b24fe1" target="_blank">d96f416</a> </a>
+</p>
+</div>
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomj3gufuncFinemappingtreed96f416503f721035dc5859438ed502212b24fe1targetblankd96f416a" class="panel-collapse collapse">
+<div class="panel-body">
+<p>
+Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
+</p>
+<p>
+The results in this page were generated with repository version <a href="https://github.com/j3gu/funcFinemapping/tree/d96f416503f721035dc5859438ed502212b24fe1" target="_blank">d96f416</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+</p>
+<p>
+Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
+</p>
+<pre><code>
+Ignored files:
+    Ignored:    .ipynb_checkpoints/
+    Ignored:    analysis/build_annotations_for_single_cell_data.nb.html
+    Ignored:    analysis/lab4_prepare.nb.html
+    Ignored:    analysis/ldsc_results.nb.html
+    Ignored:    analysis/learn_archR.nb.html
+    Ignored:    analysis/mtsplice_finemapping_results.nb.html
+    Ignored:    analysis/results.nb.html
+    Ignored:    analysis/snp_finemapping_results.nb.html
+    Ignored:    analysis/splicing.nb.html
+    Ignored:    analysis/susie_tutorial.nb.html
+
+Untracked files:
+    Untracked:  SNPs_categories,png
+    Untracked:  SNPs_categories.png
+    Untracked:  analysis/.ipynb_checkpoints/
+    Untracked:  analysis/annotations_PTR.Rmd
+    Untracked:  bmi_locus1410.pdf
+    Untracked:  code/.ipynb_checkpoints/
+    Untracked:  code/.snakemake/
+    Untracked:  code/Euro_LD_Chunks.RData
+    Untracked:  code/Snakefile
+    Untracked:  code/config.yaml
+    Untracked:  code/environment.yml
+    Untracked:  code/ldsc.log
+    Untracked:  code/ldsc.results
+    Untracked:  code/ldsc_regression.sh
+    Untracked:  code/make_plots.R
+    Untracked:  code/run_ldsc.sh
+    Untracked:  code/run_ldsc_with_bed.sh
+    Untracked:  code/run_ldsc_with_bed_v2.sh
+    Untracked:  code/run_susie.R
+    Untracked:  code/run_torus.sh
+    Untracked:  code/sctype/
+    Untracked:  code/slurm-20815237.out
+    Untracked:  code/slurm-20832976.out
+    Untracked:  code/slurm-20832977.out
+    Untracked:  code/slurm-20832978.out
+    Untracked:  code/slurm-20832979.out
+    Untracked:  code/slurm-20832980.out
+    Untracked:  code/slurm-21213166.out
+    Untracked:  code/slurm-21213167.out
+    Untracked:  code/slurm-21213168.out
+    Untracked:  code/slurm-21213169.out
+    Untracked:  code/slurm-21213170.out
+    Untracked:  code/slurm-21213181.out
+    Untracked:  code/slurm-21213183.out
+    Untracked:  code/slurm-21213184.out
+    Untracked:  code/slurm-21213188.out
+    Untracked:  code/slurm-21213195.out
+    Untracked:  code/slurm-21213200.out
+    Untracked:  code/slurm-21213204.out
+    Untracked:  code/slurm-21213207.out
+    Untracked:  code/slurm-21213212.out
+    Untracked:  code/slurm-21213217.out
+    Untracked:  code/slurm-21213224.out
+    Untracked:  code/slurm-21213230.out
+    Untracked:  code/slurm-21213231.out
+    Untracked:  code/slurm-21213236.out
+    Untracked:  code/slurm-21213240.out
+    Untracked:  code/slurm-21213244.out
+    Untracked:  code/slurm-21213246.out
+    Untracked:  code/slurm-21213601.out
+    Untracked:  code/slurm-21213602.out
+    Untracked:  code/slurm-21213603.out
+    Untracked:  code/slurm-21213604.out
+    Untracked:  code/slurm-21214302.out
+    Untracked:  code/slurm-21214303.out
+    Untracked:  code/slurm-21214359.out
+    Untracked:  code/slurm-21216841.out
+    Untracked:  code/slurm-21216842.out
+    Untracked:  code/slurm-21216843.out
+    Untracked:  code/slurm-21216844.out
+    Untracked:  code/slurm-21216845.out
+    Untracked:  code/slurm-21217091.out
+    Untracked:  code/slurm-21217092.out
+    Untracked:  code/slurm-21217093.out
+    Untracked:  code/slurm-21217094.out
+    Untracked:  code/slurm-21217095.out
+    Untracked:  code/slurm-21217137.out
+    Untracked:  code/slurm-21217138.out
+    Untracked:  code/slurm-21217139.out
+    Untracked:  code/slurm-21217140.out
+    Untracked:  code/slurm-21217141.out
+    Untracked:  code/slurm-21217343.out
+    Untracked:  code/slurm-21217344.out
+    Untracked:  code/slurm-21217345.out
+    Untracked:  code/slurm-21217346.out
+    Untracked:  code/slurm-21217347.out
+    Untracked:  code/slurm-21217382.out
+    Untracked:  code/slurm-21217383.out
+    Untracked:  code/slurm-21217384.out
+    Untracked:  code/slurm-21217385.out
+    Untracked:  code/slurm-21217386.out
+    Untracked:  code/slurm-21217411.out
+    Untracked:  code/slurm-21217412.out
+    Untracked:  code/slurm-21217413.out
+    Untracked:  code/slurm-21217414.out
+    Untracked:  code/slurm-21217416.out
+    Untracked:  code/slurm-21217455.out
+    Untracked:  code/slurm-21217456.out
+    Untracked:  code/slurm-21217457.out
+    Untracked:  code/slurm-21217458.out
+    Untracked:  code/slurm-21217459.out
+    Untracked:  code/slurm-21217482.out
+    Untracked:  code/slurm-21217489.out
+    Untracked:  code/slurm-21217490.out
+    Untracked:  code/slurm-21217491.out
+    Untracked:  code/slurm-21217492.out
+    Untracked:  code/slurm-21217531.out
+    Untracked:  code/slurm-21217532.out
+    Untracked:  code/slurm-21217533.out
+    Untracked:  code/slurm-21217534.out
+    Untracked:  code/slurm-21217536.out
+    Untracked:  code/slurm-21217574.out
+    Untracked:  code/slurm-21217575.out
+    Untracked:  code/slurm-21217576.out
+    Untracked:  code/slurm-21217577.out
+    Untracked:  code/slurm-21217578.out
+    Untracked:  code/slurm-21217601.out
+    Untracked:  code/slurm-21217602.out
+    Untracked:  code/slurm-21217603.out
+    Untracked:  code/slurm-21217604.out
+    Untracked:  code/slurm-21217607.out
+    Untracked:  code/slurm-21217627.out
+    Untracked:  code/slurm-21217628.out
+    Untracked:  code/slurm-21217629.out
+    Untracked:  code/slurm-21217630.out
+    Untracked:  code/slurm-21217633.out
+    Untracked:  code/slurm-21217669.out
+    Untracked:  code/slurm-21217671.out
+    Untracked:  code/slurm-21217672.out
+    Untracked:  code/slurm-21217673.out
+    Untracked:  code/slurm-21217674.out
+    Untracked:  code/slurm-21217700.out
+    Untracked:  code/slurm-21217701.out
+    Untracked:  code/slurm-21217702.out
+    Untracked:  code/slurm-21217703.out
+    Untracked:  code/slurm-21217707.out
+    Untracked:  code/slurm-21217747.out
+    Untracked:  code/slurm-21217748.out
+    Untracked:  code/slurm-21217749.out
+    Untracked:  code/slurm-21217750.out
+    Untracked:  code/slurm-21217751.out
+    Untracked:  code/slurm-21217773.out
+    Untracked:  code/slurm-21217783.out
+    Untracked:  code/slurm-21217784.out
+    Untracked:  code/slurm-21217785.out
+    Untracked:  code/slurm-21217786.out
+    Untracked:  code/slurm-21217975.out
+    Untracked:  code/slurm-21217976.out
+    Untracked:  code/slurm-21217977.out
+    Untracked:  code/slurm-21217979.out
+    Untracked:  code/slurm-21217980.out
+    Untracked:  code/slurm-21218015.out
+    Untracked:  code/slurm-21218016.out
+    Untracked:  code/slurm-21218017.out
+    Untracked:  code/slurm-21218018.out
+    Untracked:  code/slurm-21218019.out
+    Untracked:  code/slurm-21218038.out
+    Untracked:  code/slurm-21218039.out
+    Untracked:  code/slurm-21218040.out
+    Untracked:  code/slurm-21218046.out
+    Untracked:  code/slurm-21218047.out
+    Untracked:  code/slurm-21218071.out
+    Untracked:  code/slurm-21218072.out
+    Untracked:  code/slurm-21218073.out
+    Untracked:  code/slurm-21218076.out
+    Untracked:  code/slurm-21218077.out
+    Untracked:  code/slurm-21218081.out
+    Untracked:  code/slurm-21218082.out
+    Untracked:  code/slurm-21218083.out
+    Untracked:  code/slurm-21218084.out
+    Untracked:  code/slurm-21218085.out
+    Untracked:  code/slurm-21218117.out
+    Untracked:  code/slurm-21218118.out
+    Untracked:  code/slurm-21218119.out
+    Untracked:  code/slurm-21218120.out
+    Untracked:  code/slurm-21218125.out
+    Untracked:  code/slurm-21218129.out
+    Untracked:  code/split_vcf.sh
+    Untracked:  code_backup/
+    Untracked:  data/ScTypeDB_full.xlsx
+    Untracked:  data/hg19_gtf_genomic_annots_ver2.gr.rds
+    Untracked:  data/num_overlaps_finemapped_SNPs_and_ctcf.txt
+    Untracked:  data/qqplot_SNPs_high_spliceAI.png
+    Untracked:  data/qqplot_SNPs_high_spliceAI_scores_SCZ.png
+    Untracked:  data/qqplot_SNPs_high_spliceAI_scores_aFib.png
+    Untracked:  data/qqplot_SNPs_high_spliceAI_scores_allergy.png
+    Untracked:  data/torus_enrichment_novel_annot.est
+    Untracked:  data/torus_joint_enrichment.est
+    Untracked:  data/torus_joint_refined_enrichment.est
+    Untracked:  enhancer_gene_feature.rmd
+    Untracked:  fig1_panels.pdf
+    Untracked:  fig2.pdf
+    Untracked:  fig_panel2.pdf
+    Untracked:  gene_mapping.pdf
+    Untracked:  output/AAD/GMP_merge_stats.txt
+    Untracked:  output/AAD/Wang2020_joint.results
+    Untracked:  output/AAD/Wang2020_joint_T.results
+    Untracked:  output/AAD/Wang2020_joint_tissueResT.results
+    Untracked:  output/AAD/allergy/Ulirsch2019/GMP_merge_compare_old.est
+    Untracked:  output/AAD/allergy/Ulirsch2019_disjoint_snps.sumstats
+    Untracked:  output/AAD/allergy/Wang2020_T_subsets.est
+    Untracked:  output/AAD/allergy/Wang2020_T_subsets_indiv.est
+    Untracked:  output/AAD/allergy/Wang2020_T_tissueRes.est
+    Untracked:  output/AAD/allergy/Wang2020_joint_T.results
+    Untracked:  output/AAD/allergy/Wang2020_joint_tissueResT.results
+    Untracked:  output/AAD/allergy/Wang2020_tissueResT.est
+    Untracked:  output/AAD/allergy/torus_enrichment_CD4.est
+    Untracked:  output/AAD/allergy/torus_enrichment_CD8.est
+    Untracked:  output/AAD/allergy/torus_enrichment_non_tissueRes_T.est
+    Untracked:  output/AAD/allergy/torus_enrichment_tissueMigraT.est
+    Untracked:  output/AAD/allergy/torus_enrichment_tissueResT_C6.est
+    Untracked:  output/AAD/allergy/torus_enrichment_tissueResT_C8.est
+    Untracked:  output/AAD/allergy/torus_enrichment_tissueRes_T.est
+    Untracked:  output/AAD/allergy/torus_enrichment_tissueResident_T_cells.est
+    Untracked:  output/AAD/asthma_adult/Ulirsch2019/CD4_compare_old.est
+    Untracked:  output/AAD/asthma_adult/Ulirsch2019/CD8_compare_old.est
+    Untracked:  output/AAD/asthma_adult/Ulirsch2019/GMP_merge_compare_old.est
+    Untracked:  output/AAD/asthma_adult/Wang2020_T_subsets.est
+    Untracked:  output/AAD/asthma_adult/Wang2020_T_subsets_indiv.est
+    Untracked:  output/AAD/asthma_adult/Wang2020_T_tissueRes.est
+    Untracked:  output/AAD/asthma_adult/Wang2020_joint_T.results
+    Untracked:  output/AAD/asthma_adult/Wang2020_joint_tissueResT.results
+    Untracked:  output/AAD/asthma_adult/torus_enrichment_CD4.est
+    Untracked:  output/AAD/asthma_adult/torus_enrichment_CD8.est
+    Untracked:  output/AAD/asthma_adult/torus_enrichment_non_tissueRes_T.est
+    Untracked:  output/AAD/asthma_adult/torus_enrichment_tissueMigraT.est
+    Untracked:  output/AAD/asthma_adult/torus_enrichment_tissueResT_C6.est
+    Untracked:  output/AAD/asthma_adult/torus_enrichment_tissueResT_C8.est
+    Untracked:  output/AAD/asthma_adult/torus_enrichment_tissueRes_T.est
+    Untracked:  output/AAD/asthma_adult/torus_enrichment_tissueResident_T_cells.est
+    Untracked:  output/AAD/asthma_child/CD4_compare.est
+    Untracked:  output/AAD/asthma_child/CD8_compare.est
+    Untracked:  output/AAD/asthma_child/Ulirsch2019/GMP_merge_compare_old.est
+    Untracked:  output/AAD/asthma_child/Ulirsch2019/torus_enrichment_CD4.est
+    Untracked:  output/AAD/asthma_child/Ulirsch2019/torus_enrichment_CD8.est
+    Untracked:  output/AAD/asthma_child/Wang2020_T_subsets.est
+    Untracked:  output/AAD/asthma_child/Wang2020_T_subsets_indiv.est
+    Untracked:  output/AAD/asthma_child/Wang2020_T_tissueRes.est
+    Untracked:  output/AAD/asthma_child/Wang2020_joint_T.results
+    Untracked:  output/AAD/asthma_child/Wang2020_joint_tissueResT.results
+    Untracked:  output/AAD/asthma_child/torus_enrichment_CD4.est
+    Untracked:  output/AAD/asthma_child/torus_enrichment_CD8.est
+    Untracked:  output/AAD/asthma_child/torus_enrichment_non_tissueRes_T.est
+    Untracked:  output/AAD/asthma_child/torus_enrichment_tissueMigraT.est
+    Untracked:  output/AAD/asthma_child/torus_enrichment_tissueResT_C6.est
+    Untracked:  output/AAD/asthma_child/torus_enrichment_tissueResT_C8.est
+    Untracked:  output/AAD/asthma_child/torus_enrichment_tissueRes_T.est
+    Untracked:  output/AAD/asthma_child/torus_enrichment_tissueResident_T_cells.est
+    Untracked:  output/LDL_ukb_L10.gif
+    Untracked:  output/LDL_ukb_L10.pdf
+    Untracked:  output/background_SNPs_annotated_percent.txt
+    Untracked:  output/ldsc
+    Untracked:  output/locus_1452.gif
+    Untracked:  output/locus_1452.pdf
+    Untracked:  output/splicing/PTR_across_traits_annotations.results
+    Untracked:  output/splicing/header.txt
+    Untracked:  output/splicing/prior/
+    Untracked:  output/splicing/scz_PTR_annotations.results
+    Untracked:  output/splicing/scz_neuOCR_m6a_DMR.results
+    Untracked:  output/splicing/scz_spliceAI0.03_hist.png
+    Untracked:  output/splicing/scz_spliceAI0.03_scatterplot.png
+    Untracked:  output/splicing/scz_spliceai_binary0.03.results
+    Untracked:  output/splicing/torus_afib_spliceai.est
+    Untracked:  output/splicing/torus_annotations_spliceai0.01.txt.gz
+    Untracked:  output/splicing/torus_annotations_spliceai0.03.txt.gz
+    Untracked:  output/splicing/torus_annotations_spliceai0.05.txt.gz
+    Untracked:  output/splicing/torus_annotations_spliceai0.07.txt.gz
+    Untracked:  output/splicing/torus_annotations_spliceai0.1.txt.gz
+    Untracked:  output/splicing/torus_annotations_spliceai0.2.txt.gz
+    Untracked:  output/splicing/torus_annotations_spliceai9.txt.gz
+    Untracked:  output/splicing/torus_enrichment_joint_scz_mtsplice0.6_hypothalamus-brain.est
+    Untracked:  output/splicing/torus_enrichment_joint_scz_spliceAI.est
+    Untracked:  output/splicing/torus_spliceai0.01.enrichment
+    Untracked:  output/splicing/torus_spliceai0.03.enrichment
+    Untracked:  output/splicing/torus_spliceai0.05.enrichment
+    Untracked:  output/splicing/torus_spliceai0.07.enrichment
+    Untracked:  output/splicing/torus_spliceai0.1.enrichment
+    Untracked:  output/splicing/torus_spliceai0.2.enrichment
+    Untracked:  output/splicing/torus_zscores.txt.gz
+    Untracked:  output/torus
+    Untracked:  panel_figure2.pdf
+    Untracked:  test.txt
+
+Unstaged changes:
+    Deleted:    .Rprofile
+    Modified:   analysis/ldsc_PTR_results.Rmd
+    Deleted:    output/AAD/Caldero2019_disjoint_snps.sumstats
+    Modified:   output/AAD/allergy/Caldero2019_disjoint_snps.sumstats
+    Modified:   output/AAD/allergy/Ulirsch2019/GMP_merge_compare.est
+    Modified:   output/AAD/allergy/Wang2020_indiv.est
+    Modified:   output/AAD/allergy/Wang2020_joint.results
+    Deleted:    output/AAD/asthma/Caldero2019_diffDA_annot_percent.txt
+    Deleted:    output/AAD/asthma/Caldero2019_stimuDA_annot_percent.txt
+    Deleted:    output/AAD/asthma/celltype_specific_adult_lungs_torus.est
+    Deleted:    output/AAD/asthma/diffe_adult_blood_torus.est
+    Deleted:    output/AAD/asthma/joint_blood_immune_rest_vs_stimu.est
+    Deleted:    output/AAD/asthma/joint_lung_vs_blood_immune_diff_torus.est
+    Deleted:    output/AAD/asthma/joint_lung_vs_blood_immune_stimu_torus.est
+    Deleted:    output/AAD/asthma/lung_clusters_dict.txt
+    Deleted:    output/AAD/asthma/lung_clusters_info.txt
+    Deleted:    output/AAD/asthma/stimu_adult_blood_torus.est
+    Deleted:    output/AAD/asthma/torus_enrichment_all_rest.est
+    Deleted:    output/AAD/asthma/torus_enrichment_all_stimulated.est
+    Deleted:    output/AAD/asthma/zhang2021_annot_percent.txt
+    Deleted:    output/AAD/asthma/zhang2021_cell_type_overlaps.txt
+    Deleted:    output/AAD/asthma/zhang2021_peaks_per_celltype.txt
+    Modified:   output/AAD/asthma_adult/Ulirsch2019/CD4_compare.est
+    Modified:   output/AAD/asthma_adult/Ulirsch2019/CD8_compare.est
+    Deleted:    output/AAD/asthma_adult/Ulirsch2019/GMP_merge_compare.est
+    Modified:   output/AAD/asthma_adult/Wang2020_indiv.est
+    Modified:   output/AAD/asthma_adult/Wang2020_joint.results
+    Modified:   output/AAD/asthma_child/Ulirsch2019/GMP_merge_compare.est
+    Modified:   output/AAD/asthma_child/Wang2020_indiv.est
+    Modified:   output/AAD/asthma_child/Wang2020_joint.results
+    Deleted:    output/asthma/Caldero2019_diffDA_annot_percent.txt
+    Deleted:    output/asthma/Caldero2019_stimuDA_annot_percent.txt
+    Deleted:    output/asthma/celltype_specific_adult_lungs_torus.est
+    Deleted:    output/asthma/diffe_adult_blood_torus.est
+    Deleted:    output/asthma/joint_lung_vs_blood_immune_diff_torus.est
+    Deleted:    output/asthma/joint_lung_vs_blood_immune_stimu_torus.est
+    Deleted:    output/asthma/lung_clusters_dict.txt
+    Deleted:    output/asthma/lung_clusters_info.txt
+    Deleted:    output/asthma/stimu_adult_blood_torus.est
+    Deleted:    output/asthma/zhang2021_annot_percent.txt
+    Deleted:    output/asthma/zhang2021_cell_type_overlaps.txt
+    Deleted:    output/asthma/zhang2021_peaks_per_celltype.txt
+
+</code></pre>
+<p>
+Note that any generated files, e.g. HTML, png, CSS, etc., are not included in this status report because it is ok for generated content to have uncommitted changes.
+</p>
+</div>
+</div>
+</div>
+</div>
+<hr>
+</div>
+<div id="versions" class="tab-pane fade">
+<p>
+There are no past versions. Publish this analysis with <code>wflow_publish()</code> to start tracking its development.
+</p>
+<hr>
+</div>
+</div>
+</div>
+<div id="backgrounds" class="section level2">
+<h2>Backgrounds</h2>
+<p>Post-transcriptional regulatory (PTR) processes have been implicated in development and diseases, however, it is largely unknown how genetic variations are mediated through PTR processes. We propose to annotate GWAS variants using both experimental measurements and computational predictions. With this prior knowledge, we can further identify most likely causal variants through fine-mapping and then link them to genes.</p>
+<p>Several post-transcriptonal features will be explored:</p>
+<ul>
+<li>alternative splicing</li>
+<li>RNA modification: m6A</li>
+<li>RNA binding</li>
+<li>Polyadenylation</li>
+</ul>
+</div>
+<div id="methods" class="section level2">
+<h2>Methods</h2>
+<p><strong>SNP effect predictions</strong><br />
+The predictions of variant effects on post-transcriptional regulation were performed on 10 million SNPs after some QC criteria, from 1000 genome phase 3 project.</p>
+<p><strong>Enrichment analysis</strong><br />
+We first tested annotations one at a time using both TORUS and S-LDSC.Then we jointly assessed a set of annotations.</p>
+<p>For the early attempts, I ran torus and S-LDSC on different numbers of test SNPs. As an example, there are 6M SNPs for SCZ, but 8M SNPs for aFIb after the same filtering steps. However, for S-LDSC analysis, around 1M hapmap3 SNPs were tested across all traits.</p>
+</div>
+<div id="results" class="section level2">
+<h2>Results</h2>
+<div id="enrichment-analysis" class="section level3">
+<h3>Enrichment analysis</h3>
+<p>To make it comparable, I run S-LDSC and Torus on the same set of test SNPs, which are around 1 million SNPs from hapmap3.</p>
+<p>Legends for the plots:</p>
+<ul>
+<li>x-axis - annotations</li>
+<li>y-axis - fold of enrichment</li>
+<li>label on the plot - percent of narrow-sense heritability</li>
+<li>dashed line - no enrichment</li>
+</ul>
+<p><strong>S-LDSC</strong></p>
+<p>modified baselineLD model： genic features (introns excluded), LD, MAF, background selection, nucleotide diversity, promoter, recombination rate. annotations: spidex, spliceai, fetal brain m6a, neuronal OCR, differentially methylated regions in brains (DMR)</p>
+<p><img src="figure/annotations_PTR.Rmd/unnamed-chunk-4-1.png" width="672" style="display: block; margin: auto;" /> <strong>Examine baseline annotations</strong></p>
+<ul>
+<li>baseline annotations from m6A paper: baseline_gene_MAF_LD</li>
+<li>test annotation:spliceai score &gt;=0.05</li>
+</ul>
+<p>The intron region annotations explain ~50% of SNP heritability. To not interfere with our testing of splicing effects, I removed intron related annotations from baselines.</p>
+<p><img src="figure/annotations_PTR.Rmd/unnamed-chunk-5-1.png" width="1152" style="display: block; margin: auto;" /> <strong>Torus</strong> <img src="figure/annotations_PTR.Rmd/unnamed-chunk-6-1.png" width="672" style="display: block; margin: auto;" /><img src="figure/annotations_PTR.Rmd/unnamed-chunk-6-2.png" width="672" style="display: block; margin: auto;" /> With the same set of test SNPs, the enrichment estimates are similarly low between torus and LDSC. The enrichment signals seen in the previous runs for torus were gone, likely due to the background difference.</p>
+</div>
+<div id="other-traits---afib" class="section level3">
+<h3>Other traits - AFib</h3>
+<p><img src="figure/annotations_PTR.Rmd/unnamed-chunk-8-1.png" width="672" style="display: block; margin: auto;" /> For aFib, we see significant enrichment of variants with spliceAI scores &gt;=0.05. Approximately, they contribute to 2.4% of SNP heritability based on taking a product of percent of variants within annotation and enrichment estimate. However, we did not see such enrichment in S-LDSC results. The possible reason might be the signal was drown in the baseline annotations.</p>
+</div>
+<div id="qq-plots-for-comparing-p-values" class="section level3">
+<h3>QQ plots for comparing p-values</h3>
+<p>Comparing p-values of SNPs with high spliceAI scores against 1M genome-wide SNPs</p>
+<p>black: 1M genome-wide SNPs with spliceAI scores &gt;=0 blue: GWAS SNPs with spliceAI scores &gt;=0.05</p>
+<p><strong>Schizophrenia</strong></p>
+<div class="figure">
+<img src="assets/qqplot_SNPs_high_spliceAI_scores_SCZ.png" alt="QQ plots" />
+<p class="caption">QQ plots</p>
+</div>
+<p><strong>Afib</strong></p>
+<div class="figure">
+<img src="assets/qqplot_SNPs_high_spliceAI_scores_aFib.png" alt="QQ plots" />
+<p class="caption">QQ plots</p>
+</div>
+<p><strong>Allergy</strong></p>
+<div class="figure">
+<img src="assets/qqplot_SNPs_high_spliceAI_scores_allergy.png" alt="QQ plots" />
+<p class="caption">QQ plots</p>
+</div>
+<ul>
+<li><p>For SCZ, the p-values of GWAS SNPs with spliceiAI scores above the threshold deviate from the null in a similar way as compared to genome-wide SNPs with predicted spliceAI scores.</p></li>
+<li><p>For AFib and allergy, we observed that p-values of SNPs with high spliceAI scores deviated more from the null compared to the genome-wide SNPs. However, this enrichemnt signal was gone after adjusting for baseline annotations by LDSC.</p></li>
+</ul>
+<p><strong>Across multiple traits</strong></p>
+<p><img src="figure/annotations_PTR.Rmd/unnamed-chunk-11-1.png" width="672" style="display: block; margin: auto;" /><img src="figure/annotations_PTR.Rmd/unnamed-chunk-11-2.png" width="672" style="display: block; margin: auto;" /></p>
+<p><strong>test annotations jointly</strong> <img src="figure/annotations_PTR.Rmd/unnamed-chunk-12-1.png" width="672" style="display: block; margin: auto;" /></p>
+<br>
+<p>
+<button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
+<span class="glyphicon glyphicon-wrench" aria-hidden="true"></span> Session information
+</button>
+</p>
+<div id="workflowr-sessioninfo" class="collapse">
+<pre class="r"><code>sessionInfo()</code></pre>
+<pre><code>R version 4.0.4 (2021-02-15)
+Platform: x86_64-pc-linux-gnu (64-bit)
+Running under: Scientific Linux 7.4 (Nitrogen)
+
+Matrix products: default
+BLAS/LAPACK: /software/openblas-0.3.13-el7-x86_64/lib/libopenblas_haswellp-r0.3.13.so
+
+locale:
+ [1] LC_CTYPE=en_US.UTF-8       LC_NUMERIC=C              
+ [3] LC_TIME=en_US.UTF-8        LC_COLLATE=en_US.UTF-8    
+ [5] LC_MONETARY=en_US.UTF-8    LC_MESSAGES=en_US.UTF-8   
+ [7] LC_PAPER=en_US.UTF-8       LC_NAME=C                 
+ [9] LC_ADDRESS=C               LC_TELEPHONE=C            
+[11] LC_MEASUREMENT=en_US.UTF-8 LC_IDENTIFICATION=C       
+
+attached base packages:
+[1] stats     graphics  grDevices utils     datasets  methods   base     
+
+other attached packages:
+[1] ggplot2_3.3.3
+
+loaded via a namespace (and not attached):
+ [1] Rcpp_1.0.8        pillar_1.5.0      compiler_4.0.4    bslib_0.2.4      
+ [5] later_1.1.0.1     jquerylib_0.1.3   git2r_0.28.0      highr_0.8        
+ [9] workflowr_1.6.2   tools_4.0.4       digest_0.6.27     jsonlite_1.7.2   
+[13] evaluate_0.14     lifecycle_1.0.0   tibble_3.0.6      gtable_0.3.0     
+[17] pkgconfig_2.0.3   rlang_1.0.1       DBI_1.1.1         cli_3.2.0        
+[21] rstudioapi_0.13   yaml_2.2.1        xfun_0.21         withr_2.4.3      
+[25] dplyr_1.0.4       stringr_1.4.0     knitr_1.31        generics_0.1.0   
+[29] fs_1.5.0          vctrs_0.3.8       sass_0.3.1        tidyselect_1.1.1 
+[33] rprojroot_2.0.2   grid_4.0.4        glue_1.6.1        R6_2.5.1         
+[37] fansi_1.0.2       rmarkdown_2.7     farver_2.1.0      purrr_0.3.4      
+[41] magrittr_2.0.1    scales_1.1.1      promises_1.2.0.1  ellipsis_0.3.2   
+[45] htmltools_0.5.1.1 assertthat_0.2.1  colorspace_2.0-2  httpuv_1.5.5     
+[49] labeling_0.4.2    utf8_1.2.2        stringi_1.5.3     munsell_0.5.0    
+[53] crayon_1.4.1     </code></pre>
+</div>
+</div>
+</div>
+
+
+<!-- Adjust MathJax settings so that all math formulae are shown using
+TeX fonts only; see
+http://docs.mathjax.org/en/latest/configuration.html.  This will make
+the presentation more consistent at the cost of the webpage sometimes
+taking slightly longer to load. Note that this only works because the
+footer is added to webpages before the MathJax javascript. -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    "HTML-CSS": { availableFonts: ["TeX"] }
+  });
+</script>
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
