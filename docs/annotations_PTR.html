@@ -493,16 +493,16 @@ data/qqplot_SNPs_high_spliceAI.png
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomj3gufuncFinemappingtree675a05fa63fc97b0b0b47f57c908edd2290aa0e7targetblank675a05fa"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/j3gu/funcFinemapping/tree/675a05fa63fc97b0b0b47f57c908edd2290aa0e7" target="_blank">675a05f</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomj3gufuncFinemappingtree5ed2d281b7770d43c8f3d4b31f0a73c0634bbd4ftargetblank5ed2d28a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/j3gu/funcFinemapping/tree/5ed2d281b7770d43c8f3d4b31f0a73c0634bbd4f" target="_blank">5ed2d28</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomj3gufuncFinemappingtree675a05fa63fc97b0b0b47f57c908edd2290aa0e7targetblank675a05fa" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomj3gufuncFinemappingtree5ed2d281b7770d43c8f3d4b31f0a73c0634bbd4ftargetblank5ed2d28a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/j3gu/funcFinemapping/tree/675a05fa63fc97b0b0b47f57c908edd2290aa0e7" target="_blank">675a05f</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/j3gu/funcFinemapping/tree/5ed2d281b7770d43c8f3d4b31f0a73c0634bbd4f" target="_blank">5ed2d28</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -1006,6 +1006,23 @@ Message
 html
 </td>
 <td>
+<a href="https://rawcdn.githack.com/j3gu/funcFinemapping/5ed2d281b7770d43c8f3d4b31f0a73c0634bbd4f/docs/annotations_PTR.html" target="_blank">5ed2d28</a>
+</td>
+<td>
+Jing Gu
+</td>
+<td>
+2022-07-09
+</td>
+<td>
+PTR annotations
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
 <a href="https://rawcdn.githack.com/j3gu/funcFinemapping/675a05fa63fc97b0b0b47f57c908edd2290aa0e7/docs/annotations_PTR.html" target="_blank">675a05f</a>
 </td>
 <td>
@@ -1099,7 +1116,7 @@ We first tested annotations one at a time using both TORUS and S-LDSC.Then we jo
 <h2>Results</h2>
 <div id="enrichment-analysis-on-scz-gwas" class="section level3">
 <h3>Enrichment analysis on SCZ GWAS</h3>
-<p>To make it comparable, I run S-LDSC and Torus on the same set of test SNPs, which are around 1 million SNPs from hapmap3.</p>
+<p>To make it comparable, I ran LDSC and Torus on the same set of test SNPs, which are around 1 million SNPs from hapmap3.</p>
 <p><em>Legends for the plots</em>:</p>
 <ul>
 <li>y-axis - annotations(% of SNPs within annotations)</li>
@@ -1107,7 +1124,7 @@ We first tested annotations one at a time using both TORUS and S-LDSC.Then we jo
 <li>label on the plot - percent of SNP heritability explained by each annotation</li>
 <li>dashed line - no enrichment</li>
 </ul>
-<p><strong>S-LDSC</strong></p>
+<p><strong>LDSC</strong></p>
 <p>modified baselines from m6A paper:<br />
 genic features (introns excluded), LD, MAF, background selection, nucleotide diversity, promoter, recombination rate.<br />
 annotations: spidex, spliceai, fetal brain m6a, neuronal OCR, differentially methylated regions in brains (DMR)</p>
@@ -1192,6 +1209,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/j3gu/funcFinemapping/blob/5ed2d281b7770d43c8f3d4b31f0a73c0634bbd4f/docs/figure/annotations_PTR.Rmd/unnamed-chunk-5-1.png" target="_blank">5ed2d28</a>
+</td>
+<td>
+Jing Gu
+</td>
+<td>
+2022-07-09
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/j3gu/funcFinemapping/blob/467bc60b6b35a97dec8a67306cf326a5fa678d23/docs/figure/annotations_PTR.Rmd/unnamed-chunk-5-1.png" target="_blank">467bc60</a>
 </td>
 <td>
@@ -1205,7 +1233,7 @@ Jing Gu
 </table>
 </div>
 </div>
-<p><details> <summary>Fig 1.2 Baseline enrichment of SCZ risk variants from S-LDSC.</summary> The baseline models used in this analysis was from the m6A science paper. We observed that coding and 3'UTR regions show significant enrichment, but the overall contribution to SNP h2g is small(&lt;5%). While introns and their planking regions were slighty enriched, they contribute to ~50% of SNP heritability. </details></p>
+<p><details> <summary>Fig 1.2 Baseline enrichment of SCZ risk variants from LDSC.</summary> The baseline models used in this analysis was from the m6A science paper. We observed that coding and 3'UTR regions show significant enrichment, but the overall contribution to SNP h2g is small(&lt;5%). While introns and their planking regions were slighty enriched, they contribute to ~50% of SNP heritability. </details></p>
 <p><strong>Torus</strong> <img src="figure/annotations_PTR.Rmd/unnamed-chunk-6-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-6-1">
@@ -1348,7 +1376,7 @@ Jing Gu
 </div>
 </div>
 <p><details> <summary>Fig 2.1 Enrichment of aFib risk variants in individual annotation from Torus.</summary> </details></p>
-<p>For aFib, we see significant enrichment of variants with spliceAI scores &gt;=0.05. Approximately, they contribute to 2.4% of SNP heritability based on taking a product of percent of variants within annotation and enrichment estimate. However, we did not see such enrichment in S-LDSC results. The possible reason might be the signal was drowned out in the baseline annotations.</p>
+<p>For aFib, we see significant enrichment of variants with spliceAI scores &gt;=0.05. Approximately, they contribute to 2.4% of SNP heritability based on taking a product of percent of variants within annotation and enrichment estimate. However, we did not see such enrichment in LDSC results. The possible reason might be the signal was drowned out in the baseline annotations.</p>
 <p><em>Comparing LDSC and Torus with the same baselines</em> <img src="figure/annotations_PTR.Rmd/unnamed-chunk-9-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-9-1">
@@ -1372,6 +1400,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/j3gu/funcFinemapping/blob/5ed2d281b7770d43c8f3d4b31f0a73c0634bbd4f/docs/figure/annotations_PTR.Rmd/unnamed-chunk-9-1.png" target="_blank">5ed2d28</a>
+</td>
+<td>
+Jing Gu
+</td>
+<td>
+2022-07-09
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/j3gu/funcFinemapping/blob/7f557c4374c445d05054e21127b2bd30ab210e30/docs/figure/annotations_PTR.Rmd/unnamed-chunk-9-1.png" target="_blank">7f557c4</a>
@@ -1425,7 +1464,7 @@ Jing Gu
 </table>
 </div>
 </div>
-<p><details> <summary>Fig 2.2 Comparing enrichments results between S-LDSC and TORUS with the same baselines</summary> The spliceAI related annotations were jointly run with the same baseline annotations one at a time over aFib risk variants. </details></p>
+<p><details> <summary>Fig 2.2 Comparing enrichments results between LDSC and TORUS with the same baselines</summary> The spliceAI related annotations were jointly run with the same baseline annotations one at a time over aFib risk variants. </details></p>
 <p>With the same baseline annotations, Torus produces lower but still significant enrichment estimates for the SNPs with spliceai &gt;=0.05. However, we see no enrichment in LDSC results based on either enrichment estimates or p-values.</p>
 </div>
 <div id="qq-plots-for-comparing-p-values" class="section level3">
@@ -1542,7 +1581,7 @@ Jing Gu
 </table>
 </div>
 </div>
-<p><details> <summary>S-LDSC Enrichment results across traits</summary> Enrichment estimates each with a 95% confidence interval for PTR annotations across various traits. </details></p>
+<p><details> <summary>Fig 3.1 LDSC Enrichment results across traits</summary> Enrichment estimates each with a 95% confidence interval for PTR annotations across various traits. </details></p>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
