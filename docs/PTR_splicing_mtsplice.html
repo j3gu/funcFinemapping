@@ -461,16 +461,16 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomj3gufuncFinemappingtree8e55d5a23f4e513afc3de8290d18ada098e66a1dtargetblank8e55d5aa"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/j3gu/funcFinemapping/tree/8e55d5a23f4e513afc3de8290d18ada098e66a1d" target="_blank">8e55d5a</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomj3gufuncFinemappingtree05a300925c8875e96215026e8c7533a41c09f236targetblank05a3009a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/j3gu/funcFinemapping/tree/05a300925c8875e96215026e8c7533a41c09f236" target="_blank">05a3009</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomj3gufuncFinemappingtree8e55d5a23f4e513afc3de8290d18ada098e66a1dtargetblank8e55d5aa" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomj3gufuncFinemappingtree05a300925c8875e96215026e8c7533a41c09f236targetblank05a3009a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/j3gu/funcFinemapping/tree/8e55d5a23f4e513afc3de8290d18ada098e66a1d" target="_blank">8e55d5a</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/j3gu/funcFinemapping/tree/05a300925c8875e96215026e8c7533a41c09f236" target="_blank">05a3009</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -2101,9 +2101,52 @@ Note that any generated files, e.g. HTML, png, CSS, etc., are not included in th
 <hr>
 </div>
 <div id="versions" class="tab-pane fade">
+
 <p>
-There are no past versions. Publish this analysis with <code>wflow_publish()</code> to start tracking its development.
+These are the previous versions of the repository in which changes were made to the R Markdown (<code>analysis/PTR_splicing_mtsplice.Rmd</code>) and HTML (<code>docs/PTR_splicing_mtsplice.html</code>) files. If you've configured a remote Git repository (see <code>?wflow_git_remote</code>), click on the hyperlinks in the table below to view the files as they were in that past version.
 </p>
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+File
+</th>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+<th>
+Message
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/j3gu/funcFinemapping/abda215c4d1a7632a96916798c0d9cb5cf58066a/docs/PTR_splicing_mtsplice.html" target="_blank">abda215</a>
+</td>
+<td>
+Jing Gu
+</td>
+<td>
+2022-08-02
+</td>
+<td>
+PTR_mtsplice
+</td>
+</tr>
+</tbody>
+</table>
+</div>
 <hr>
 </div>
 </div>
@@ -2113,9 +2156,10 @@ There are no past versions. Publish this analysis with <code>wflow_publish()</co
 <p>Post-transcriptional regulatory (PTR) processes have been implicated in development and diseases, however, it is largely unknown how genetic variations are mediated through PTR processes. We propose to annotate GWAS variants using both experimental measurements and computational predictions. With this prior knowledge, we can further identify most likely causal variants through fine-mapping and then link them to genes.</p>
 <p>Several post-transcriptonal features will be explored:</p>
 <ul>
+<li>** Alternative splicing**</li>
 <li>RNA modification: m6A</li>
 <li>RNA binding</li>
-<li>Polyadenylation ** Alternative splicing**</li>
+<li>Polyadenylation</li>
 </ul>
 </div>
 <div id="methods" class="section level2">
@@ -2165,27 +2209,293 @@ We first tested annotations one at a time using both TORUS and LDSC.Then we join
 <p><strong>LDSC</strong></p>
 <p>The defined set of baseline annotations are coding, promoter, 3'UTR, 5'UTR, each with a 500-bp extended region.</p>
 <p><em>MMSplice vs. Brain-specific MTSplice</em></p>
-<p><img src="figure/PTR_splicing_mtsplice.Rmd/unnamed-chunk-10-1.png" width="672" style="display: block; margin: auto;" /> <details> <summary>Fig 1.1 Enrichment of SCZ risk variants in tissue-average (mmsplice) versus Hypothalamus-specific predicted variants with effects of altering splicing (mtsplice) via LDSC.</summary> The variants with predicted score within top 5%, 10% and 15% were compared for their enrichment of risk variants between the two methods. </details></p>
+<p><img src="figure/PTR_splicing_mtsplice.Rmd/unnamed-chunk-10-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-10-1">
+Past versions of unnamed-chunk-10-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-10-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/j3gu/funcFinemapping/blob/abda215c4d1a7632a96916798c0d9cb5cf58066a/docs/figure/PTR_splicing_mtsplice.Rmd/unnamed-chunk-10-1.png" target="_blank">abda215</a>
+</td>
+<td>
+Jing Gu
+</td>
+<td>
+2022-08-02
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p><details> <summary>Fig 1.1 Enrichment of SCZ risk variants in tissue-average (mmsplice) versus Hypothalamus-specific predicted variants with effects of altering splicing (mtsplice) via LDSC.</summary> The variants with predicted score within top 5%, 10% and 15% were compared for their enrichment of risk variants between the two methods. </details></p>
 <p><strong>Examine baseline annotations</strong></p>
 <ul>
 <li>baseline annotations: introns included</li>
 <li>test annotation:top 10% Hypothalamus-specific MTSplice predictions</li>
 </ul>
 <pre><code>Warning: Removed 1 rows containing missing values (geom_text).</code></pre>
-<p><img src="figure/PTR_splicing_mtsplice.Rmd/unnamed-chunk-11-1.png" width="1152" style="display: block; margin: auto;" /> <details> <summary>Fig 2.1 Baseline enrichment of SCZ risk variants from LDSC.</summary> Conditional on coding, introns, promoters and UTR annotations, MTSplice predictions specific to Hypothalams shows significant enrichment with SCZ risk variants. The enrichment estimate of MTSplice prediction was not affected much by whether or not including introns. </details></p>
-<p><strong>Torus</strong> <img src="figure/PTR_splicing_mtsplice.Rmd/unnamed-chunk-12-1.png" width="672" style="display: block; margin: auto;" /> <details> <summary>Fig 2.2 Enrichment of SCZ risk variants in individual annotation from Torus.</summary> </details></p>
+<p><img src="figure/PTR_splicing_mtsplice.Rmd/unnamed-chunk-11-1.png" width="1152" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-11-1">
+Past versions of unnamed-chunk-11-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-11-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/j3gu/funcFinemapping/blob/abda215c4d1a7632a96916798c0d9cb5cf58066a/docs/figure/PTR_splicing_mtsplice.Rmd/unnamed-chunk-11-1.png" target="_blank">abda215</a>
+</td>
+<td>
+Jing Gu
+</td>
+<td>
+2022-08-02
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p><details> <summary>Fig 2.1 Baseline enrichment of SCZ risk variants from LDSC.</summary> Conditional on coding, introns, promoters and UTR annotations, MTSplice predictions specific to Hypothalams shows significant enrichment with SCZ risk variants. The enrichment estimate of MTSplice prediction was not affected much by whether or not including introns. </details></p>
+<p><strong>Torus</strong> <img src="figure/PTR_splicing_mtsplice.Rmd/unnamed-chunk-12-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-12-1">
+Past versions of unnamed-chunk-12-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-12-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/j3gu/funcFinemapping/blob/abda215c4d1a7632a96916798c0d9cb5cf58066a/docs/figure/PTR_splicing_mtsplice.Rmd/unnamed-chunk-12-1.png" target="_blank">abda215</a>
+</td>
+<td>
+Jing Gu
+</td>
+<td>
+2022-08-02
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p><details> <summary>Fig 2.2 Enrichment of SCZ risk variants in individual annotation from Torus.</summary> </details></p>
 </div>
 <div id="enrichment-analysis-on-afib-gwas" class="section level3">
 <h3>Enrichment analysis on AFib GWAS</h3>
 <p><strong>LDSC</strong></p>
 <p><em>MMSplice vs. Heart-specific MTSplice</em></p>
-<p><img src="figure/PTR_splicing_mtsplice.Rmd/unnamed-chunk-15-1.png" width="960" style="display: block; margin: auto;" /> <details> <summary>Fig 3.1 Enrichment of aFib risk variants in individual annotation from LDSC.</summary> </details></p>
-<p><strong>Torus</strong> <img src="figure/PTR_splicing_mtsplice.Rmd/unnamed-chunk-16-1.png" width="672" style="display: block; margin: auto;" /> <details> <summary>Fig 3.2 Comparing enrichments results between LDSC and TORUS with the same baselines</summary> The spliceAI related annotations were jointly run with the same baseline annotations one at a time over aFib risk variants. </details></p>
+<p><img src="figure/PTR_splicing_mtsplice.Rmd/unnamed-chunk-15-1.png" width="960" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-15-1">
+Past versions of unnamed-chunk-15-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-15-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/j3gu/funcFinemapping/blob/abda215c4d1a7632a96916798c0d9cb5cf58066a/docs/figure/PTR_splicing_mtsplice.Rmd/unnamed-chunk-15-1.png" target="_blank">abda215</a>
+</td>
+<td>
+Jing Gu
+</td>
+<td>
+2022-08-02
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p><details> <summary>Fig 3.1 Enrichment of aFib risk variants in individual annotation from LDSC.</summary> </details></p>
+<p><strong>Torus</strong> <img src="figure/PTR_splicing_mtsplice.Rmd/unnamed-chunk-16-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-16-1">
+Past versions of unnamed-chunk-16-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-16-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/j3gu/funcFinemapping/blob/abda215c4d1a7632a96916798c0d9cb5cf58066a/docs/figure/PTR_splicing_mtsplice.Rmd/unnamed-chunk-16-1.png" target="_blank">abda215</a>
+</td>
+<td>
+Jing Gu
+</td>
+<td>
+2022-08-02
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p><details> <summary>Fig 3.2 Comparing enrichments results between LDSC and TORUS with the same baselines</summary> The spliceAI related annotations were jointly run with the same baseline annotations one at a time over aFib risk variants. </details></p>
 </div>
 <div id="ldsc-results-across-multiple-traits" class="section level3">
 <h3>LDSC results across multiple traits</h3>
 <p><strong>tissue-average prediction from MMSplice</strong></p>
-<p><img src="figure/PTR_splicing_mtsplice.Rmd/unnamed-chunk-18-1.png" width="672" style="display: block; margin: auto;" /><img src="figure/PTR_splicing_mtsplice.Rmd/unnamed-chunk-18-2.png" width="672" style="display: block; margin: auto;" /> <details> <summary>Fig 4.1 LDSC Enrichment results across traits</summary> Enrichment estimates each with a 95% confidence interval for MMSplice/MTSplice predictions on splicing effects across various traits. </details></p>
+<p><img src="figure/PTR_splicing_mtsplice.Rmd/unnamed-chunk-18-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-18-1">
+Past versions of unnamed-chunk-18-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-18-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/j3gu/funcFinemapping/blob/abda215c4d1a7632a96916798c0d9cb5cf58066a/docs/figure/PTR_splicing_mtsplice.Rmd/unnamed-chunk-18-1.png" target="_blank">abda215</a>
+</td>
+<td>
+Jing Gu
+</td>
+<td>
+2022-08-02
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p><img src="figure/PTR_splicing_mtsplice.Rmd/unnamed-chunk-18-2.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-18-2">
+Past versions of unnamed-chunk-18-2.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-18-2" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/j3gu/funcFinemapping/blob/abda215c4d1a7632a96916798c0d9cb5cf58066a/docs/figure/PTR_splicing_mtsplice.Rmd/unnamed-chunk-18-2.png" target="_blank">abda215</a>
+</td>
+<td>
+Jing Gu
+</td>
+<td>
+2022-08-02
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p><details> <summary>Fig 4.1 LDSC Enrichment results across traits</summary> Enrichment estimates each with a 95% confidence interval for MMSplice/MTSplice predictions on splicing effects across various traits. </details></p>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
@@ -2226,10 +2536,10 @@ loaded via a namespace (and not attached):
 [29] fs_1.5.0          vctrs_0.3.8       sass_0.3.1        tidyselect_1.1.1 
 [33] rprojroot_2.0.2   grid_4.0.4        glue_1.6.1        R6_2.5.1         
 [37] fansi_1.0.2       rmarkdown_2.7     farver_2.1.0      purrr_0.3.4      
-[41] magrittr_2.0.1    scales_1.1.1      promises_1.2.0.1  ellipsis_0.3.2   
-[45] htmltools_0.5.1.1 assertthat_0.2.1  colorspace_2.0-2  httpuv_1.5.5     
-[49] labeling_0.4.2    utf8_1.2.2        stringi_1.5.3     munsell_0.5.0    
-[53] crayon_1.4.1     </code></pre>
+[41] magrittr_2.0.1    whisker_0.4       scales_1.1.1      promises_1.2.0.1 
+[45] ellipsis_0.3.2    htmltools_0.5.1.1 assertthat_0.2.1  colorspace_2.0-2 
+[49] httpuv_1.5.5      labeling_0.4.2    utf8_1.2.2        stringi_1.5.3    
+[53] munsell_0.5.0     crayon_1.4.1     </code></pre>
 </div>
 </div>
 </div>
