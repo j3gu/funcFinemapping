@@ -11,7 +11,7 @@
 
 
 
-<title>Fine-mapping Pipeline</title>
+<title>SNP_finemapping_results</title>
 
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -28,6 +28,9 @@
        h6 {font-size: 12px;}
        code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
        pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
@@ -225,6 +228,69 @@ $(document).ready(function () {
 
 
 
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
 
 </head>
 
@@ -232,6 +298,16 @@ $(document).ready(function () {
 
 
 <div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-sm-12 col-md-4 col-lg-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-sm-12 col-md-8 col-lg-9">
 
 
 
@@ -269,7 +345,7 @@ $(document).ready(function () {
 
 
 
-<h1 class="title toc-ignore">Fine-mapping Pipeline</h1>
+<h1 class="title toc-ignore">SNP_finemapping_results</h1>
 
 </div>
 
@@ -297,7 +373,7 @@ $(document).ready(function () {
 <strong>Last updated:</strong> 2022-08-17
 </p>
 <p>
-<strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 1 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 1
+<strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 5 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 2
 </p>
 <p>
 <strong>Knit directory:</strong> <code>funcFinemapping/</code> <span class="glyphicon glyphicon-question-sign" aria-hidden="true" title="This is the local directory in which the code in this file was executed."> </span>
@@ -309,7 +385,7 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <hr>
 </div>
 <div id="checks" class="tab-pane fade">
-<div id="workflowr-checks" class="panel-group">
+<div class="panel-group" id="workflowr-checks">
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
@@ -318,7 +394,91 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 </div>
 <div id="strongRMarkdownfilestronguncommittedchanges" class="panel-collapse collapse">
 <div class="panel-body">
-<p>The R Markdown file has unstaged changes. To know which version of the R Markdown file created these results, you’ll want to first commit it to the Git repo. If you’re still working on the analysis, you can ignore this warning. When you’re finished, you can run <code>wflow_publish</code> to commit the R Markdown file and build the HTML.</p>
+<p>The R Markdown is untracked by Git. To know which version of the R Markdown file created these results, you’ll want to first commit it to the Git repo. If you’re still working on the analysis, you can ignore this warning. When you’re finished, you can run <code>wflow_publish</code> to commit the R Markdown file and build the HTML.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongEnvironmentstrongempty"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Environment:</strong> empty </a>
+</p>
+</div>
+<div id="strongEnvironmentstrongempty" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! The global environment was empty. Objects defined in the global environment can affect the analysis in your R Markdown file in unknown ways. For reproduciblity it’s best to always run the code in an empty environment.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSeedstrongcodesetseed20210404code"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Seed:</strong> <code>set.seed(20210404)</code> </a>
+</p>
+</div>
+<div id="strongSeedstrongcodesetseed20210404code" class="panel-collapse collapse">
+<div class="panel-body">
+<p>The command <code>set.seed(20210404)</code> was run prior to running the code in the R Markdown file. Setting a seed ensures that any results that rely on randomness, e.g. subsampling or permutations, are reproducible.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSessioninformationstrongrecorded"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Session information:</strong> recorded </a>
+</p>
+</div>
+<div id="strongSessioninformationstrongrecorded" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! Recording the operating system, R version, and package versions is critical for reproducibility.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongCachestrongnone"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Cache:</strong> none </a>
+</p>
+</div>
+<div id="strongCachestrongnone" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Nice! There were no cached chunks for this analysis, so you can be confident that you successfully produced the results during this run.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongFilepathsstrongabsolute"> <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> <strong>File paths:</strong> absolute </a>
+</p>
+</div>
+<div id="strongFilepathsstrongabsolute" class="panel-collapse collapse">
+<div class="panel-body">
+<p>
+Using absolute paths to the files within your workflowr project makes it difficult for you and others to run your code on a different machine. Change the absolute path(s) below to the suggested relative path(s) to make your code more reproducible.
+</p>
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th style="text-align:left;">
+absolute
+</th>
+<th style="text-align:left;">
+relative
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+~/projects/funcFinemapping/
+</td>
+<td style="text-align:left;">
+.
+</td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
 </div>
@@ -345,6 +505,7 @@ Ignored files:
     Ignored:    analysis/.Rhistory
     Ignored:    analysis/PTR_m6A.nb.html
     Ignored:    analysis/build_annotations_for_single_cell_data.nb.html
+    Ignored:    analysis/figure/
     Ignored:    analysis/lab4_prepare.nb.html
     Ignored:    analysis/ldsc_results.nb.html
     Ignored:    analysis/learn_archR.nb.html
@@ -561,743 +722,218 @@ Note that any generated files, e.g. HTML, png, CSS, etc., are not included in t
 <hr>
 </div>
 <div id="versions" class="tab-pane fade">
-
 <p>
-These are the previous versions of the repository in which changes were made to the R Markdown (<code>analysis/index.Rmd</code>) and HTML (<code>docs/index.html</code>) files. If you’ve configured a remote Git repository (see <code>?wflow_git_remote</code>), click on the hyperlinks in the table below to view the files as they were in that past version.
+There are no past versions. Publish this analysis with <code>wflow_publish()</code> to start tracking its development.
 </p>
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-File
-</th>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-<th>
-Message
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/j3gu/funcFinemapping/8e55d5a23f4e513afc3de8290d18ada098e66a1d/docs/index.html" target="_blank">8e55d5a</a>
-</td>
-<td>
-Jing Gu
-</td>
-<td>
-2022-08-02
-</td>
-<td>
-update index
-</td>
-</tr>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/j3gu/funcFinemapping/0fbd86a9e0a7e1e62e51ba2e9410dd6288f688c0/docs/index.html" target="_blank">0fbd86a</a>
-</td>
-<td>
-Jing Gu
-</td>
-<td>
-2022-07-02
-</td>
-<td>
-update index
-</td>
-</tr>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/j3gu/funcFinemapping/d96f416503f721035dc5859438ed502212b24fe1/docs/index.html" target="_blank">d96f416</a>
-</td>
-<td>
-Jing Gu
-</td>
-<td>
-2022-06-15
-</td>
-<td>
-estimate_h2g
-</td>
-</tr>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/j3gu/funcFinemapping/ccdd16704665569a95268c4ee8b49bcc7b75a03d/docs/index.html" target="_blank">ccdd167</a>
-</td>
-<td>
-Jing Gu
-</td>
-<td>
-2022-06-15
-</td>
-<td>
-estimate_h2g
-</td>
-</tr>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/j3gu/funcFinemapping/8c82e64f0adb7bc792923eebf141e885482e7f69/docs/index.html" target="_blank">8c82e64</a>
-</td>
-<td>
-Jing Gu
-</td>
-<td>
-2022-06-15
-</td>
-<td>
-Build site.
-</td>
-</tr>
-<tr>
-<td>
-Rmd
-</td>
-<td>
-<a href="https://github.com/j3gu/funcFinemapping/blob/611b343e10b567848bb9882e1ddd2d8daecce0cf/analysis/index.Rmd" target="_blank">611b343</a>
-</td>
-<td>
-Jing Gu
-</td>
-<td>
-2022-06-15
-</td>
-<td>
-wflow_publish(files = c(“analysis/index.Rmd”, “docs/ldsc_PTR_results.html”))
-</td>
-</tr>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/j3gu/funcFinemapping/27f0ead9addb42034091ab7c7e861c3a9ab288fe/docs/index.html" target="_blank">27f0ead</a>
-</td>
-<td>
-Jing Gu
-</td>
-<td>
-2022-06-04
-</td>
-<td>
-wflow_publish(files = c(“docs/index.html”, “docs/exploring_lung_scATAC_R.html”,
-</td>
-</tr>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/j3gu/funcFinemapping/a71a34d30a87f58def191391281a94d439718719/docs/index.html" target="_blank">a71a34d</a>
-</td>
-<td>
-Jing Gu
-</td>
-<td>
-2022-03-24
-</td>
-<td>
-Build site.
-</td>
-</tr>
-<tr>
-<td>
-Rmd
-</td>
-<td>
-<a href="https://github.com/j3gu/funcFinemapping/blob/5ea9a98a4bb2001e7e7be6c4449e5dd91265b0ba/analysis/index.Rmd" target="_blank">5ea9a98</a>
-</td>
-<td>
-Jing Gu
-</td>
-<td>
-2022-03-24
-</td>
-<td>
-update spliceAI results
-</td>
-</tr>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/j3gu/funcFinemapping/506928dbbe159d921df0303c8ee6284f63fcc76e/docs/index.html" target="_blank">506928d</a>
-</td>
-<td>
-Jing Gu
-</td>
-<td>
-2022-03-23
-</td>
-<td>
-analyzed snATAC-seq lung dataset
-</td>
-</tr>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/j3gu/funcFinemapping/5b65bd10f715e7c6d2f8dffdcac3cfb13feac2cf/docs/index.html" target="_blank">5b65bd1</a>
-</td>
-<td>
-Jing Gu
-</td>
-<td>
-2021-10-26
-</td>
-<td>
-Build site.
-</td>
-</tr>
-<tr>
-<td>
-Rmd
-</td>
-<td>
-<a href="https://github.com/j3gu/funcFinemapping/blob/db3c6f96af3bb6ed4d4e210f7ac5585517152b8a/analysis/index.Rmd" target="_blank">db3c6f9</a>
-</td>
-<td>
-Jing Gu
-</td>
-<td>
-2021-10-26
-</td>
-<td>
-test enrichment for asthma risk variants
-</td>
-</tr>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/j3gu/funcFinemapping/53a87745f669f007b900afd4a5e34ebb051d14ab/docs/index.html" target="_blank">53a8774</a>
-</td>
-<td>
-Jing Gu
-</td>
-<td>
-2021-09-22
-</td>
-<td>
-Build site.
-</td>
-</tr>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/j3gu/funcFinemapping/2a6fc915e159af6504e1abdfdf30bd82b4ab4f75/docs/index.html" target="_blank">2a6fc91</a>
-</td>
-<td>
-Jing Gu
-</td>
-<td>
-2021-09-22
-</td>
-<td>
-Build site.
-</td>
-</tr>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/j3gu/funcFinemapping/41f53c83d18a13da1b50ff9004b3abb011b9fdb1/docs/index.html" target="_blank">41f53c8</a>
-</td>
-<td>
-Jing Gu
-</td>
-<td>
-2021-09-22
-</td>
-<td>
-Build site.
-</td>
-</tr>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/j3gu/funcFinemapping/b0b938bcb9c43790bb7bb0aa211ad03429e47934/docs/index.html" target="_blank">b0b938b</a>
-</td>
-<td>
-Jing Gu
-</td>
-<td>
-2021-09-22
-</td>
-<td>
-Build site.
-</td>
-</tr>
-<tr>
-<td>
-Rmd
-</td>
-<td>
-<a href="https://github.com/j3gu/funcFinemapping/blob/8a5656cf110594c30de185f7ba5d12cc21a41e08/analysis/index.Rmd" target="_blank">8a5656c</a>
-</td>
-<td>
-Jing Gu
-</td>
-<td>
-2021-09-22
-</td>
-<td>
-analyzed Asthma GWAS with functional priors from single cell data
-</td>
-</tr>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/j3gu/funcFinemapping/639aacfea2387dc7ad5dd85854b4666912d3c0c1/docs/index.html" target="_blank">639aacf</a>
-</td>
-<td>
-Jing Gu
-</td>
-<td>
-2021-09-08
-</td>
-<td>
-Build site.
-</td>
-</tr>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/j3gu/funcFinemapping/c046e9e96de0bcaf5382954783d57e660e42354d/docs/index.html" target="_blank">c046e9e</a>
-</td>
-<td>
-Jing Gu
-</td>
-<td>
-2021-09-08
-</td>
-<td>
-Build site.
-</td>
-</tr>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/j3gu/funcFinemapping/05f73e942320177f10cffd317526a654adc06b06/docs/index.html" target="_blank">05f73e9</a>
-</td>
-<td>
-Jing Gu
-</td>
-<td>
-2021-09-01
-</td>
-<td>
-Build site.
-</td>
-</tr>
-<tr>
-<td>
-Rmd
-</td>
-<td>
-<a href="https://github.com/j3gu/funcFinemapping/blob/bed838e6d4f2f222fbcb9bc8cde0d2e5e66bf48a/analysis/index.Rmd" target="_blank">bed838e</a>
-</td>
-<td>
-Jing Gu
-</td>
-<td>
-2021-09-01
-</td>
-<td>
-update evaluations on slicing
-</td>
-</tr>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/j3gu/funcFinemapping/bbfe1d41681fcf52636e941ef2b1372fab8568c1/docs/index.html" target="_blank">bbfe1d4</a>
-</td>
-<td>
-Jing Gu
-</td>
-<td>
-2021-04-22
-</td>
-<td>
-Build site.
-</td>
-</tr>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/j3gu/funcFinemapping/540e287734a85d462236518a91a70d1e90c91e88/docs/index.html" target="_blank">540e287</a>
-</td>
-<td>
-Jing Gu
-</td>
-<td>
-2021-04-21
-</td>
-<td>
-Build site.
-</td>
-</tr>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/j3gu/funcFinemapping/e597d4ed8f7db6c2146a6c55ef6ff6801c76197f/docs/index.html" target="_blank">e597d4e</a>
-</td>
-<td>
-Jing Gu
-</td>
-<td>
-2021-04-21
-</td>
-<td>
-Build site.
-</td>
-</tr>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/j3gu/funcFinemapping/491ca5ccff37db99cae0f1dc9263beaded759acd/docs/index.html" target="_blank">491ca5c</a>
-</td>
-<td>
-Jing Gu
-</td>
-<td>
-2021-04-14
-</td>
-<td>
-Build site.
-</td>
-</tr>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/j3gu/funcFinemapping/ba251cb4b94ee3d0e77190320421211dc34b99b5/docs/index.html" target="_blank">ba251cb</a>
-</td>
-<td>
-Jing Gu
-</td>
-<td>
-2021-04-14
-</td>
-<td>
-Build site.
-</td>
-</tr>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/j3gu/funcFinemapping/66c75b9b528c238fb339e8d7bececbdbacf3a1c1/docs/index.html" target="_blank">66c75b9</a>
-</td>
-<td>
-Jing Gu
-</td>
-<td>
-2021-04-06
-</td>
-<td>
-Build site.
-</td>
-</tr>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/j3gu/funcFinemapping/1a76b294e45c0bb495ac2108d8c2b021d430577d/docs/index.html" target="_blank">1a76b29</a>
-</td>
-<td>
-Jing Gu
-</td>
-<td>
-2021-04-06
-</td>
-<td>
-Build site.
-</td>
-</tr>
-<tr>
-<td>
-Rmd
-</td>
-<td>
-<a href="https://github.com/j3gu/funcFinemapping/blob/ae12e8aa24b22a009ea11c30c06102393df7ff28/analysis/index.Rmd" target="_blank">ae12e8a</a>
-</td>
-<td>
-Jing Gu
-</td>
-<td>
-2021-04-06
-</td>
-<td>
-evaluate sequence constraints
-</td>
-</tr>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/j3gu/funcFinemapping/752cb393786591800d7a9477093e2f731cd88433/docs/index.html" target="_blank">752cb39</a>
-</td>
-<td>
-Jing Gu
-</td>
-<td>
-2021-04-05
-</td>
-<td>
-Build site.
-</td>
-</tr>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/j3gu/funcFinemapping/f1c5950cd9ff555c31e73394072eb624a8254955/docs/index.html" target="_blank">f1c5950</a>
-</td>
-<td>
-Jing Gu
-</td>
-<td>
-2021-04-05
-</td>
-<td>
-Build site.
-</td>
-</tr>
-<tr>
-<td>
-Rmd
-</td>
-<td>
-<a href="https://github.com/j3gu/funcFinemapping/blob/5e70eccfdf2eb1d13b5fd97e7abe51a662b54894/analysis/index.Rmd" target="_blank">5e70ecc</a>
-</td>
-<td>
-Jing Gu
-</td>
-<td>
-2021-04-05
-</td>
-<td>
-edit index page
-</td>
-</tr>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/j3gu/funcFinemapping/d16a5e0ba9cc157232914ff14a755f7df7a1bf5b/docs/index.html" target="_blank">d16a5e0</a>
-</td>
-<td>
-Jing Gu
-</td>
-<td>
-2021-04-05
-</td>
-<td>
-Build site.
-</td>
-</tr>
-<tr>
-<td>
-Rmd
-</td>
-<td>
-<a href="https://github.com/j3gu/funcFinemapping/blob/6f7214b5258820d1c3a3ea16ebe150474514f9ec/analysis/index.Rmd" target="_blank">6f7214b</a>
-</td>
-<td>
-Jing Gu
-</td>
-<td>
-2021-04-05
-</td>
-<td>
-edit index page
-</td>
-</tr>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/j3gu/funcFinemapping/4d851a879f76ce9a8479ade95826e6f7c7d48ee4/docs/index.html" target="_blank">4d851a8</a>
-</td>
-<td>
-Jing Gu
-</td>
-<td>
-2021-04-05
-</td>
-<td>
-Build site.
-</td>
-</tr>
-<tr>
-<td>
-Rmd
-</td>
-<td>
-<a href="https://github.com/j3gu/funcFinemapping/blob/4cc091d4f1fa642f9503e463782157e779a7bc21/analysis/index.Rmd" target="_blank">4cc091d</a>
-</td>
-<td>
-Jing Gu
-</td>
-<td>
-2021-04-05
-</td>
-<td>
-start my phd project
-</td>
-</tr>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/j3gu/funcFinemapping/12fa9ffdf0845454855a4fbee5c489d9e6deb92f/docs/index.html" target="_blank">12fa9ff</a>
-</td>
-<td>
-Jing Gu
-</td>
-<td>
-2021-04-04
-</td>
-<td>
-Build site.
-</td>
-</tr>
-<tr>
-<td>
-Rmd
-</td>
-<td>
-<a href="https://github.com/j3gu/funcFinemapping/blob/c00a877f4881e8d1bdfc11250bcb1b5bb75a757b/analysis/index.Rmd" target="_blank">c00a877</a>
-</td>
-<td>
-Jing Gu
-</td>
-<td>
-2021-04-04
-</td>
-<td>
-Start workflowr project.
-</td>
-</tr>
-</tbody>
-</table>
-</div>
 <hr>
 </div>
 </div>
 </div>
-<div id="welcome-to-the-project-website." class="section level1">
-<h1>Welcome to the project website.</h1>
-<p>My thesis project is about improving functional fine mapping procedures that enable us to identify causal variants underlying complex traits such as obsesity and asthma.</p>
+<div id="functional-fine-maping" class="section level2">
+<h2>Functional fine-maping</h2>
+<p>The general procedures for functional fine-mapping are (1) compute the causal probability for each variant from association statsitics and annotations (TORUS) and (2) perform fine-mapping with prior knowledge obtained in the first step (SuSiE).</p>
 </div>
-<div id="introduction" class="section level1">
-<h1>Introduction</h1>
-<p>This document will provide an overview of my thesis project, including the aims for the project, summary of previous work, details of the method, and preliminary results. By constantly reviewing this document, I can keep track of my research aims without getting diverted too far.</p>
-<div id="literature-reviews" class="section level2">
-<h2>Literature reviews</h2>
+<div id="spliceai-predicted-variant-effects-on-splicing" class="section level2">
+<h2>SpliceAI-predicted variant effects on splicing</h2>
+<div id="enrichment-results" class="section level3">
+<h3>Enrichment results</h3>
+<p><strong>Annotations</strong></p>
 <ul>
-<li>[Current challenges in functional fine-mapping]</li>
-<li>[Existing pipelines or methods]
-<ul>
-<li>Polyfun + SuSiE</li>
-<li>TORUS + SuSiE</li>
-</ul></li>
-<li><a href="biology_bkg.html">Biology backgrounds</a></li>
-<li><a href="method_bkg.html">Prediction methods</a></li>
+<li>spliceAI predictions are not tissue-specific.</li>
+<li>The predicted delta score of a variant can be interpreted as the probrability of the variant being splice-altering.</li>
 </ul>
-</div>
-<div id="results-by-methods" class="section level2">
-<h2>Results by Methods</h2>
+<p><strong>Procedure</strong></p>
 <ul>
-<li>[feedbacks]</li>
-<li><a href="enrichment_analysis.html">Torus enrichment results</a></li>
-<li><a href="ldsc_results.html">LDSC enrichment results</a></li>
-<li><a href="snp_finemapping_results.html">fine mapping results</a>
-<ul>
-<li><a href="snp_finemapping_spliceAI_prior.html">spliceAI as priors</a></li>
-</ul></li>
-<li>[gene mapping results]</li>
+<li>Build binary annotation by denoting delta score&gt;=0.05 as 1 and detal score &lt; 0.05 as 0.</li>
+<li>Run TORUS jointly over spliceAI-predictions, m6A sites in heart, CM_specific OCR and the baselines.</li>
+<li>Use the derived prior probability for each SNP to further perform fine mapping with SuSiE. We used 10% of UK Biobank samples to build LD reference matrix, which was further integrated with GWAS summary statsistics to compute for PIPs at different assumptions of number of causal variants per LD block.</li>
 </ul>
+<p><strong>Torus enrichment estimates</strong> <img src="figure/snp_finemapping_spliceAI_prior.Rmd/unnamed-chunk-2-1.png" width="672" style="display: block; margin: auto;" /></p>
 </div>
-<div id="results-by-projects" class="section level2">
-<h2>Results by Projects</h2>
-<ul>
-<li><a href="asthma_prelim_results.html">Asthma Projects</a>
-<ul>
-<li><a href="identifying_TRMs_in_lungs.html">identifying TRMs</a></li>
-<li><a href="lung_Wang2020_scRNA.html">scRNA-seq analysis</a></li>
-<li><a href="exploring_lung_scATAC_R.html">scATAC-seq analysis</a></li>
-</ul></li>
-<li>Functional fine-mapping <strong>Post-transcriptional Regulation</strong>
-<ul>
-<li><a href="PTR_splicing_spliceAI.html">SpliceAI</a></li>
-<li><a href="PTR_splicing_mtsplice.html">MMSplice/MTSplice</a></li>
-<li><a href="PTR_m6A.html">m6A</a></li>
-</ul></li>
-</ul>
+<div id="fine-mapping-results" class="section level3">
+<h3>Fine-mapping results</h3>
+<p><strong>Sanity check: -log10(p-values) against susie PIPs</strong></p>
+<p>No red flags for the fine-mapping run using both uniform and functional priors at L=1. Most SNPs with high PIPs have low p-values. <img src="figure/snp_finemapping_spliceAI_prior.Rmd/unnamed-chunk-5-1.png" width="1152" style="display: block; margin: auto;" /></p>
+<p>When run at L=2, we see few spuriously prioritized SNPs with non-significant p-values and a number of SNPs with elevated PIPs at less significant p-values. A larger fraction of SNPs with significant p-values were prioritized with functional priors.<br />
+<img src="figure/snp_finemapping_spliceAI_prior.Rmd/unnamed-chunk-6-1.png" width="1152" style="display: block; margin: auto;" /></p>
+<p><strong>Compare PIPs between uniform and functional priors</strong></p>
+<p><img src="figure/snp_finemapping_spliceAI_prior.Rmd/unnamed-chunk-7-1.png" width="1152" style="display: block; margin: auto;" /> A larger fraction of SNPs lie above the diagonal line, indicating higher PIPs assigned to SNPs with functional priors. Same trend for both L=1 and L=2.</p>
+<p><strong>Compare the sizes of credible sets</strong></p>
+<p>Uniform priors</p>
+<pre class="r"><code>plot_cs_size(uniform.L1)</code></pre>
+<p><img src="figure/snp_finemapping_spliceAI_prior.Rmd/unnamed-chunk-8-1.png" width="672" style="display: block; margin: auto;" /> run with functional prior at L=1 <img src="figure/snp_finemapping_spliceAI_prior.Rmd/unnamed-chunk-9-1.png" width="672" style="display: block; margin: auto;" /> run with functional prior at L=2 <img src="figure/snp_finemapping_spliceAI_prior.Rmd/unnamed-chunk-10-1.png" width="672" style="display: block; margin: auto;" /> With functional priors run at L=2, we observe smaller credible sets and less resolved cases.</p>
+<p><strong>Distributions of spliceAI scores for SNPs in credible sets</strong><br />
+L = 1</p>
+<pre class="r"><code>###load spliceAI scores###
+colnames(annot.L1)[which(colnames(annot.L1)==&quot;rsID&quot;)]&lt;-&quot;SNP&quot;
+annot.L1&lt;-left_join(annot.L1, scores[, c(&quot;SNP&quot;, &quot;spliceAI_varPred&quot;)], by=&quot;SNP&quot;)
+annot.L1[,&quot;susie_pip.unif&quot;]&lt;-uniform.L1[,&quot;susie_pip&quot;]
+annot.cs&lt;-annot.L1[annot.L1$cs==1, ]
+hist(annot.cs$spliceAI_varPred[annot.cs$spliceAI_varPred&gt;0], main=&quot;&quot;, xlab=&quot;SNPs in credible sets with non-zero spliceAI scores&quot;)</code></pre>
+<p><img src="figure/snp_finemapping_spliceAI_prior.Rmd/unnamed-chunk-11-1.png" width="672" style="display: block; margin: auto;" /> The majority of SNPs in credible sets have zero spliceAI scores. Here we plotted the distribution of non-zero spliceAI scores for SNPs in credible sets.</p>
+<pre><code>                              snp      pval    zscore locus cs_size  susie_pip
+386899  13:113833499:A:G:rs486407 1.488e-07 -5.238095  1323      71 0.08457434
+455599  17:7453919:T:C:rs12940684 7.014e-08 -5.430556  1490       7 0.20622422
+462263  17:38062217:T:C:rs2305479 3.276e-10  6.318182  1506      17 0.43238643
+121351  3:111589772:A:C:rs1282932 8.805e-15 -7.800000   346      22 0.75659812
+358139  12:57119236:A:G:rs3214051 1.398e-10  6.391304  1214      18 0.23236096
+49118    2:61405795:T:G:rs2600665 7.965e-08 -5.382353   173     104 0.02351085
+379733 12:133142411:C:T:rs6560884 4.974e-07 -5.032609  1261      10 0.46202750
+213142   6:88032402:A:C:rs2257153 1.419e-09 -6.014493   690     180 0.02215107
+462198 17:38028634:T:G:rs11557467 1.237e-10  6.454545  1506      17 0.41703764
+472083  17:76757296:A:C:rs8076588 4.457e-08  5.447761  1527      20 0.55177380
+       Coding_UCSC_d Promoter_UCSC_d UTR_3_UCSC_d UTR_5_UCSC_d spliceAI_varPred
+386899             0               0            0            0             0.19
+455599             0               1            0            0             0.18
+462263             1               1            0            1             0.18
+121351             0               0            0            0             0.17
+358139             1               1            0            1             0.14
+49118              1               1            0            1             0.13
+379733             0               0            0            0             0.12
+213142             0               1            0            0             0.08
+462198             1               0            0            0             0.08
+472083             0               0            0            0             0.08</code></pre>
+<p><strong>Examine the results for L=2</strong> <img src="figure/snp_finemapping_spliceAI_prior.Rmd/unnamed-chunk-13-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>Compared with the run at L=1, the fine-mapping results at L=2 overall gives smaller credible sets. For example, 10 SNPs in the locus 1261 were captured in one credible set at L=1, but 3 SNPs were captured at L=2. Notably, since the coverage cutoff was set to be the same, the secondary signals may not be captured. We may need to lower the cutoff for capturing the secondary signals.</p>
 </div>
-<div id="sample-qcs-by-dataset" class="section level2">
-<h2>Sample QCs by dataset</h2>
-<ul>
-<li>[Wang2020 et al.]</li>
-</ul>
+<div id="annotating-snps-within-credible-sets" class="section level3">
+<h3>Annotating SNPs within credible sets</h3>
+<pre><code>                          snp      pval    zscore locus cs_size  susie_pip
+1   13:113833499:A:G:rs486407 1.488e-07 -5.238095  1323      71 0.08457434
+2   13:113833499:A:G:rs486407 1.488e-07 -5.238095  1323      71 0.08457434
+3   17:7453919:T:C:rs12940684 7.014e-08 -5.430556  1490       7 0.20622422
+4   17:7453919:T:C:rs12940684 7.014e-08 -5.430556  1490       7 0.20622422
+5   17:38062217:T:C:rs2305479 3.276e-10  6.318182  1506      17 0.43238643
+6   17:38062217:T:C:rs2305479 3.276e-10  6.318182  1506      17 0.43238643
+7   3:111589772:A:C:rs1282932 8.805e-15 -7.800000   346      22 0.75659812
+8   12:57119236:A:G:rs3214051 1.398e-10  6.391304  1214      18 0.23236096
+9   12:57119236:A:G:rs3214051 1.398e-10  6.391304  1214      18 0.23236096
+10  12:57119236:A:G:rs3214051 1.398e-10  6.391304  1214      18 0.23236096
+11 12:133142411:C:T:rs6560884 4.974e-07 -5.032609  1261      10 0.46202750
+12   6:88032402:A:C:rs2257153 1.419e-09 -6.014493   690     180 0.02215107
+13   6:88032402:A:C:rs2257153 1.419e-09 -6.014493   690     180 0.02215107
+14   6:88032402:A:C:rs2257153 1.419e-09 -6.014493   690     180 0.02215107
+15   6:88032402:A:C:rs2257153 1.419e-09 -6.014493   690     180 0.02215107
+16 17:38028634:T:G:rs11557467 1.237e-10  6.454545  1506      17 0.41703764
+17  17:76757296:A:C:rs8076588 4.457e-08  5.447761  1527      20 0.55177380
+18   6:87887985:C:A:rs7767449 2.433e-09  5.984848   690     180 0.03200709
+   spliceAI_varPred         category       gene_name
+1              0.19          introns           PCID2
+2              0.19 splice_junctions           PCID2
+3              0.18          introns         TNFSF12
+4              0.18          introns TNFSF12-TNFSF13
+5              0.18            exons           GSDMB
+6              0.18 splice_junctions           GSDMB
+7              0.17          introns          PHLDB2
+8              0.14            exons            NACA
+9              0.14             UTRs            NACA
+10             0.14 splice_junctions            NACA
+11             0.12          introns          FBRSL1
+12             0.08          introns            GJB7
+13             0.08          introns           SMIM8
+14             0.08 splice_junctions           SMIM8
+15             0.08 splice_junctions           SMIM8
+16             0.08            exons           ZPBP2
+17             0.08          introns           CYTH1
+18             0.07          introns          ZNF292</code></pre>
 </div>
-<div id="references" class="section level2">
-<h2>References</h2>
+<div id="examine-locus-1323" class="section level3">
+<h3>Examine locus 1323</h3>
+<p><strong>Check the distribution of p-values and PIPs</strong></p>
+<p>The snp rs486407 was prioritized among this locus, which contains a large number of SNPs. This SNP has the highest prediction scores, which is expected as it locates in a splice junction. It is predicted to alter the variant at 6bp upstream by increasing its use as a splice donor by 19%. This SNPs lie in between exon 13 and 14 of gene PCID2, and has been found to be a splice junction in one humen ETS. PCID2 encodes for a component of the TREX-2 complex, which regulates mRNA export from the nucleus. <img src="figure/snp_finemapping_spliceAI_prior.Rmd/unnamed-chunk-16-1.png" width="576" style="display: block; margin: auto;" /><img src="figure/snp_finemapping_spliceAI_prior.Rmd/unnamed-chunk-16-2.png" width="576" style="display: block; margin: auto;" /> <img src="assets/splicing/rs486407_PCID2_ucsc.png" /></p>
+</div>
+<div id="examine-locus-1261" class="section level3">
+<h3>Examine locus 1261</h3>
+<p>The SNP rs6560884 was proritized than other SNPs with functional prior at L=1 and further prioritized at L=2 due to its predicted splicing effects (spliceAI=0.12).</p>
+<p>Based on spliceAI prediction, this SNP increases the probability of the variant at 2 bp downstream used as a splice donor by 12%. This variant is located in the intron region of Fibrosin Like 1 gene (FBRL1), which functions to enable RNA binding activity. <img src="figure/snp_finemapping_spliceAI_prior.Rmd/unnamed-chunk-17-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><strong>Check the distribution of p-values and PIPs</strong></p>
+<p><img src="figure/snp_finemapping_spliceAI_prior.Rmd/unnamed-chunk-18-1.png" width="576" style="display: block; margin: auto;" /><img src="figure/snp_finemapping_spliceAI_prior.Rmd/unnamed-chunk-18-2.png" width="576" style="display: block; margin: auto;" /></p>
+<div class="figure">
+<img src="assets/splicing/rs6560884_FBRSL1_ucsc.png" alt="genome browser" style="height:130.0%" />
+<p class="caption">genome browser</p>
+</div>
+</div>
+<div id="examine-locus-1490" class="section level3">
+<h3>Examine locus 1490</h3>
+<p><strong>Check the distribution of p-values and PIPs</strong></p>
+<p>Two SNPs in this locus were prioritized, which are rs9899183 &amp; rs12940684. Though the first one has higher PIP due to higher z score, the second one were predicted to alter the variant at 5bp downstream by increasing its use as a splice acceptor by 18%. These two SNPs are located in the intron regions between exon 1 and exon2 of gene TNFSF12, which encodes for a cytokine that belongs to the TNF superfamily. <img src="figure/snp_finemapping_spliceAI_prior.Rmd/unnamed-chunk-19-1.png" width="576" style="display: block; margin: auto;" /><img src="figure/snp_finemapping_spliceAI_prior.Rmd/unnamed-chunk-19-2.png" width="576" style="display: block; margin: auto;" /> <img src="assets/splicing/rs12940684_TNFSF12_ucsc.png" style="height:130.0%" /></p>
+<br>
+<p>
+<button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
+<span class="glyphicon glyphicon-wrench" aria-hidden="true"></span> Session information
+</button>
+</p>
+<div id="workflowr-sessioninfo" class="collapse">
+<pre class="r"><code>sessionInfo()</code></pre>
+<pre><code>R version 4.0.4 (2021-02-15)
+Platform: x86_64-pc-linux-gnu (64-bit)
+Running under: Scientific Linux 7.4 (Nitrogen)
+
+Matrix products: default
+BLAS/LAPACK: /software/openblas-0.3.13-el7-x86_64/lib/libopenblas_haswellp-r0.3.13.so
+
+locale:
+ [1] LC_CTYPE=en_US.UTF-8       LC_NUMERIC=C              
+ [3] LC_TIME=en_US.UTF-8        LC_COLLATE=en_US.UTF-8    
+ [5] LC_MONETARY=en_US.UTF-8    LC_MESSAGES=en_US.UTF-8   
+ [7] LC_PAPER=en_US.UTF-8       LC_NAME=C                 
+ [9] LC_ADDRESS=C               LC_TELEPHONE=C            
+[11] LC_MEASUREMENT=en_US.UTF-8 LC_IDENTIFICATION=C       
+
+attached base packages:
+[1] parallel  stats4    stats     graphics  grDevices utils     datasets 
+[8] methods   base     
+
+other attached packages:
+ [1] RColorBrewer_1.1-2   GenomicRanges_1.42.0 GenomeInfoDb_1.26.7 
+ [4] IRanges_2.24.1       S4Vectors_0.28.1     BiocGenerics_0.36.1 
+ [7] ggplot2_3.3.3        bigsnpr_1.9.11       bigstatsr_1.5.6     
+[10] susieR_0.12.16       dplyr_1.0.4          data.table_1.14.2   
+
+loaded via a namespace (and not attached):
+ [1] Biobase_2.50.0              MatrixGenerics_1.2.1       
+ [3] sass_0.3.1                  jsonlite_1.7.2             
+ [5] foreach_1.5.1               bslib_0.2.4                
+ [7] assertthat_0.2.1            mixsqp_0.3-43              
+ [9] highr_0.8                   Rsamtools_2.6.0            
+[11] GenomeInfoDbData_1.2.4      yaml_2.2.1                 
+[13] pillar_1.5.0                lattice_0.20-41            
+[15] glue_1.6.1                  digest_0.6.27              
+[17] promises_1.2.0.1            XVector_0.30.0             
+[19] colorspace_2.0-2            cowplot_1.1.1              
+[21] htmltools_0.5.1.1           httpuv_1.5.5               
+[23] Matrix_1.4-0                plyr_1.8.6                 
+[25] XML_3.99-0.5                pkgconfig_2.0.3            
+[27] bigparallelr_0.3.2          zlibbioc_1.36.0            
+[29] purrr_0.3.4                 scales_1.1.1               
+[31] later_1.1.0.1               BiocParallel_1.24.1        
+[33] git2r_0.28.0                tibble_3.0.6               
+[35] generics_0.1.0              farver_2.1.0               
+[37] ellipsis_0.3.2              SummarizedExperiment_1.20.0
+[39] withr_2.4.3                 cli_3.2.0                  
+[41] magrittr_2.0.1              crayon_1.4.1               
+[43] evaluate_0.14               bigassertr_0.1.5           
+[45] fs_1.5.0                    fansi_1.0.2                
+[47] doParallel_1.0.16           tools_4.0.4                
+[49] lifecycle_1.0.0             matrixStats_0.58.0         
+[51] stringr_1.4.0               plyranges_1.10.0           
+[53] munsell_0.5.0               bigsparser_0.6.0           
+[55] DelayedArray_0.16.3         irlba_2.3.3                
+[57] Biostrings_2.58.0           compiler_4.0.4             
+[59] jquerylib_0.1.3             rlang_1.0.1                
+[61] grid_4.0.4                  RCurl_1.98-1.6             
+[63] iterators_1.0.13            rstudioapi_0.13            
+[65] bitops_1.0-6                labeling_0.4.2             
+[67] rmarkdown_2.7               gtable_0.3.0               
+[69] codetools_0.2-18            flock_0.7                  
+[71] DBI_1.1.1                   reshape_0.8.8              
+[73] R6_2.5.1                    GenomicAlignments_1.26.0   
+[75] rtracklayer_1.50.0          knitr_1.31                 
+[77] utf8_1.2.2                  workflowr_1.6.2            
+[79] rprojroot_2.0.2             stringi_1.5.3              
+[81] Rcpp_1.0.8                  vctrs_0.3.8                
+[83] tidyselect_1.1.1            xfun_0.21                  </code></pre>
+</div>
 </div>
 </div>
 
@@ -1315,6 +951,8 @@ footer is added to webpages before the MathJax javascript. -->
 </script>
 
 
+</div>
+</div>
 
 </div>
 
@@ -1347,6 +985,32 @@ $(document).ready(function () {
 
 <!-- code folding -->
 
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
 
 <!-- dynamically load mathjax for compatibility with self-contained -->
 <script>
