@@ -29,6 +29,7 @@ This document will provide an overview of my thesis project, including the aims 
 * [Torus enrichment results](enrichment_analysis.html)
 * [LDSC enrichment results](ldsc_results.html)
 * [fine mapping results](snp_finemapping_results.html)
+    - [spliceAI as priors](snp_finemapping_spliceAI_prior.html)
 * [gene mapping results]
 
 ## Results by Projects
@@ -36,9 +37,13 @@ This document will provide an overview of my thesis project, including the aims 
     - [identifying TRMs](identifying_TRMs_in_lungs.html)
     - [scRNA-seq analysis](lung_Wang2020_scRNA.html)
     - [scATAC-seq analysis](exploring_lung_scATAC_R.html)
-* [Functional annotation project]
-    - [PTR_results](ldsc_PTR_results.html)
-
+* Functional fine-mapping
+  **Post-transcriptional Regulation**
+    - [SpliceAI](PTR_splicing_spliceAI.html)
+    - MMSplice/MTSplice
+        * [understand outputs](explore_mtsplice.html)
+        * [enrichment results](PTR_splicing_mtsplice.html)
+    - [m6A](PTR_m6A.html)
 
 ## Sample QCs by dataset
 * [Wang2020 et al.]
