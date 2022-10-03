@@ -284,7 +284,7 @@ $(document).ready(function () {
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-report" data-toggle="collapse" data-target="#workflowr-report">
 <span class="glyphicon glyphicon-list" aria-hidden="true"></span>
-workflowr <span class="glyphicon glyphicon-exclamation-sign text-danger"
+workflowr <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span>
 </button>
 </p>
@@ -295,8 +295,8 @@ aria-hidden="true"></span>
 </li>
 <li>
 <a data-toggle="tab" href="#checks"> Checks <span
-class="glyphicon glyphicon-exclamation-sign text-danger"
-aria-hidden="true"></span> </a>
+class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
+</a>
 </li>
 <li>
 <a data-toggle="tab" href="#versions">Past versions</a>
@@ -309,9 +309,9 @@ aria-hidden="true"></span> </a>
 </p>
 <p>
 <strong>Checks:</strong> <span
-class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 1
+class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 2
 <span class="glyphicon glyphicon-exclamation-sign text-danger"
-aria-hidden="true"></span> 1
+aria-hidden="true"></span> 0
 </p>
 <p>
 <strong>Knit directory:</strong> <code>funcFinemapping/</code> <span
@@ -334,36 +334,33 @@ versions</em> tab lists the development history.
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguncommittedchanges">
-<span class="glyphicon glyphicon-exclamation-sign text-danger"
-aria-hidden="true"></span> <strong>R Markdown file:</strong> uncommitted
-changes </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguptodate">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>R Markdown file:</strong> up-to-date
+</a>
 </p>
 </div>
-<div id="strongRMarkdownfilestronguncommittedchanges"
+<div id="strongRMarkdownfilestronguptodate"
 class="panel-collapse collapse">
 <div class="panel-body">
-<p>The R Markdown file has unstaged changes. To know which version of
-the R Markdown file created these results, you’ll want to first commit
-it to the Git repo. If you’re still working on the analysis, you can
-ignore this warning. When you’re finished, you can run
-<code>wflow_publish</code> to commit the R Markdown file and build the
-HTML.</p>
+<p>Great! Since the R Markdown file has been committed to the Git
+repository, you know the exact version of the code that produced these
+results.</p>
 </div>
 </div>
 </div>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomj3gufuncFinemappingtree868016bcaff8b7ec7c15e9a95ab9e5d3d16ca2a3targetblank868016ba">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomj3gufuncFinemappingtree1d7f544c04ab46223bcdcbcaf1ef30f9061a4322targetblank1d7f544a">
 <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span> <strong>Repository version:</strong>
-<a href="https://github.com/j3gu/funcFinemapping/tree/868016bcaff8b7ec7c15e9a95ab9e5d3d16ca2a3" target="_blank">868016b</a>
+<a href="https://github.com/j3gu/funcFinemapping/tree/1d7f544c04ab46223bcdcbcaf1ef30f9061a4322" target="_blank">1d7f544</a>
 </a>
 </p>
 </div>
 <div
-id="strongRepositoryversionstrongahrefhttpsgithubcomj3gufuncFinemappingtree868016bcaff8b7ec7c15e9a95ab9e5d3d16ca2a3targetblank868016ba"
+id="strongRepositoryversionstrongahrefhttpsgithubcomj3gufuncFinemappingtree1d7f544c04ab46223bcdcbcaf1ef30f9061a4322targetblank1d7f544a"
 class="panel-collapse collapse">
 <div class="panel-body">
 <p>
@@ -373,7 +370,7 @@ reproducibility.
 </p>
 <p>
 The results in this page were generated with repository version
-<a href="https://github.com/j3gu/funcFinemapping/tree/868016bcaff8b7ec7c15e9a95ab9e5d3d16ca2a3" target="_blank">868016b</a>.
+<a href="https://github.com/j3gu/funcFinemapping/tree/1d7f544c04ab46223bcdcbcaf1ef30f9061a4322" target="_blank">1d7f544</a>.
 See the <em>Past versions</em> tab to see a history of the changes made
 to the R Markdown and HTML files.
 </p>
@@ -620,7 +617,6 @@ Untracked files:
 
 Unstaged changes:
     Deleted:    .Rprofile
-    Modified:   analysis/index.Rmd
     Modified:   analysis/lab4_prepare.Rmd
     Modified:   analysis/ldsc_PTR_results.Rmd
     Deleted:    output/AAD/Caldero2019_disjoint_snps.sumstats
@@ -707,6 +703,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/j3gu/funcFinemapping/blob/1d7f544c04ab46223bcdcbcaf1ef30f9061a4322/analysis/index.Rmd" target="_blank">1d7f544</a>
+</td>
+<td>
+Jing Gu
+</td>
+<td>
+2022-10-03
+</td>
+<td>
+wflow_publish("~/projects/funcFinemapping/analysis/index.Rmd")
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/j3gu/funcFinemapping/dbd44488999020809d2dfb7fe0e9bf385b9948c4/docs/index.html" target="_blank">dbd4448</a>
+</td>
+<td>
+Jing Gu
+</td>
+<td>
+2022-10-03
+</td>
+<td>
+index page
+</td>
+</tr>
 <tr>
 <td>
 html
